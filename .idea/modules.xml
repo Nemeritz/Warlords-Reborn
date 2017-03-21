@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uoa-cs302-2017-group21.iml" filepath="$PROJECT_DIR$/.idea/modules/uoa-cs302-2017-group21.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uoa-cs302-2017-group21_main.iml" filepath="$PROJECT_DIR$/.idea/modules/uoa-cs302-2017-group21_main.iml" group="uoa-cs302-2017-group21" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/uoa-cs302-2017-group21_test.iml" filepath="$PROJECT_DIR$/.idea/modules/uoa-cs302-2017-group21_test.iml" group="uoa-cs302-2017-group21" />
+    </modules>
+  </component>
+</project>
