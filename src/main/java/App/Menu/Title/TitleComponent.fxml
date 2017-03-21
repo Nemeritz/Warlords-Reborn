@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="center" hgap="10" prefWidth="1024" prefHeight="728" styleClass="menu-title" vgap="10"
+          xmlns:fx="http://javafx.com/fxml/1"
+          xmlns="http://javafx.com/javafx/8.0.112"
+          fx:controller="App.Menu.Title.TitleComponent">
+
+    <Text styleClass="game-title" text="Warlords Reborn" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0" />
+
+
+    <Text fx:id="play" text="Play" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="1" />
+    <Text fx:id="settings" text="Settings" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1" />
+    <Text fx:id="exit" text="Exit" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.rowIndex="1" />
+
+    <stylesheets>
+        <URL value="@TitleComponent.css" />
+    </stylesheets>
+
+</GridPane>
