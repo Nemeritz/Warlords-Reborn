@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<GridPane alignment="center" hgap="10" prefWidth="1024" prefHeight="728" styleClass="menu-title" vgap="10"
-          xmlns:fx="http://javafx.com/fxml/1"
-          xmlns="http://javafx.com/javafx/8.0.112"
-          fx:controller="App.Menu.Title.TitleComponent">
-
-    <Text styleClass="game-title" text="Warlords Reborn" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0" />
-
-
-    <Text fx:id="play" text="Play" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="1" />
-    <Text fx:id="settings" text="Settings" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1" />
-    <Text fx:id="exit" text="Exit" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.rowIndex="1" />
-
+<fx:root prefHeight="728" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@TitleComponent.css" />
     </stylesheets>
-
-</GridPane>
+   <top>
+       <HBox styleClass="game-title" HBox.hgrow="ALWAYS">
+            <Text text="Warlords Reborn" />
+       </HBox>
+   </top>
+   <bottom>
+       <HBox styleClass="menu-items">
+           <HBox HBox.hgrow="ALWAYS">
+               <Text fx:id="play" text="Play" />
+           </HBox>
+           <HBox HBox.hgrow="ALWAYS">
+               <Text fx:id="settings" text="Settings" />
+           </HBox>
+           <HBox HBox.hgrow="ALWAYS">
+               <Text fx:id="exit" text="Exit" />
+           </HBox>
+       </HBox>
+   </bottom>
+</fx:root>

@@ -1,7 +1,17 @@
+* {
+    -fx-fill: #FFF;
+    -fx-alignment: center;
+}
+
 .menu-title {
-    text-align: center;
+    -fx-background-color: #000;
+    -fx-padding: 2em;
 }
 
 .game-title {
-    font-size: 2em;
+    -fx-font-size: 4em;
+}
+
+.menu-items {
+    -fx-font-size: 2em;
 }

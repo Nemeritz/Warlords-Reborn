@@ -1,14 +1,21 @@
 import App.AppComponent;
-
-import static javafx.application.Application.launch;
+import App.Menu.Title.TitleComponent;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * Created by lichk on 21/03/2017.
  */
-public class Main {
+public class Main extends Application {
+    private AppComponent app;
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        this.app = new AppComponent(stage);
+    }
 
     public static void main(String[] args) {
-        System.out.println(new AppComponent().getGreeting());
-        launch(args);
+        Application.launch(Main.class, args);
     }
 }
