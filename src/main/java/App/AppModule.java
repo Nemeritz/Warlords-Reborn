@@ -2,7 +2,7 @@ package App; /**
  * Created by lichk on 21/03/2017.
  */
 
-import App.Menu.MenuComponent;
+import App.Menu.MenuModule;
 import App.Menu.Title.TitleComponent;
 import App.Shared.SharedComponent;
 import javafx.application.Application;
@@ -14,13 +14,13 @@ import javafx.stage.Stage;
 public class AppModule {
 
     private SharedComponent shared;
-    private MenuComponent menu;
+    private MenuModule menu;
 
     public AppModule()  {
         // Provides SharedComponent
         this.shared = new SharedComponent();
 
-        this.menu = new MenuComponent(this.shared);
+        this.menu = new MenuModule(this.shared);
     }
 
     public void bootstrap(Stage stage) {
