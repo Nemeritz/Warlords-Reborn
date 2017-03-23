@@ -11,22 +11,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AppComponent{
+public class AppModule {
 
     private SharedComponent shared;
     private MenuComponent menu;
 
-    public AppComponent(Stage stage)  {
+    public AppModule()  {
         // Provides SharedComponent
         this.shared = new SharedComponent();
-        this.shared.getJFX().setStage(stage);
 
         this.menu = new MenuComponent(this.shared);
     }
 
-    public void bootstrap() {
+    public void bootstrap(Stage stage) {
         // Set the stage and scene in the JFX service for shared use
-        Stage stage = this.shared.getJFX().getStage();
+        this.shared.getJFX().setStage(stage);
 
         stage.setResizable(false);
         stage.setTitle("Warlords Reborn");

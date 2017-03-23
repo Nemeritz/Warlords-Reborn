@@ -25,13 +25,20 @@ public class TitleComponent extends BorderPane {
     @FXML
     Text exit;
 
-    public TitleComponent(SharedComponent shared) {
-        this.shared = shared;
+    private void construct() {
         this.scene = new Scene(this);
     }
 
-    public void setAsRoot() {
-        this.shared.getJFX().setScene(this.scene);
+    public TitleComponent() {
+        this.construct();
+    }
+
+    public TitleComponent(SharedComponent shared) {
+        this.shared = shared;
+        this.construct();
+    }
+
+    public void loadView() {
         FXMLLoader loader = this.shared.getJFX().getLoader();
         loader.setLocation(this.getClass().getResource("TitleComponent.fxml"));
         loader.setController(this);

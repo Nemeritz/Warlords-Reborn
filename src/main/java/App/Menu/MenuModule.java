@@ -12,17 +12,26 @@ import java.io.IOException;
 /**
  * Created by lichk on 21/03/2017.
  */
-public class MenuComponent extends VBox {
+public class MenuModule {
     private SharedComponent shared;
 
     private TitleComponent titleComponent;
 
-    public MenuComponent(SharedComponent shared) {
-        this.shared = shared;
+    private void construct() {
         this.titleComponent = new TitleComponent(shared);
     }
 
+    public MenuModule() {
+        this.construct();
+    }
+
+    public MenuModule(SharedComponent shared) {
+        this.shared = shared;
+        this.construct();
+    }
+
     public void transitionTitle() {
-        this.titleComponent.setAsRoot();
+        this.shared.getJFX().setScene(this.titleComponent.getScene());
+        this.titleComponent.loadView();
     }
 }

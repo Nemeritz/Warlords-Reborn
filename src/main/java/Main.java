@@ -12,8 +12,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.app = new AppComponent(stage);
-        this.app.bootstrap();
+        this.app = new AppComponent();
+        this.app.bootstrap(stage);
     }
 
     public static void main(String[] args) {
