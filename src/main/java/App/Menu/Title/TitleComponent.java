@@ -1,9 +1,10 @@
 package App.Menu.Title;
 
+import App.Shared.SharedComponent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -12,6 +13,9 @@ import java.io.IOException;
  * Created by lichk on 21/03/2017.
  */
 public class TitleComponent extends BorderPane {
+    SharedComponent shared;
+    Scene scene;
+
     @FXML
     Text play;
 
@@ -21,15 +25,21 @@ public class TitleComponent extends BorderPane {
     @FXML
     Text exit;
 
-    public TitleComponent() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TitleComponent.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
+    public TitleComponent(SharedComponent shared) {
+        this.shared = shared;
+        this.scene = new Scene(this);
+    }
 
+    public void setAsRoot() {
+        this.shared.getJFX().setScene(this.scene);
+        FXMLLoader loader = this.shared.getJFX().getLoader();
+        loader.setLocation(this.getClass().getResource("TitleComponent.fxml"));
+        loader.setController(this);
+        loader.setRoot(this);
         try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
