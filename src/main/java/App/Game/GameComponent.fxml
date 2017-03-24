@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import App.Game.Canvas.CanvasComponent?>
+
+<fx:root prefHeight="728" prefWidth="1024" styleClass="game" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@GameComponent.css" />
+    </stylesheets>
+    <top>
+        <HBox styleClass="status-bar" HBox.hgrow="ALWAYS">
+        </HBox>
+    </top>
+   <center>
+       <CanvasComponent/>
+   </center>
+</fx:root>

@@ -4,16 +4,37 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * Created by lichk on 23/03/2017.
  */
 public class JFXService {
     private Stage stage;
-    private Scene scene;
-    private FXMLLoader loader;
+    private Map<String,Scene> scenes;
 
     public JFXService() {
-        this.loader = new FXMLLoader();
+        this.scenes = new ConcurrentHashMap<>();
+    }
+
+    public FXMLLoader loadFXML(Object controller, Class<?> classType,
+                                   String resourceName) {
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                classType.getResource(resourceName)
+        );
+        fxmlLoader.setRoot(controller);
+        fxmlLoader.setController(controller);
+
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+
+        return fxmlLoader;
     }
 
     public Stage getStage() {
@@ -26,24 +47,13 @@ public class JFXService {
         }
     }
 
-    public Scene getScene() {
-        return this.scene;
+    public Scene getScene(String sceneName) {
+        return this.scenes.get(sceneName);
     }
 
-    public void setScene(Scene value) {
-        if (!value.equals(this.scene)) {
-            this.scene = value;
-            this.stage.setScene(value);
-        }
-    }
-
-    public FXMLLoader getLoader() {
-        return this.loader;
-    }
-
-    public void setLoader(FXMLLoader value) {
-        if (!value.equals(this.loader)) {
-            this.loader = value;
+    public void putScene(String sceneName, Scene value) {
+        if (!value.equals(this.scenes.get(sceneName))) {
+            this.scenes.put(sceneName, value);
         }
     }
 }

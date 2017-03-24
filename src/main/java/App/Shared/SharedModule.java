@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 /**
  * Created by lichk on 23/03/2017.
  */
-public class SharedComponent {
+public class SharedModule {
     JFXService jfx;
 
-    public SharedComponent() {
+    public SharedModule() {
         this.jfx = new JFXService();
     }
 

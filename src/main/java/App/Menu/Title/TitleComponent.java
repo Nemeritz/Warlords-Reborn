@@ -1,6 +1,6 @@
 package App.Menu.Title;
 
-import App.Shared.SharedComponent;
+import App.Shared.SharedModule;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,40 +13,28 @@ import java.io.IOException;
  * Created by lichk on 21/03/2017.
  */
 public class TitleComponent extends BorderPane {
-    SharedComponent shared;
-    Scene scene;
+    private SharedModule shared;
 
     @FXML
-    Text play;
+    private Text play;
 
     @FXML
-    Text settings;
+    private Text settings;
 
     @FXML
-    Text exit;
+    private Text exit;
 
     private void construct() {
-        this.scene = new Scene(this);
+        this.shared.getJFX().loadFXML(this, TitleComponent.class,
+                "TitleComponent.fxml");
     }
 
     public TitleComponent() {
         this.construct();
     }
 
-    public TitleComponent(SharedComponent shared) {
+    public TitleComponent(SharedModule shared) {
         this.shared = shared;
         this.construct();
-    }
-
-    public void loadView() {
-        FXMLLoader loader = this.shared.getJFX().getLoader();
-        loader.setLocation(this.getClass().getResource("TitleComponent.fxml"));
-        loader.setController(this);
-        loader.setRoot(this);
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
