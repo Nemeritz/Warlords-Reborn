@@ -1,9 +1,6 @@
-* {
+.menu {
     -fx-fill: #FFF;
     -fx-alignment: center;
-}
-
-.status-bar {
+    -fx-padding: 0;
     -fx-background-color: #000;
-    -fx-padding: 0.5em;
 }

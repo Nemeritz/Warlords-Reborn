@@ -7,8 +7,11 @@ package App;
 import App.Game.GameComponent;
 import App.Menu.MenuComponent;
 import App.Shared.SharedModule;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.AbstractMap.SimpleImmutableEntry;
 
 public class AppModule {
     private SharedModule shared;
@@ -22,11 +25,15 @@ public class AppModule {
         this.shared = new SharedModule();
 
         // Create the menu and game scenes
-        Scene menuScene = new Scene(new MenuComponent(this.shared));
-        this.shared.getJFX().putScene("menu", menuScene);
+        MenuComponent menu = new MenuComponent(this.shared);
+        Scene menuScene = new Scene(menu);
+        this.shared.getJFX().putScene("menu",
+                new SimpleImmutableEntry<>(menu, menuScene));
 
-        // Scene gameScene = new Scene(new GameComponent(this.shared));
-        // this.shared.getJFX().putScene("game", gameScene);
+        GameComponent game = new GameComponent(this.shared);
+         Scene gameScene = new Scene(game);
+         this.shared.getJFX().putScene("game",
+                 new SimpleImmutableEntry<>(game, gameScene));
     }
 
     /**
@@ -41,9 +48,7 @@ public class AppModule {
         stage.setTitle("Warlords Reborn");
 
         // Initially change scene to the menu
-        this.shared.getJFX().getStage().setScene(
-                this.shared.getJFX().getScene("menu")
-        );
+        this.shared.getJFX().setScene("menu");
 
         stage.show();
     }

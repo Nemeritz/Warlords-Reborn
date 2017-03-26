@@ -17,7 +17,8 @@
    <bottom>
        <HBox styleClass="menu-items">
            <HBox HBox.hgrow="ALWAYS">
-               <Text fx:id="play" text="Play" />
+               <Text fx:id="play" text="Play"
+                     onMousePressed="#onPlayClicked"/>
            </HBox>
            <HBox HBox.hgrow="ALWAYS">
                <Text fx:id="settings" text="Settings" />

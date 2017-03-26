@@ -1,11 +1,14 @@
 package App.Shared.JFX;
 
+import App.Shared.Observables.ObservableScene;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,16 +17,18 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class JFXService {
     private Stage stage;
-    private Map<String,Scene> scenes;
+    private Map<String,SimpleImmutableEntry<Parent, Scene>> scenes;
+    private ObservableScene sceneChange;
 
     public JFXService() {
         this.scenes = new ConcurrentHashMap<>();
+        this.sceneChange = new ObservableScene();
     }
 
     public FXMLLoader loadFXML(Object controller, Class<?> classType,
-                                   String resourceName) {
+                                   String fxmlName) {
         FXMLLoader fxmlLoader = new FXMLLoader(
-                classType.getResource(resourceName)
+                classType.getResource(fxmlName)
         );
         fxmlLoader.setRoot(controller);
         fxmlLoader.setController(controller);
@@ -37,8 +42,8 @@ public class JFXService {
         return fxmlLoader;
     }
 
-    public Stage getStage() {
-        return this.stage;
+    public Image loadImage(Class<?> classType, String imageName) {
+        return new Image(classType.getResourceAsStream(imageName));
     }
 
     public void setStage(Stage value) {
@@ -47,13 +52,25 @@ public class JFXService {
         }
     }
 
-    public Scene getScene(String sceneName) {
+    public ObservableScene observeSceneChange() {
+        return this.sceneChange;
+    }
+
+    public SimpleImmutableEntry<Parent, Scene> getScene(String sceneName) {
         return this.scenes.get(sceneName);
     }
 
-    public void putScene(String sceneName, Scene value) {
+    public void putScene(String sceneName, SimpleImmutableEntry<Parent, Scene> value) {
         if (!value.equals(this.scenes.get(sceneName))) {
             this.scenes.put(sceneName, value);
+        }
+    }
+
+    public void setScene(String sceneName) {
+        Scene scene = this.scenes.get(sceneName).getValue();
+        if (scene != null) {
+            this.stage.setScene(scene);
+            this.sceneChange.setScene(scene);
         }
     }
 }

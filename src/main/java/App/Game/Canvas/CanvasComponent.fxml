@@ -4,7 +4,8 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.Pane?>
 
-<fx:root type="Pane" fx:id="canvasWrapper" prefHeight="728" prefWidth="1024" styleClass="canvas" xmlns="http://javafx.com/javafx/8.0.112"
+<fx:root type="Pane" fx:id="canvasWrapper" prefHeight="728" prefWidth="1024" styleClass="canvas-wrapper"
+         xmlns="http://javafx.com/javafx/8.0.112"
       xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@CanvasComponent.css"/>
