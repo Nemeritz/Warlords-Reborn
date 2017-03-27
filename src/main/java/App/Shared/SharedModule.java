@@ -17,4 +17,7 @@ public class SharedModule {
     public JFXService getJFX() {
         return this.jfx;
     }
+    public void deleteJFX() {
+    this.jfx.closeScene();
+    }
 }

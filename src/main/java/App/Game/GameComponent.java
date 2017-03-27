@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,10 +26,20 @@ public class GameComponent extends BorderPane implements Observer{
     private boolean started;
 
     private void gameLoop() {
-        Double timeS = new Double(this.game.getTimer().currentTimeMs()) / 1000;
-        this.gameTime.setText(
-                timeS.toString()
-        );
+        Double timeS = new Double(this.game.getTimer().currentTimeMs());
+        int min = timeS.intValue() / 6000;
+        int sec = (timeS.intValue() / 100) % 60;
+        int msec = timeS.intValue() % 100;
+	if (msec<10){
+	    this.gameTime.setText(
+	        Integer.toString(min)+":"+Integer.toString(sec)+":"+"0"+Integer.toString(msec)
+	    );
+	}
+	else {
+            this.gameTime.setText(
+                Integer.toString(min)+":"+Integer.toString(sec)+":"+Integer.toString(msec)
+            );
+	}
     }
 
     public GameComponent(SharedModule shared) {

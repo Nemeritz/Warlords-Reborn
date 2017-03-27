@@ -73,4 +73,7 @@ public class JFXService {
             this.sceneChange.setScene(scene);
         }
     }
+    public void closeScene(){
+    	this.stage.close();
+    }
 }

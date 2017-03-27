@@ -48,4 +48,12 @@ public class TitleComponent extends BorderPane {
         ((GameComponent) this.shared.getJFX().getScene("game").getKey())
                 .startGameCountdown();
     }
+    @FXML
+    void onExitClicked() {
+    	this.shared.getJFX().closeScene();
+    }
+    @FXML
+    	void onSettingsClicked() {
+        this.shared.getJFX().setScene("settings");
+    }
 }

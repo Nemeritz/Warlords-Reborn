@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<fx:root prefHeight="728" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="728" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@TitleComponent.css" />
     </stylesheets>
@@ -17,14 +17,13 @@
    <bottom>
        <HBox styleClass="menu-items">
            <HBox HBox.hgrow="ALWAYS">
-               <Text fx:id="play" text="Play"
-                     onMousePressed="#onPlayClicked"/>
+               <Text fx:id="play" onMousePressed="#onPlayClicked" text="Play" />
            </HBox>
            <HBox HBox.hgrow="ALWAYS">
-               <Text fx:id="settings" text="Settings" />
+               <Text fx:id="settings" onMousePressed="#onSettingsClicked" text="Settings" />
            </HBox>
            <HBox HBox.hgrow="ALWAYS">
-               <Text fx:id="exit" text="Exit" />
+               <Text fx:id="exit" onMousePressed="#onExitClicked" text="Exit" />
            </HBox>
        </HBox>
    </bottom>
