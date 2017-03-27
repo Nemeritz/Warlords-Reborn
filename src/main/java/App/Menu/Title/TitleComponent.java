@@ -3,14 +3,8 @@ package App.Menu.Title;
 import App.Game.GameComponent;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
-
-import java.io.IOException;
-import java.util.AbstractMap.SimpleImmutableEntry;
 
 /**
  * Created by lichk on 21/03/2017.
@@ -50,10 +44,11 @@ public class TitleComponent extends BorderPane {
     }
     @FXML
     void onExitClicked() {
-    	this.shared.getJFX().closeScene();
+    	this.shared.getJFX().closeStage();
     }
+
     @FXML
-    	void onSettingsClicked() {
+    void onSettingsClicked() {
         this.shared.getJFX().setScene("settings");
     }
 }
