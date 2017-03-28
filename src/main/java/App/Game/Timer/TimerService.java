@@ -10,12 +10,12 @@ public class TimerService extends AnimationTimer {
     private ObservableFrame frame;
 
     public TimerService() {
-        this.time = 18000L;
+        this.time = 0L;
         this.frame = new ObservableFrame();
     }
 
     public void handle(long now) {
-        this.time--;
+        this.time = now;
         this.frame.increment();
     }
 
@@ -29,6 +29,6 @@ public class TimerService extends AnimationTimer {
     }
 
     public Long currentTimeMs() {
-        return time;
+        return time / 1000000;
     }
 }
