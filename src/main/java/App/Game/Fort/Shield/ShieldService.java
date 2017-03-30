@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * Created by lichk on 30/03/2017.
  */
-public class ShieldService implements IPaddle {
+public class ShieldService {
     private Point.Double position;
     private Point velocity;
     private Point size;
@@ -27,20 +27,4 @@ public class ShieldService implements IPaddle {
     }
 
     public Point getSize() { return this.size; }
-
-    /***
-     *  Set the horizontal position of the paddle to the given value.
-     * @param x
-     */
-    public void setXPos(int x) {
-        this.position.x = x;
-    };
-
-    /***
-     *  Set the vertical position of the paddle to the given value.
-     * @param y
-     */
-    public void setYPos(int y) {
-        this.position.y = y;
-    };
 }

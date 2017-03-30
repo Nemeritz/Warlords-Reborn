@@ -5,6 +5,7 @@ import App.Game.Fort.Wall.WallComponent;
 import App.Game.Fort.Warlord.WarlordComponent;
 import App.Game.GameService;
 import App.Shared.SharedModule;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  * Created by lichk on 31/03/2017.
@@ -35,7 +36,6 @@ public class FortComponent {
     public void setPlayer(Integer value) {
         if (!value.equals(this.model.player)) {
             this.model.player = value;
-            this.warlord.setPlayer(value);
         }
     }
 
@@ -52,20 +52,25 @@ public class FortComponent {
     }
 
     public Boolean getWon() {
-        return this.won;
+        return this.model.won;
     }
 
     public void setWon(Boolean value) {
-        if (!value.equals(this.won)) {
-            this.won = value;
+        if (!value.equals(this.model.won)) {
+            this.model.won = value;
             this.warlord.setWon(value);
         }
     }
-
 
     public void updateObject(Double intervalS) {
         this.warlord.update(intervalS);
         this.wall.update(intervalS);
         this.shield.update(intervalS);
+    }
+
+    public void renderOnContext(GraphicsContext context) {
+        this.warlord.renderOnContext(context);
+        this.wall.renderOnContext(context);
+        this.shield.renderOnContext(context);
     }
 }

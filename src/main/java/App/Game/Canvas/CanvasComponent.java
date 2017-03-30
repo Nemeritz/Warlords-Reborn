@@ -1,7 +1,5 @@
 package App.Game.Canvas;
 
-import App.Game.Canvas.Ball.BallComponent;
-import App.Game.Canvas.Fort.FortComponent;
 import App.Game.GameService;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
@@ -32,14 +30,11 @@ public class CanvasComponent extends Pane {
                 "CanvasComponent.fxml");
     }
 
-    public void updateObjects(Double intervalS) {
-        this.ball.updateObject(intervalS);
-        this.fort.updateObject(intervalS);
+    public GraphicsContext getGraphicsContext() {
+        return canvas.getGraphicsContext2D();
     }
 
-    public void renderObjects() {
-        // Retrieve the context and clear it for redraw.
-        GraphicsContext context = canvas.getGraphicsContext2D();
-        context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    public void clear() {
+        this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 }

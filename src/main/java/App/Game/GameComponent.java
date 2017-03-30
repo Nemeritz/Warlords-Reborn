@@ -5,6 +5,7 @@ import App.Game.Canvas.CanvasComponent;
 import App.Game.Fort.FortComponent;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
@@ -37,7 +38,11 @@ public class GameComponent extends BorderPane implements Observer {
     private void gameLoop(Double intervalS) {
         if (this.game.getTimer().currentTimeMs() > 3000) {
             this.game.setStarted(true);
-            this.canvas.updateObjects(intervalS);
+
+            this.ball.updateObject(intervalS);
+            for (FortComponent fort : this.forts.values()) {
+                fort.updateObject(intervalS);
+            }
         }
         else if (this.game.getTimer().currentTimeMs() > this.game.getTimeLimitMs()) {
             this.game.setFinished(true);
@@ -51,7 +56,12 @@ public class GameComponent extends BorderPane implements Observer {
      */
     private void renderLoop() {
         if (this.game.getStarted()) {
-            this.canvas.renderObjects();
+            GraphicsContext context = this.canvas.getGraphicsContext();
+            this.canvas.clear();
+            this.ball.renderOnContext(context);
+            for (FortComponent fort : this.forts.values()) {
+                fort.renderOnContext(context);
+            }
         }
 
         Double timeS = (double) (this.game.getTimer().currentTimeMs() / 1000);
@@ -87,7 +97,7 @@ public class GameComponent extends BorderPane implements Observer {
         this.game = new GameService();
         this.canvas = new CanvasComponent(this.shared, this.game);
         this.ball = new BallComponent(this.shared, this.game);
-        this.forts = new TreeMap<>;
+        this.forts = new TreeMap<>();
         this.shared.getJFX().loadFXML(this, GameComponent.class,
                 "GameComponent.fxml");
         this.setCenter(canvas);

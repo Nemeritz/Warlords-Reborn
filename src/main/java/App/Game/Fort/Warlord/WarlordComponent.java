@@ -4,11 +4,11 @@ package App.Game.Fort.Warlord;
  * Created by pie on 30/03/17.
  */
 
-import App.Game.Canvas.Ball.BallService;
 import App.Game.GameService;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import warlordstest.IWarlord;
 
 import java.awt.*;
 
@@ -16,12 +16,11 @@ import java.awt.*;
 /**
  * Created by pie on 28/03/17.
  */
-public class WarlordComponent {
+public class WarlordComponent implements IWarlord {
     private SharedModule shared;
     private Image image;
     private GameService game;
     private WarlordService model;
-
 
     public WarlordComponent(SharedModule shared, GameService game) {
         this.shared = shared;
@@ -36,14 +35,7 @@ public class WarlordComponent {
 
     }
 
-    public void checkCollisionWarlord(BallService ball) {
-    }
-
     public void renderOnContext(GraphicsContext context) {
-<<<<<<< Updated upstream:src/main/java/App/Game/Canvas/Fort/Warlord/WarlordComponent.java
-        context.drawImage(this.image, this.game.getWarlord().getXPos(), this.game.getWarlord().getYPos(),
-                this.game.getWarlord().getSize(), this.game.getWarlord().getSize());
-=======
         Point.Double position = this.model.getPosition();
         Point size = this.model.getSize();
         context.drawImage(this.image,
@@ -51,6 +43,33 @@ public class WarlordComponent {
                 position.getY() - size.getY() / 2,
                 size.getX(), size.getY()
         );
->>>>>>> Stashed changes:src/main/java/App/Game/Fort/Warlord/WarlordComponent.java
+    }
+
+    public Point.Double getPosition() {
+        return this.model.getPosition();
+    }
+
+    public Point getSize() {
+        return this.model.getSize();
+    }
+
+    public void setWon(Boolean value) {
+        this.model.won = true;
+    }
+
+    public void setXPos(int x) {
+        this.model.getPosition().x = x;
+    }
+
+    public void setYPos(int y) {
+        this.model.getPosition().y = y;
+    }
+
+    public boolean hasWon(){
+        return this.model.won;
+    }
+
+    public boolean isDead(){
+        return this.model.dead;
     }
 }
