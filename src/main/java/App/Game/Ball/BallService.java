@@ -1,9 +1,8 @@
-package App.Game.Canvas.Ball;
+package App.Game.Ball;
 
 import warlordstest.IBall;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by lichk on 28/03/2017.

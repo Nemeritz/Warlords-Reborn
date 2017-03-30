@@ -1,4 +1,4 @@
-package App.Game.Canvas.Fort.Shield;
+package App.Game.Fort.Shield;
 
 import warlordstest.IPaddle;
 
@@ -13,7 +13,7 @@ public class ShieldService implements IPaddle {
     private Point size;
 
     public ShieldService() {
-        this.position = new Point.Double(100, 100);
+        this.position = new Point.Double(0, 0);
         this.velocity = new Point(0, 0);
         this.size = new Point(200, 40);
     }

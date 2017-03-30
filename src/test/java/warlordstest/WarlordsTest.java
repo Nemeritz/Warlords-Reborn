@@ -135,7 +135,7 @@ public class WarlordsTest extends TestSuite {
     public void testGameEndFromKnockout(){
 
         assertFalse("The game should not be finished yet", this.game.isFinished());
-        assertFalse("Player 2 should not have won yet", this.player2.hasWon());
+        assertFalse("Fort 2 should not have won yet", this.player2.hasWon());
 
         this.ball.setXPos(500);
         this.ball.setYPos(495);
@@ -148,7 +148,7 @@ public class WarlordsTest extends TestSuite {
         this.game.tick();
 
         assertTrue("The game should be finished", this.game.isFinished());
-        assertTrue("Player 2 should have won", this.player2.hasWon());
+        assertTrue("Fort 2 should have won", this.player2.hasWon());
 
     }
 
@@ -156,14 +156,14 @@ public class WarlordsTest extends TestSuite {
     public void testGameEndFromTimeout(){
 
         assertFalse("The game should not be finished yet", this.game.isFinished());
-        assertFalse("Player 1 should not have won yet", this.player1.hasWon());
+        assertFalse("Fort 1 should not have won yet", this.player1.hasWon());
 
         this.game.setTimeRemaining(0);
 
         this.game.tick();
 
         assertTrue("The game should be finished", this.game.isFinished());
-        assertTrue("Player 1 should have won", this.player1.hasWon());
+        assertTrue("Fort 1 should have won", this.player1.hasWon());
 
     }
 

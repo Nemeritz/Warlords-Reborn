@@ -1,9 +1,7 @@
 package App.Game.Canvas;
 
 import App.Game.Canvas.Ball.BallComponent;
-import App.Game.Canvas.Fort.Wall.WallComponent;
-import App.Game.Canvas.Fort.Warlord.WarlordComponent;
-import App.Game.Canvas.Fort.Shield.ShieldComponent;
+import App.Game.Canvas.Fort.FortComponent;
 import App.Game.GameService;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
@@ -11,7 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 
-import java.io.IOException;
+import java.util.TreeMap;
 
 /**
  * Created by lichk on 24/03/2017.
@@ -26,35 +24,22 @@ public class CanvasComponent extends Pane {
     @FXML
     private Canvas canvas;
 
-    private BallComponent ball;
-    private ShieldComponent shield;
-
-    private WallComponent wall;
-
-    private WarlordComponent warlord;
 
     public CanvasComponent(SharedModule shared, GameService game) {
         this.shared = shared;
         this.game = game;
-        this.ball = new BallComponent(this.shared, this.game);
-        this.wall = new WallComponent(this.shared, this.game);
-        this.warlord = new WarlordComponent(this.shared, this.game);
-        this.shield = new ShieldComponent(this.shared, this.game);
         this.shared.getJFX().loadFXML(this, CanvasComponent.class,
                 "CanvasComponent.fxml");
     }
 
-    public void updateGameObjects(Double intervalS) {
-        this.ball.update(intervalS);
-        this.shield.update(intervalS);
+    public void updateObjects(Double intervalS) {
+        this.ball.updateObject(intervalS);
+        this.fort.updateObject(intervalS);
     }
 
-    public void renderGameObjects() {
+    public void renderObjects() {
+        // Retrieve the context and clear it for redraw.
         GraphicsContext context = canvas.getGraphicsContext2D();
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        this.ball.renderOnContext(context);
-        this.wall.renderOnContext(context);
-        this.warlord.renderOnContext(context);
-        this.shield.renderOnContext(context);
     }
 }

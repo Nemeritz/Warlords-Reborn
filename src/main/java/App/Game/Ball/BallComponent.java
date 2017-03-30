@@ -1,4 +1,4 @@
-package App.Game.Canvas.Ball;
+package App.Game.Ball;
 
 import App.Game.GameService;
 import App.Shared.SharedModule;
@@ -6,8 +6,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Created by lichk on 26/03/2017.
@@ -25,7 +23,7 @@ public class BallComponent {
         );
     }
 
-    public void update(Double intervalS) {
+    public void updateObject(Double intervalS) {
         Point.Double position = this.game.getBall().getPosition();
         Point velocity = this.game.getBall().getVelocity();
         position.setLocation(

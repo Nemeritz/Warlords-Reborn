@@ -1,10 +1,12 @@
-package App.Game.Canvas.Fort.Wall;
+package App.Game.Fort.Wall;
 
 import App.Game.GameService;
 import App.Shared.SharedModule;
 import App.Game.Canvas.Ball.BallService;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import java.awt.*;
 
 
 /**
@@ -14,6 +16,7 @@ public class WallComponent {
     private SharedModule shared;
     private Image image;
     private GameService game;
+    private WallService model;
 
 
     public WallComponent(SharedModule shared, GameService game) {
@@ -24,12 +27,23 @@ public class WallComponent {
         );
     }
 
+    public void update(Double intervalS) {
+
+    }
+
     public void checkCollisionWall(BallService ball) {
 
     }
 
     public void renderOnContext(GraphicsContext context) {
-        context.drawImage(this.image, this.game.getWall().getXPos(), this.game.getWall().getYPos(),
-                this.game.getWall().getSize(), this.game.getWall().getSize());
+        Point.Double position = this.model.getPosition();
+        Point size = this.model.getSize();
+        if (!this.model.isDestroyed()) {
+            context.drawImage(this.image,
+                    position.getX() - size.getX() / 2,
+                    position.getY() - size.getY() / 2,
+                    size.getX(), size.getY()
+            );
+        }
     }
 }
