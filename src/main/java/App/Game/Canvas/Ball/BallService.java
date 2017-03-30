@@ -3,26 +3,31 @@ package App.Game.Canvas.Ball;
 import warlordstest.IBall;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Created by lichk on 28/03/2017.
  */
 public class BallService implements IBall {
-    private Point position;
+    private Point.Double position;
     private Point velocity;
+    private Point size;
 
     public BallService() {
-        this.position = new Point(0, 0);
-        this.velocity = new Point(0, 0);
+        this.position = new Point.Double(0, 0);
+        this.velocity = new Point(10, 10);
+        this.size = new Point(20, 20);
     }
 
-    public Point getPosition() {
+    public Point.Double getPosition() {
         return this.position;
     }
 
     public Point getVelocity() {
         return this.velocity;
     }
+
+    public Point getSize() { return this.size; }
 
     /***
      *  Set the horizontal position of the ball to the given value.

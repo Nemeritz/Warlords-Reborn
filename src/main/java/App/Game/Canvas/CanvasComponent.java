@@ -1,7 +1,6 @@
 package App.Game.Canvas;
 
 import App.Game.Canvas.Ball.BallComponent;
-import App.Game.GameModule;
 import App.Game.GameService;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
@@ -35,8 +34,13 @@ public class CanvasComponent extends Pane {
                 "CanvasComponent.fxml");
     }
 
+    public void updateGameObjects(Double intervalS) {
+        this.ball.update(intervalS);
+    }
+
     public void renderGameObjects() {
         GraphicsContext context = canvas.getGraphicsContext2D();
+        context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         this.ball.renderOnContext(context);
     }
 }

@@ -1,6 +1,5 @@
 package App.Game.Canvas.Ball;
 
-import App.Game.GameModule;
 import App.Game.GameService;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,19 +25,19 @@ public class BallComponent {
         );
     }
 
-    public void update(long intervalMs) {
-        Point position = this.game.getBall().getPosition();
+    public void update(Double intervalS) {
+        Point.Double position = this.game.getBall().getPosition();
         Point velocity = this.game.getBall().getVelocity();
-        position.translate(
-                ((int) velocity.getX()),
-                ((int) velocity.getY())
+        position.setLocation(
+                position.getX() + velocity.getX() * intervalS,
+                position.getY() + velocity.getY() * intervalS
         );
-
     }
 
     public void renderOnContext(GraphicsContext context) {
-        Point position = this.game.getBall().getPosition();
-        context.drawImage(this.image, position.getX(), position.getY(), 20, 20);
+        Point.Double position = this.game.getBall().getPosition();
+        Point size = this.game.getBall().getSize();
+        context.drawImage(this.image, position.getX(), position.getY(), size.getX(), size.getY());
     }
 
 }

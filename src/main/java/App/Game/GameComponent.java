@@ -30,11 +30,13 @@ public class GameComponent extends BorderPane implements Observer {
     /**
      * Controls the object interactions and positions on the game canvas. Calculation heavy code goes here. This can
      * potentially be split into multiple functions and multi-threaded for efficiency if needed.
-     * @param intervalMs Milliseconds elapsed since last gameLoop iteration.
+     * @param intervalS Seconds elapsed since last gameLoop iteration.
      */
-    private void gameLoop(long intervalMs) {
+    private void gameLoop(Double intervalS) {
         if (this.game.getTimer().currentTimeMs() > 3000) {
             this.started = true;
+            System.out.print(intervalS.toString() + "\n");
+            this.canvas.updateGameObjects(intervalS);
         }
         else if (this.game.getTimer().currentTimeMs() > 120000) {
             this.finished = true;
@@ -78,13 +80,13 @@ public class GameComponent extends BorderPane implements Observer {
         // The render loop and game loop methods are hooked here.
         if (obs == this.game.getTimer().getFrame()) {
             long currentTimeMs = this.game.getTimer().currentTimeMs();
-            this.renderLoop(); // Runs every nanosecond (optimally).
+            this.renderLoop(); // Runs every animation frame (optimally).
 
             long intervalMs = currentTimeMs - this.lastGameLoopTimeMs; // Calculate time since last game loop iteration.
 
             if (intervalMs > 0) {
                 this.lastGameLoopTimeMs = currentTimeMs; // Immediately set current time as last iteration time
-                this.gameLoop(intervalMs); // Runs every millisecond (optimally).
+                this.gameLoop((double) intervalMs / 1000); // Runs every animation frame (optimally).
             }
         }
     }
