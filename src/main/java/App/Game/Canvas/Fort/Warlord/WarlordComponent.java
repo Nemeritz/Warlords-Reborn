@@ -32,7 +32,7 @@ public class WarlordComponent {
     }
 
     public void renderOnContext(GraphicsContext context) {
-        context.drawImage(this.image, this.game.getWarlord().getXpos(), this.game.getWarlord().getYpos(),
+        context.drawImage(this.image, this.game.getWarlord().getXPos(), this.game.getWarlord().getYPos(),
                 this.game.getWarlord().getSize(), this.game.getWarlord().getSize());
     }
 }

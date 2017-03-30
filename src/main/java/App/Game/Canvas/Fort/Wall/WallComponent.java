@@ -29,7 +29,7 @@ public class WallComponent {
     }
 
     public void renderOnContext(GraphicsContext context) {
-        context.drawImage(this.image, this.game.getWall().getXpos(), this.game.getWall().getYpos(),
+        context.drawImage(this.image, this.game.getWall().getXPos(), this.game.getWall().getYPos(),
                 this.game.getWall().getSize(), this.game.getWall().getSize());
     }
 }

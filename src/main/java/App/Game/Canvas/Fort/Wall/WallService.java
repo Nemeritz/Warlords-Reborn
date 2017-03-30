@@ -24,19 +24,19 @@ public class WallService {
         this.Destroy = sDes;
     }
 
-    public void setXpos(int x) {
+    public void setXPos(int x) {
         this.position.setLocation(x,this.position.getY());
     }
 
-    public void setYpos(int y) {
+    public void setYPos(int y) {
         this.position.setLocation(this.position.getX(),y);
     }
 
-    public double getXpos(){
+    public double getXPos(){
         return this.position.getX();
     }
 
-    public double getYpos() {
+    public double getYPos() {
         return this.position.getY();
     }
 
