@@ -1,10 +1,9 @@
 package App.Game.Canvas;
 
 import App.Game.Canvas.Ball.BallComponent;
+import App.Game.GameService;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
@@ -16,6 +15,7 @@ import java.io.IOException;
  */
 public class CanvasComponent extends Pane {
     private SharedModule shared;
+    private GameService game;
 
     @FXML
     private Pane canvasWrapper;
@@ -25,19 +25,22 @@ public class CanvasComponent extends Pane {
 
     private BallComponent ball;
 
-    public CanvasComponent(SharedModule shared) {
+    public CanvasComponent(SharedModule shared, GameService game) {
         this.shared = shared;
-        this.ball = new BallComponent(shared);
+        this.game = game;
+        this.ball = new BallComponent(this.shared, this.game);
 
         this.shared.getJFX().loadFXML(this, CanvasComponent.class,
                 "CanvasComponent.fxml");
+    }
 
-        this.canvas.widthProperty().bind(this.canvasWrapper.widthProperty());
-        this.canvas.heightProperty().bind(this.canvasWrapper.heightProperty());
+    public void updateGameObjects(Double intervalS) {
+        this.ball.update(intervalS);
     }
 
     public void renderGameObjects() {
         GraphicsContext context = canvas.getGraphicsContext2D();
+        context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         this.ball.renderOnContext(context);
     }
 }

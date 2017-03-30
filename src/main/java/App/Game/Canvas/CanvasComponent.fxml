@@ -10,5 +10,5 @@
     <stylesheets>
         <URL value="@CanvasComponent.css"/>
     </stylesheets>
-    <Canvas fx:id="canvas" height="728" width="1024"/>
+    <Canvas fx:id="canvas" height="728" width="728"/>
 </fx:root>
