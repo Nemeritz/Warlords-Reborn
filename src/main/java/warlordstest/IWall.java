@@ -13,7 +13,7 @@ public interface IWall {
     void setXPos(int x);
 
     /***
-     *  Set the vertical position of the warlord to the given value.
+     *  Set the vertical position of the wall to the given value.
      * @param y
      */
     void setYPos(int y);

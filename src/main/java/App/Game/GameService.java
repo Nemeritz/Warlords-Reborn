@@ -1,5 +1,7 @@
 package App.Game;
 
+import App.Game.Canvas.Fort.Wall.WallService;
+import App.Game.Canvas.Fort.Warlord.WarlordService;
 import App.Game.Canvas.Ball.BallService;
 import App.Game.Timer.TimerService;
 
@@ -14,10 +16,23 @@ public class GameService {
 
     TimerService timer;
     BallService ball;
+    WallService wall;
+    WarlordService warlord;
+
 
     public GameService() {
         this.timer = new TimerService();
         this.ball = new BallService();
+        this.wall = new WallService();
+        this.warlord = new WarlordService();
+    }
+
+    public WarlordService getWarlord(){
+        return this.warlord;
+    }
+
+    public WallService getWall(){
+        return this.wall;
     }
 
     public TimerService getTimer() {
@@ -26,15 +41,15 @@ public class GameService {
 
     public BallService getBall() {
         return this.ball;
-    }
 
+    }
     public Boolean getStarted() {
         return this.started;
     }
 
     public void setStarted(Boolean value) {
-        if (!value.equals(this.started)) {
             this.started = started;
+        if (!value.equals(this.started)) {
         }
     }
 

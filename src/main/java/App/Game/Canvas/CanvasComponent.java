@@ -1,6 +1,8 @@
 package App.Game.Canvas;
 
 import App.Game.Canvas.Ball.BallComponent;
+import App.Game.Canvas.Fort.Wall.WallComponent;
+import App.Game.Canvas.Fort.Warlord.WarlordComponent;
 import App.Game.GameService;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
@@ -25,10 +27,16 @@ public class CanvasComponent extends Pane {
 
     private BallComponent ball;
 
+    private WallComponent wall;
+
+    private WarlordComponent warlord;
+
     public CanvasComponent(SharedModule shared, GameService game) {
         this.shared = shared;
         this.game = game;
         this.ball = new BallComponent(this.shared, this.game);
+        this.wall = new WallComponent(this.shared, this.game);
+        this.warlord = new WarlordComponent(this.shared, this.game);
 
         this.shared.getJFX().loadFXML(this, CanvasComponent.class,
                 "CanvasComponent.fxml");
@@ -42,5 +50,7 @@ public class CanvasComponent extends Pane {
         GraphicsContext context = canvas.getGraphicsContext2D();
         context.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
         this.ball.renderOnContext(context);
+        this.wall.renderOnContext(context);
+        this.warlord.renderOnContext(context);
     }
 }
