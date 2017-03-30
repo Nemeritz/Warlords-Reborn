@@ -20,7 +20,7 @@ public class WallComponent {
         this.shared = shared;
         this.game = game;
         this.image = this.shared.getJFX().loadImage(
-                this.getClass(), "WallComponent.jpg"
+                this.getClass(), "WallComponent.png"
         );
     }
 

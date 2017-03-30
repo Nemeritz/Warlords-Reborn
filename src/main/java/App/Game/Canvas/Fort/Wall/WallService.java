@@ -11,9 +11,9 @@ public class WallService {
     private Boolean Destroy;
 
     public WallService() {
-        this.position = new Point.Double(0,0);
+        this.position = new Point.Double(500,500);
         this.Destroy = false;
-        this.size = new Point.Double(0,0);
+        this.size = new Point.Double(30,30);
     }
 
     public double getSize() {
