@@ -37,7 +37,11 @@ public class BallComponent {
     public void renderOnContext(GraphicsContext context) {
         Point.Double position = this.game.getBall().getPosition();
         Point size = this.game.getBall().getSize();
-        context.drawImage(this.image, position.getX(), position.getY(), size.getX(), size.getY());
+        context.drawImage(this.image,
+                position.getX() - size.getX() / 2,
+                position.getY() - size.getY() / 2,
+                size.getX(), size.getY()
+        );
     }
 
 }

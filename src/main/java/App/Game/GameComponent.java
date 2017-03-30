@@ -35,10 +35,9 @@ public class GameComponent extends BorderPane implements Observer {
     private void gameLoop(Double intervalS) {
         if (this.game.getTimer().currentTimeMs() > 3000) {
             this.started = true;
-            System.out.print(intervalS.toString() + "\n");
             this.canvas.updateGameObjects(intervalS);
         }
-        else if (this.game.getTimer().currentTimeMs() > 120000) {
+        else if (this.game.getTimer().currentTimeMs() > this.game.getTimeLimitMs()) {
             this.finished = true;
         }
     }

@@ -34,7 +34,7 @@ public class BallService implements IBall {
      * @param x
      */
     public void setXPos(int x) {
-        this.position.setLocation(x, this.position.getY());
+        this.position.x = x;
     }
 
     /***
@@ -42,7 +42,7 @@ public class BallService implements IBall {
      * @param y
      */
     public void setYPos(int y) {
-        this.position.setLocation(this.position.getX(), y);
+        this.position.y = y;
     }
 
     /***
@@ -64,7 +64,7 @@ public class BallService implements IBall {
      * @param dX
      */
     public void setXVelocity(int dX) {
-        this.velocity.setLocation(dX, this.velocity.getY());
+        this.velocity.x = dX;
     }
 
     /***
@@ -72,7 +72,7 @@ public class BallService implements IBall {
      * @param dY
      */
     public void setYVelocity(int dY) {
-        this.velocity.setLocation(this.velocity.getX(), dY);
+        this.velocity.y = dY;
     };
 
     /***
