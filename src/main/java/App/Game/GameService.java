@@ -17,28 +17,26 @@ public class GameService {
     private Dimension worldBounds;
 
     private TimerService timer;
-    private BallService ball;
     private PhysicsService physics;
 
     public GameService() {
-        this.timer = new TimerService();
-        this.ball = new BallService();
-        this.physics = new PhysicsService();
-
-        this.physics.setWorldBounds(this.worldBounds);
-
         this.started = false;
         this.finished = false;
         this.timeLimitMs = 0L;
         this.worldBounds = new Dimension(1024, 728);
+
+        this.timer = new TimerService();
+        this.physics = new PhysicsService();
+
+        this.physics.setWorldBounds(this.worldBounds);
     }
 
     public TimerService getTimer() {
         return this.timer;
     }
 
-    public BallService getBall() {
-        return this.ball;
+    public PhysicsService getPhysics() {
+        return this.physics;
     }
 
     public Boolean getStarted() {

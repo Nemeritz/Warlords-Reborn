@@ -3,6 +3,7 @@ package App.Game;
 import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasComponent;
 import App.Game.Fort.FortComponent;
+import App.Game.Physics.PhysicsService;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.GraphicsContext;
@@ -43,6 +44,8 @@ public class GameComponent extends BorderPane implements Observer {
             for (FortComponent fort : this.forts.values()) {
                 fort.updateObject(intervalS);
             }
+
+            this.game.getPhysics().collisionCheck();
         }
         else if (this.game.getTimer().currentTimeMs() > this.game.getTimeLimitMs()) {
             this.game.setFinished(true);
@@ -74,16 +77,13 @@ public class GameComponent extends BorderPane implements Observer {
      * game start (like manually testing the object rendering).
      */
     private void setup() {
-        this.game.getBall().getPosition().setLocation(10,10);
+        this.ball.getPosition().setLocation(10,10);
 
-        this.addPlayer(1);
-        this.addPlayer(2);
-
-        FortComponent player1 = this.forts.get(1);
-        FortComponent player2 = this.forts.get(2);
+        FortComponent player1 = this.addPlayer(1);
+        FortComponent player2 = this.addPlayer(2);
 
         player1.getShield().getPosition().setLocation(300, 300);
-        player2.getShield().getPosition().setLocation(600, 600);
+        player2.getShield().getPosition().setLocation(700, 600);
 
         player1.getWall().getPosition().setLocation(200, 200);
         player2.getWall().getPosition().setLocation(500, 500);
@@ -138,8 +138,10 @@ public class GameComponent extends BorderPane implements Observer {
         this.game.getTimer().start();
     }
 
-    public void addPlayer(Integer player) {
-        this.forts.putIfAbsent(player, new FortComponent(this.shared, this.game, player));
+    public FortComponent addPlayer(Integer player) {
+        FortComponent fort = new FortComponent(this.shared, this.game, player);
+        this.forts.putIfAbsent(player, fort);
+        return fort;
     }
 
     public Map<Integer, FortComponent> getPlayers() {

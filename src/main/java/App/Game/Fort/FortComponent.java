@@ -4,8 +4,14 @@ import App.Game.Fort.Shield.ShieldComponent;
 import App.Game.Fort.Wall.WallComponent;
 import App.Game.Fort.Warlord.WarlordComponent;
 import App.Game.GameService;
+import App.Game.Physics.Physical;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Created by lichk on 31/03/2017.
@@ -27,6 +33,26 @@ public class FortComponent {
         this.warlord = new WarlordComponent(this.shared, this.game);
         this.wall = new WallComponent(this.shared, this.game);
         this.shield = new ShieldComponent(this.shared, this.game);
+    }
+
+    public void updateObject(Double intervalS) {
+        this.warlord.update(intervalS);
+        this.wall.update(intervalS);
+        this.shield.update(intervalS);
+    }
+
+    public void renderOnContext(GraphicsContext context) {
+        this.warlord.renderOnContext(context);
+        this.wall.renderOnContext(context);
+        this.shield.renderOnContext(context);
+    }
+
+    public HashSet<Physical> getPhysicalComponents() {
+        HashSet<Physical> components =  new HashSet<>();
+        components.add(this.warlord);
+        components.add(this.wall);
+        components.add(this.shield);
+        return components;
     }
 
     public Integer getPlayer() {
@@ -60,17 +86,5 @@ public class FortComponent {
             this.model.won = value;
             this.warlord.setWon(value);
         }
-    }
-
-    public void updateObject(Double intervalS) {
-        this.warlord.update(intervalS);
-        this.wall.update(intervalS);
-        this.shield.update(intervalS);
-    }
-
-    public void renderOnContext(GraphicsContext context) {
-        this.warlord.renderOnContext(context);
-        this.wall.renderOnContext(context);
-        this.shield.renderOnContext(context);
     }
 }

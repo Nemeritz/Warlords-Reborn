@@ -4,7 +4,9 @@ package App.Game.Fort.Warlord;
  * Created by pie on 30/03/17.
  */
 
+import App.Game.Canvas.CanvasObject;
 import App.Game.GameService;
+import App.Game.Physics.Physical;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -16,7 +18,7 @@ import java.awt.*;
 /**
  * Created by pie on 28/03/17.
  */
-public class WarlordComponent implements IWarlord {
+public class WarlordComponent implements IWarlord, Physical, CanvasObject {
     private SharedModule shared;
     private Image image;
     private GameService game;
@@ -29,6 +31,7 @@ public class WarlordComponent implements IWarlord {
                 this.getClass(), "WarlordComponent.png"
         );
         this.model = new WarlordService();
+        this.game.getPhysics().getStatics().add(this);
     }
 
     public void update(Double intervalS) {
@@ -36,13 +39,21 @@ public class WarlordComponent implements IWarlord {
     }
 
     public void renderOnContext(GraphicsContext context) {
-        Point.Double position = this.model.getPosition();
-        Dimension size = this.model.getSize();
-        context.drawImage(this.image,
-                position.x,
-                position.y,
-                size.width, size.height
-        );
+        if (!this.model.destroyed) {
+            Point.Double position = this.model.getPosition();
+            Dimension size = this.model.getSize();
+            context.drawImage(this.image,
+                    position.x,
+                    position.y,
+                    size.width, size.height
+            );
+        }
+    }
+
+    @Override
+    public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
+        this.model.destroyed = true;
+        this.game.getPhysics().getStatics().remove(this);
     }
 
     public Point.Double getPosition() {
@@ -70,6 +81,6 @@ public class WarlordComponent implements IWarlord {
     }
 
     public boolean isDead(){
-        return this.model.dead;
+        return this.model.destroyed;
     }
 }

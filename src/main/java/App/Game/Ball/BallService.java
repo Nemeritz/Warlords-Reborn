@@ -1,6 +1,6 @@
 package App.Game.Ball;
 
-import warlordstest.IBall;
+import com.sun.javafx.geom.Vec2d;
 
 import java.awt.*;
 
@@ -9,12 +9,12 @@ import java.awt.*;
  */
 public class BallService {
     private Point.Double position;
-    private Point velocity;
+    private Vec2d velocity;
     private Dimension size;
 
     public BallService() {
         this.position = new Point.Double(0, 0);
-        this.velocity = new Point(10, 10);
+        this.velocity = new Vec2d(10, 10);
         this.size = new Dimension(20, 20);
     }
 
@@ -22,7 +22,7 @@ public class BallService {
         return this.position;
     }
 
-    public Point getVelocity() {
+    public Vec2d getVelocity() {
         return this.velocity;
     }
 

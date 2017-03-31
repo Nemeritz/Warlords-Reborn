@@ -7,6 +7,8 @@ import java.awt.*;
  */
 public interface Physical {
     public Point.Double getPosition();
+
     public Dimension getSize();
-    public void setDestroyed(Boolean value);
+
+    public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object);
 }

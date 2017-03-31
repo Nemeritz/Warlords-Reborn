@@ -1,6 +1,8 @@
 package App.Game.Fort.Shield;
 
+import App.Game.Canvas.CanvasObject;
 import App.Game.GameService;
+import App.Game.Physics.Physical;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -11,7 +13,7 @@ import java.awt.*;
 /**
  * Created by lichk on 30/03/2017.
  */
-public class ShieldComponent implements IPaddle {
+public class ShieldComponent implements IPaddle, Physical, CanvasObject {
     private SharedModule shared;
     private GameService game;
     private Image image;
@@ -24,6 +26,7 @@ public class ShieldComponent implements IPaddle {
                 this.getClass(), "barrier_shield.png"
         );
         this.model = new ShieldService();
+        this.game.getPhysics().getStatics().add(this);
     }
 
     public void update(Double intervalS) {
@@ -43,6 +46,11 @@ public class ShieldComponent implements IPaddle {
                 position.y,
                 size.width, size.height
         );
+    }
+
+    @Override
+    public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
+
     }
 
     public Point.Double getPosition() {
