@@ -63,7 +63,11 @@ Services are classes made to do one thing, and do one thing very well. Modules
 will usually create service objects and pass them down to child controllers 
 where needed.
 
-Typical file naming is ```SomethingService```. 
+Typical file naming is ```SomethingService```.
+
+## Controls ##
+
+left arrow for slider to move left and right arrow for slider to move right
 
 ## Contacts ##
 

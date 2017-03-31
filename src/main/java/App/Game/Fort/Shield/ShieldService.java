@@ -14,8 +14,8 @@ public class ShieldService {
 
     public ShieldService() {
         this.position = new Point.Double(0, 0);
-        this.velocity = new Point(0, 0);
-        this.size = new Point(200, 40);
+        this.velocity = new Point(100, 100);
+        this.size = new Point(100, 20);
     }
 
     public Point.Double getPosition() {
