@@ -28,8 +28,8 @@ public class CanvasComponent extends Pane {
         this.game = game;
         this.shared.getJFX().loadFXML(this, CanvasComponent.class,
                 "CanvasComponent.fxml");
-        this.canvas.heightProperty().bind(this.canvasWrapper.heightProperty());
-        this.canvas.widthProperty().bind(this.canvasWrapper.widthProperty());
+//        this.canvas.heightProperty().bind(this.canvasWrapper.heightProperty());
+//        this.canvas.widthProperty().bind(this.canvasWrapper.widthProperty());
     }
 
     public GraphicsContext getGraphicsContext() {

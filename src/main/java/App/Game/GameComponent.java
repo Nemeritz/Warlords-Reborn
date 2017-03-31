@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import warlordstest.IGame;
 
 import java.util.Map;
 import java.util.Observable;
@@ -18,7 +19,7 @@ import java.util.TreeMap;
 /**
  * Created by lichk on 21/03/2017.
  */
-public class GameComponent extends BorderPane implements Observer {
+public class GameComponent extends BorderPane implements IGame, Observer {
     private SharedModule shared;
     private GameService game;
 
@@ -37,18 +38,17 @@ public class GameComponent extends BorderPane implements Observer {
      * @param intervalS Seconds elapsed since last gameLoop iteration.
      */
     private void gameLoop(Double intervalS) {
-        if (this.game.getTimer().currentTimeMs() > 3000) {
-            this.game.setStarted(true);
+        if (this.game.getStarted().equals(true) && this.game.getFinished().equals(false)) {
+            this.game.getPhysics().check();
 
             this.ball.updateObject(intervalS);
             for (FortComponent fort : this.forts.values()) {
                 fort.updateObject(intervalS);
             }
 
-            this.game.getPhysics().collisionCheck();
-        }
-        else if (this.game.getTimer().currentTimeMs() > this.game.getTimeLimitMs()) {
-            this.game.setFinished(true);
+            if (this.game.getTimer().currentTimeMs() > this.game.getTimeLimitMs()) {
+                this.game.setFinished(true);
+            }
         }
     }
 
@@ -126,7 +126,6 @@ public class GameComponent extends BorderPane implements Observer {
         }
     }
 
-
     /**
      * Temporary public method to start the game countdown. Eventually, the scene transition to the game scene will be
      * evaluated to see if there is specific enough intent to begin the game (should be), and this method will run
@@ -134,6 +133,7 @@ public class GameComponent extends BorderPane implements Observer {
      */
     public void startGameCountdown() {
         this.setup();
+        this.game.setStarted(true);
         this.game.getTimer().getFrame().addObserver(this);
         this.game.getTimer().start();
     }
@@ -146,5 +146,37 @@ public class GameComponent extends BorderPane implements Observer {
 
     public Map<Integer, FortComponent> getPlayers() {
         return this.forts;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void tick() {
+        this.game.setStarted(true);
+        for (int i = 0; i < 50; i++) {
+            this.gameLoop(0.02);
+        }
+        this.game.setStarted(false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setTimeRemaining(int seconds) {
+        this.game.setTimeLimitMs((long) seconds * 1000);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isFinished() {
+        return this.game.getFinished();
+    }
+
+    public BallComponent getBall() {
+        return this.ball;
     }
 }

@@ -52,8 +52,20 @@ public class BallComponent implements IBall, Physical, CanvasObject {
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         Vec2d velocity = this.getVelocity();
-        velocity.x = -velocity.x;
-        velocity.y = -velocity.y;
+
+        double reactionX = hitBoxCenter.x - intersectionCenter.x;
+        double reactionY = hitBoxCenter.y - intersectionCenter.y;
+
+        double signumX = Math.signum(Math.abs(reactionX) > 0.0001 ? reactionX : 0.0);
+        double signumY = Math.signum(Math.abs(reactionY) > 0.0001 ? reactionY : 0.0);
+
+        if (signumX != 0 && signumX != Math.signum(velocity.x)) {
+            velocity.x = -velocity.x;
+        }
+
+        if (signumY != 0 && signumY != Math.signum(velocity.y)) {
+            velocity.y = -velocity.y;
+        }
     }
 
     public Point.Double getPosition() {

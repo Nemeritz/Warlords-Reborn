@@ -19,27 +19,28 @@ public class JFXService {
     private Stage stage;
     private Map<String,SimpleImmutableEntry<Parent, Scene>> scenes;
     private ObservableScene sceneChange;
+    private boolean active;
 
     public JFXService() {
+        this.active = false;
         this.scenes = new ConcurrentHashMap<>();
         this.sceneChange = new ObservableScene();
     }
 
-    public FXMLLoader loadFXML(Object controller, Class<?> classType,
-                                   String fxmlName) {
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                classType.getResource(fxmlName)
-        );
-        fxmlLoader.setRoot(controller);
-        fxmlLoader.setController(controller);
+    public void loadFXML(Object controller, Class<?> classType, String fxmlName) {
+        if (this.active) {
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    classType.getResource(fxmlName)
+            );
+            fxmlLoader.setRoot(controller);
+            fxmlLoader.setController(controller);
 
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
+            try {
+                fxmlLoader.load();
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
+            }
         }
-
-        return fxmlLoader;
     }
 
     public Image loadImage(Class<?> classType, String imageName) {
@@ -73,7 +74,16 @@ public class JFXService {
             this.sceneChange.setScene(scene);
         }
     }
+
     public void closeStage(){
     	this.stage.close();
+    }
+
+    public boolean isActive() {
+        return this.active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

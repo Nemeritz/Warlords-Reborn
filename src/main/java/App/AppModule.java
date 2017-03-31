@@ -23,6 +23,7 @@ public class AppModule {
     public AppModule()  {
         // Provides SharedModule
         this.shared = new SharedModule();
+        this.shared.getJFX().setActive(true);
 
         // Create the menu and game scenes
         MenuComponent menu = new MenuComponent(this.shared);

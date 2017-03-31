@@ -7,7 +7,7 @@ import App.Shared.Observables.ObservableFrame;
  */
 public class TimerService extends AnimationTimer {
     private Long startTime;
-    private Long time;
+    private long time;
     private ObservableFrame frame;
 
     public TimerService() {
@@ -23,16 +23,15 @@ public class TimerService extends AnimationTimer {
         this.frame.increment();
     }
 
-    //@Override
-    //public void start(){
-
-    //}
+    public void setTimeS(Long seconds) {
+        this.time = seconds * 1000000000;
+    }
 
     public ObservableFrame getFrame() {
         return frame;
     }
 
-    public Long currentTimeMs() {
+    public long currentTimeMs() {
         return time / 1000000;
     }
 }
