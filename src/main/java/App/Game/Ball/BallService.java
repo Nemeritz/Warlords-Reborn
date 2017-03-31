@@ -10,12 +10,12 @@ import java.awt.*;
 public class BallService implements IBall {
     private Point.Double position;
     private Point velocity;
-    private Point size;
+    private Dimension size;
 
     public BallService() {
         this.position = new Point.Double(0, 0);
         this.velocity = new Point(10, 10);
-        this.size = new Point(20, 20);
+        this.size = new Dimension(20, 20);
     }
 
     public Point.Double getPosition() {
@@ -26,7 +26,7 @@ public class BallService implements IBall {
         return this.velocity;
     }
 
-    public Point getSize() { return this.size; }
+    public Dimension getSize() { return this.size; }
 
     /***
      *  Set the horizontal position of the ball to the given value.

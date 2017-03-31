@@ -37,11 +37,11 @@ public class ShieldComponent implements IPaddle {
 
     public void renderOnContext(GraphicsContext context) {
         Point.Double position = this.model.getPosition();
-        Point size = this.model.getSize();
+        Dimension size = this.model.getSize();
         context.drawImage(this.image,
-                position.getX() - size.getX() / 2,
-                position.getY() - size.getY() / 2,
-                size.getX(), size.getY()
+                position.x,
+                position.y,
+                size.width, size.height
         );
     }
 
@@ -53,7 +53,7 @@ public class ShieldComponent implements IPaddle {
         return this.model.getVelocity();
     }
 
-    public Point getSize() { return this.model.getSize(); }
+    public Dimension getSize() { return this.model.getSize(); }
 
     /***
      *  Set the horizontal position of the paddle to the given value.
