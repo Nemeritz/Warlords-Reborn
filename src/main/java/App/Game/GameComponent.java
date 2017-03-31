@@ -74,7 +74,7 @@ public class GameComponent extends BorderPane implements Observer {
      * game start (like manually testing the object rendering).
      */
     private void setup() {
-        this.game.ball.getPosition().setLocation(10,10);
+        this.game.getBall().getPosition().setLocation(10,10);
 
         this.addPlayer(1);
         this.addPlayer(2);

@@ -9,20 +9,20 @@ import java.awt.*;
  */
 public class WallService {
     private Point.Double position;
-    private Point size;
+    private Dimension size;
     boolean destroyed;
 
     public WallService() {
         this.position = new Point.Double(0,0);
         this.destroyed = false;
-        this.size = new Point(50,50);
+        this.size = new Dimension(50,50);
     }
 
     public Point.Double getPosition() {
         return this.position;
     }
 
-    public Point getSize() {
+    public Dimension getSize() {
         return this.size;
     }
 }

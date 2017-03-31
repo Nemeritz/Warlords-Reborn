@@ -34,12 +34,12 @@ public class WallComponent implements IWall {
 
     public void renderOnContext(GraphicsContext context) {
         Point.Double position = this.model.getPosition();
-        Point size = this.model.getSize();
+        Dimension size = this.model.getSize();
         if (!this.isDestroyed()) {
             context.drawImage(this.image,
-                    position.getX() - size.getX() / 2,
-                    position.getY() - size.getY() / 2,
-                    size.getX(), size.getY()
+                    position.x,
+                    position.y,
+                    size.width, size.height
             );
         }
     }
@@ -52,7 +52,7 @@ public class WallComponent implements IWall {
         return this.model.getPosition();
     }
 
-    public Point getSize() {
+    public Dimension getSize() {
         return this.model.getSize();
     }
 

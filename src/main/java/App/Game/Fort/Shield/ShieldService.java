@@ -10,7 +10,7 @@ import java.awt.*;
 public class ShieldService {
     private Point.Double position;
     private Point velocity;
-    private Point size;
+    private Dimension size;
 
     public ShieldService() {
         this.position = new Point.Double(0, 0);
@@ -26,5 +26,5 @@ public class ShieldService {
         return this.velocity;
     }
 
-    public Point getSize() { return this.size; }
+    public Dimension getSize() { return this.size; }
 }

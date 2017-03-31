@@ -8,7 +8,7 @@ import java.awt.*;
  * Created by pie on 30/03/17.
  */
 public class WarlordService {
-    private Point size;
+    private Dimension size;
     private Point.Double position;
     boolean dead;
     boolean won;
@@ -18,14 +18,14 @@ public class WarlordService {
         this.position = new Point.Double(0, 0);
         this.dead = false;
         this.won = false;
-        this.size = new Point(50,50);
+        this.size = new Dimension(50,50);
     }
 
     public Point.Double getPosition() {
         return this.position;
     }
 
-    public Point getSize(){
+    public Dimension getSize(){
         return this.size;
     }
 }
