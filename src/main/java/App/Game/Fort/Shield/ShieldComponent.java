@@ -19,7 +19,7 @@ import javafx.event.*;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 /**
- * Created by lichk on 30/03/2017.
+ * Created by Jerry Fan on 30/03/2017.
  */
 public class ShieldComponent implements IPaddle, Physical, CanvasObject {
     private SharedModule shared;

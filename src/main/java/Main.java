@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Created by lichk on 21/03/2017.
+ * Created by Jerry Fan on 21/03/2017.
  */
 public class Main extends Application {
     private AppModule app;//creates a new game app

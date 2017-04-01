@@ -1,7 +1,7 @@
 package App.Game.Fort.Warlord;
 
 /**
- * Created by pie on 30/03/17.
+ * Created by Hanliang Ding(Chris) on 30/03/17.
  */
 
 import App.Game.Canvas.CanvasObject;
@@ -17,7 +17,7 @@ import java.awt.*;
 
 
 /**
- * Created by pie on 28/03/17.
+ * Created by Hanliang Ding(Chris) on 28/03/17.
  */
 public class WarlordComponent implements IWarlord, Physical, CanvasObject {
     private SharedModule shared;

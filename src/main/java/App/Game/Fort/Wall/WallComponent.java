@@ -12,7 +12,7 @@ import java.awt.*;
 
 
 /**
- * Created by pie on 28/03/17.
+ * Created by Hanliang Ding(Chris) on 28/03/17.
  */
 public class WallComponent implements IWall, Physical, CanvasObject {
     private SharedModule shared;

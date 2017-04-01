@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by lichk on 23/03/2017.
+ * Created by Jerry Fan on 23/03/2017.
  */
 public class JFXService {
     private Stage stage; // stage for the game

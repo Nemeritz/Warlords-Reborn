@@ -10,7 +10,7 @@ import javafx.scene.layout.Pane;
 import java.util.TreeMap;
 
 /**
- * Created by lichk on 24/03/2017.
+ * Created by Jerry Fan on 24/03/2017.
  */
 public class CanvasComponent extends Pane {
     private SharedModule shared;

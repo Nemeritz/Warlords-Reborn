@@ -3,7 +3,7 @@ package App.Game.Timer;
 import javafx.animation.AnimationTimer;
 import App.Shared.Observables.ObservableFrame;
 /**
- * Created by lichk on 27/03/2017.
+ * Created by Jerry Fan on 27/03/2017.
  */
 public class TimerService extends AnimationTimer {
     private Long startTime; // starting value of now, the time used in the animation timer

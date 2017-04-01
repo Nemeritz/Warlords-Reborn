@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * Created by lichk on 31/03/2017.
+ * Created by Jerry Fan on 31/03/2017.
  */
 public class FortComponent {
     private SharedModule shared;

@@ -3,7 +3,7 @@ package App.Shared.Observables;
 import java.util.Observable;
 
 /**
- * Created by lichk on 27/03/2017.
+ * Created by Jerry Fan on 27/03/2017.
  */
 public class ObservableFrame extends Observable {
     private long frame;

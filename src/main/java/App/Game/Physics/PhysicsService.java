@@ -8,13 +8,19 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * Created by lichk on 31/03/2017.
+ * Created by Jerry Fan on 31/03/2017.
  */
 public class PhysicsService {
     private Rectangle.Double worldBounds;
     private Set<Physical> statics;
     private Set<Physical> kinetics;
 
+
+    /**
+     * @param position position of the object with x and y axis coordinates, 0,0 being top left
+     * @param size of the object with width and length
+     * @return hit box of the object with width and length
+     */
     private Rectangle.Double getHitBox(Point.Double position, Dimension size) {
         return new Rectangle.Double(
                 position.x, position.y,
@@ -22,6 +28,9 @@ public class PhysicsService {
         );
     }
 
+    /**
+     * checks for collision with another object
+     */
     private void collisionCheck() {
         for (Physical k: this.kinetics) {
             Rectangle.Double kHitBox = this.getHitBox(
@@ -56,6 +65,9 @@ public class PhysicsService {
         }
     }
 
+    /**
+     * checks for collision with the boundary of the game
+     */
     private void boundsCheck() {
         for (Physical k: this.kinetics) {
             Rectangle.Double kHitBox = this.getHitBox(
@@ -102,24 +114,39 @@ public class PhysicsService {
         }
     }
 
+    /**
+     * default constructor for physics service
+     */
     public PhysicsService() {
         this.worldBounds = new Rectangle.Double();
         this.statics = new CopyOnWriteArraySet<>();
         this.kinetics = new CopyOnWriteArraySet<>();
     }
 
+    /**
+     * @paramwidth and height of the game boundary
+     */
     public void setWorldBounds(Dimension d) {
         this.worldBounds.setRect(0, 0, d.width, d.height);
     }
 
+    /**
+     * @return the static hit box created
+     */
     public Set<Physical> getStatics() {
         return this.statics;
     }
 
+    /**
+     * @return the kinetic hit box created
+     */
     public Set<Physical> getKinetics() {
         return this.kinetics;
     }
 
+    /**
+     * checks for collision with other objects and the boundary of the game
+     */
     public void check() {
         this.boundsCheck();
         this.collisionCheck();

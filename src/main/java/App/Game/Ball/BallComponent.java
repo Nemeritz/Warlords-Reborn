@@ -12,7 +12,7 @@ import warlordstest.IBall;
 import java.awt.*;
 
 /**
- * Created by lichk on 26/03/2017.
+ * Created by Jerry Fan on 26/03/2017.
  */
 public class BallComponent implements IBall, Physical, CanvasObject {
     private SharedModule shared;
@@ -20,6 +20,11 @@ public class BallComponent implements IBall, Physical, CanvasObject {
     private Image image;
     private BallService model;
 
+    /**
+     * Constructor for ball
+     * @param shared access to JFX scenes and stages
+     * @param game access to other services
+     */
     public BallComponent(SharedModule shared, GameService game) {
         this.shared = shared;
         this.game = game;
@@ -30,6 +35,10 @@ public class BallComponent implements IBall, Physical, CanvasObject {
         this.game.getPhysics().getKinetics().add(this);
     }
 
+    /**
+     * updates the ball so it moves
+     * @param intervalS time from last frame change
+     */
     public void updateObject(Double intervalS) {
         Point.Double position = this.model.getPosition();
         Vec2d velocity = this.model.getVelocity();
@@ -39,6 +48,9 @@ public class BallComponent implements IBall, Physical, CanvasObject {
         );
     }
 
+    /**
+     * @param player the player who last touched the ball
+     */
     public void setLastDeflectedBy(int player) {
         this.model.lastDeflectedBy = player;
     }

@@ -16,7 +16,7 @@ import java.util.Observer;
 import java.util.TreeMap;
 
 /**
- * Created by lichk on 21/03/2017.
+ * Created by Jerry Fan on 21/03/2017.
  */
 public class GameComponent extends BorderPane implements IGame, Observer {
     private SharedModule shared;

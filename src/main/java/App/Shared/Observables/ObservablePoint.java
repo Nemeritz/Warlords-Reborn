@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.Observable;
 
 /**
- * Created by lichk on 28/03/2017.
+ * Created by Jerry Fan on 28/03/2017.
  */
 public class ObservablePoint extends Observable {
     private Point point;

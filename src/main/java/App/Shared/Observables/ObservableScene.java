@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import java.util.Observable;
 
 /**
- * Created by lichk on 27/03/2017.
+ * Created by Jerry Fan on 27/03/2017.
  */
 public class ObservableScene extends Observable {
     Scene scene;

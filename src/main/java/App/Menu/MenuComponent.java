@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 
 /**
- * Created by lichk on 25/03/2017.
+ * Created by Jerry Fan on 25/03/2017.
  */
 public class MenuComponent extends Pane {
     private SharedModule shared;//allows access to JFX scenes and stage

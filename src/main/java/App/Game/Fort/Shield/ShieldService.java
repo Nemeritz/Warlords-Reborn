@@ -5,7 +5,7 @@ import warlordstest.IPaddle;
 import java.awt.*;
 
 /**
- * Created by lichk on 30/03/2017.
+ * Created by Jerry Fan on 30/03/2017.
  */
 public class ShieldService {
     private Point.Double position;

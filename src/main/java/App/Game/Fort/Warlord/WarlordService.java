@@ -3,7 +3,7 @@ package App.Game.Fort.Warlord;
 import java.awt.*;
 
 /**
- * Created by pie on 30/03/17.
+ * Created by Hanliang Ding(Chris) on 30/03/17.
  */
 public class WarlordService {
     private Dimension size;

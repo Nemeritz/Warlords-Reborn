@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 /**
- * Created by lichk on 21/03/2017.
+ * Created by Jerry Fan on 21/03/2017.
  */
 public class TitleComponent extends BorderPane {
     private SharedModule shared;
