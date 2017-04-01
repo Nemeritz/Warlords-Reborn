@@ -3,7 +3,6 @@ package App.Game;
 import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasComponent;
 import App.Game.Fort.FortComponent;
-import App.Game.Physics.PhysicsService;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.GraphicsContext;
@@ -33,47 +32,71 @@ public class GameComponent extends BorderPane implements IGame, Observer {
     private long lastGameLoopTimeMs;
 
     /**
-     * Controls the object interactions and positions on the game canvas. Calculation heavy code goes here. This can
-     * potentially be split into multiple functions and multi-threaded for efficiency if needed.
+     * Divide the intervals if they are larger than the schedular intervals, and iteratively progress the game using
+     * game loops of interval size + remainder.
      * @param intervalS Seconds elapsed since last gameLoop iteration.
      */
-    private void gameLoop(Double intervalS) {
+    private void gameLoopScheduler(Double intervalS) {
         if (this.game.started && !this.game.finished) {
-            this.game.getPhysics().check();
+            double remainder;
 
-            this.ball.updateObject(intervalS);
+            if (intervalS > this.game.schedulerInterval) {
+                int iterations = (int) Math.floor(intervalS / this.game.schedulerInterval);
 
-            int destroyedForts = 0;
+                for (int i = 0; i < iterations; i++) {
+                    this.gameLoop(this.game.schedulerInterval);
+                }
 
+                remainder = intervalS % this.game.schedulerInterval;
+            }
+            else {
+                remainder = intervalS;
+            }
+
+            this.gameLoop(remainder);
+        }
+    }
+
+    /**
+     * Controls the object interactions and positions on the game canvas. Calculation heavy code goes here. This can
+     * potentially be split into multiple functions and multi-threaded for efficiency if needed.
+     * @param intervalS Seconds to calculate for. Objects will use this time to determine positions etc.
+     */
+    private void gameLoop(Double intervalS) {
+        this.game.getPhysics().check();
+
+        this.ball.updateObject(intervalS);
+
+        int destroyedForts = 0;
+
+        for (FortComponent fort : this.forts.values()) {
+            fort.updateObject(intervalS);
+
+            if (fort.isDestroyed()) {
+                destroyedForts++;
+            }
+        }
+
+        boolean gameEnd = false;
+
+        if (destroyedForts >= (this.forts.size() - this.game.fortSurvivalThreshold)) {
+            gameEnd = true;
             for (FortComponent fort : this.forts.values()) {
-                fort.updateObject(intervalS);
-
-                if (fort.isDestroyed()) {
-                    destroyedForts++;
-                }
+                fort.setWinner(true);
             }
+        }
 
-            boolean gameEnd = false;
+        if (this.game.getTimer().currentTimeMs() > this.game.getTimeLimitMs()) {
+            gameEnd = true;
 
-            if (destroyedForts >= (this.forts.size() - this.game.fortSurvivalThreshold)) {
-                gameEnd = true;
-                for (FortComponent fort : this.forts.values()) {
-                    fort.setWinner(true);
-                }
+            // Placeholder for real win condition under timeout - will be based on score.
+            for (FortComponent fort : this.forts.values()) {
+                fort.setWinner(true);
             }
+        }
 
-            if (this.game.getTimer().currentTimeMs() > this.game.getTimeLimitMs()) {
-                gameEnd = true;
-
-                // Placeholder for real win condition under timeout - will be based on score.
-                for (FortComponent fort : this.forts.values()) {
-                    fort.setWinner(true);
-                }
-            }
-
-            if (gameEnd) {
-                this.game.finished = true;
-            }
+        if (gameEnd) {
+            this.game.finished = true;
         }
     }
 
@@ -103,6 +126,7 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      */
     private void setup() {
         this.ball.getPosition().setLocation(10,10);
+        this.ball.getVelocity().set(100, 100);
 
         FortComponent player1 = this.addPlayer(1);
         FortComponent player2 = this.addPlayer(2);
@@ -113,8 +137,8 @@ public class GameComponent extends BorderPane implements IGame, Observer {
         player1.getWall().getPosition().setLocation(200, 200);
         player2.getWall().getPosition().setLocation(500, 500);
 
-        player1.getWarlord().getPosition().setLocation(100, 100);
-        player1.getWarlord().getPosition().setLocation(400, 400);
+        player1.getWarlord().getPosition().setLocation(100, 400);
+        player2.getWarlord().getPosition().setLocation(400, 400);
     }
 
     public GameComponent(SharedModule shared) {
@@ -146,7 +170,7 @@ public class GameComponent extends BorderPane implements IGame, Observer {
 
             if (intervalMs > 0) {
                 this.lastGameLoopTimeMs = currentTimeMs; // Immediately set current time as last iteration time
-                this.gameLoop((double) intervalMs / 1000); // Runs every animation frame (optimally).
+                this.gameLoopScheduler((double) intervalMs / 1000); // Runs every animation frame (optimally).
             }
         }
     }
@@ -175,14 +199,15 @@ public class GameComponent extends BorderPane implements IGame, Observer {
 
     /**
      * {@inheritDoc}
+     * To the game component, this effectively manually rolls the clock one second forward. Game start status is
+     * preserved.
      */
     @Override
     public void tick() {
+        boolean originalStarted = this.game.started;
         this.game.started = true;
-        for (int i = 0; i < 50; i++) {
-            this.gameLoop(0.02);
-        }
-        this.game.started = false;
+        this.gameLoopScheduler(1.0);
+        this.game.started = originalStarted;
     }
 
     /**

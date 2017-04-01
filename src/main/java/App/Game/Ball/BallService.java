@@ -15,7 +15,7 @@ public class BallService {
 
     public BallService() {
         this.position = new Point.Double(0, 0);
-        this.velocity = new Vec2d(10, 10);
+        this.velocity = new Vec2d(0, 0);
         this.size = new Dimension(20, 20);
     }
 
