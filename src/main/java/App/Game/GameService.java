@@ -6,6 +6,9 @@ import App.Game.Timer.TimerService;
 import java.awt.*;
 
 /**
+ * This class provides a model and game services to game components. Will eventually be split into a module and
+ * service to separate the model and service containers.
+ *
  * Created by Jerry Fan on 27/03/2017.
  */
 public class GameService {
