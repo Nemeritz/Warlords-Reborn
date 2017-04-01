@@ -1,9 +1,9 @@
-# This is a sample build configuration for Java – Gradle.
+# This is a sample build configuration for Java ï¿½ Gradle.
 # Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: maven:3-jdk-8
+image: rburgst/java8-openjfx-docker
 
 pipelines:
   default:
