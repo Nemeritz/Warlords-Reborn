@@ -32,7 +32,7 @@ public class GameService {
         this.timeLimitMs = 180000L;
         this.fortSurvivalThreshold = 1; // One player remaining threshold by default
         this.schedulerInterval = 1.0/60;
-        this.worldBounds = new Dimension(1024, 728);
+        this.worldBounds = new Dimension(1024, 768);
 
         this.physics.setWorldBounds(this.worldBounds);
     }

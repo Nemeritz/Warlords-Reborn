@@ -11,17 +11,15 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import warlordstest.IPaddle;
-import javafx.scene.Node;
 
 import java.awt.*;
-import javafx.event.*;
 
-import javax.swing.plaf.basic.BasicSplitPaneUI;
+import App.Shared.JFX.EventReceiver;
 
 /**
  * Created by Jerry Fan on 30/03/2017.
  */
-public class ShieldComponent implements IPaddle, Physical, CanvasObject {
+public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventReceiver {
     private SharedModule shared;
     private GameService game;
     private FortService fort;
@@ -46,6 +44,7 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
         );
         this.model = new ShieldService(); // accessing velocity, dimensions and locations of shield
         this.game.getPhysics().getStatics().add(this);
+        this.shared.getJFX().addEventReceiver(this);
     }
 
     /**
@@ -56,37 +55,15 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
         Point.Double position = this.model.getPosition();
         Point velocity = this.model.getVelocity();
 
-//        EventHandler<KeyEvent> keyEvent = new EventHandler<KeyEvent>(){
-//            @Override
-//            public void handle(KeyEvent event) {//when listener on Key triggers event
-//                if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_PRESSED) {
-//                    leftIsPressed = true;//if left arrow key is pressed
-//                }
-//                else if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_RELEASED) {
-//                    leftIsPressed = false;//if left arrow key is released
-//                }
-//                else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_PRESSED) {
-//                    rightIsPressed = true;//if right arrow key is pressed
-//                }
-//                else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_RELEASED) {
-//                    rightIsPressed = false;//if right arrow key is released
-//                }
-//            }
-//        };
-//        if (this.leftIsPressed) {
-//            position.setLocation(position.getX() - velocity.getX() * intervalS, position.getY());//moves slider to the left
-//        }
-//        else if (this.rightIsPressed) {
-//            position.setLocation(position.getX() + velocity.getX() * intervalS, position.getY());//moves slider to the right
-//        }
-//        else {
-//            position.setLocation(position.getX(), position.getY()); // no keys pressed so stays still
-//        }
-//        this.shared.getJFX().getScene("game").getValue()
-//                .addEventHandler(KeyEvent.KEY_PRESSED,keyEvent); // adds event handler to the game scene on keys pressed
-//        this.shared.getJFX().getScene("game").getValue()
-//                .addEventHandler(KeyEvent.KEY_RELEASED,keyEvent); // adds event handler to the game scene on keys
-        // released
+        if (this.leftIsPressed) {
+            position.setLocation(position.x - velocity.x * intervalS, position.y); // moves slider to the left
+        }
+        else if (this.rightIsPressed) {
+            position.setLocation(position.x + velocity.x * intervalS, position.y); // moves slider to the right
+        }
+        else {
+            position.setLocation(position.x, position.y); // no keys pressed so stays still
+        }
     }
 
     public void renderOnContext(GraphicsContext context) {
@@ -107,6 +84,25 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
         if (BallComponent.class.isInstance(object)) {
             BallComponent ball = (BallComponent) object;
             ball.setLastDeflectedBy(fort.player);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onKeyEvent(KeyEvent event) {
+        if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_PRESSED) {
+            leftIsPressed = true; // If left arrow key is pressed
+        }
+        else if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_RELEASED) {
+            leftIsPressed = false; // If left arrow key is released
+        }
+        else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_PRESSED) {
+            rightIsPressed = true; // If right arrow key is pressed
+        }
+        else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_RELEASED) {
+            rightIsPressed = false; // If right arrow key is released
         }
     }
 

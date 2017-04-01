@@ -32,7 +32,7 @@ public class GameComponent extends BorderPane implements IGame, Observer {
     private long lastGameLoopTimeMs;
 
     /**
-     * Divide the intervals if they are larger than the schedular intervals, and iteratively progress the game using
+     * Divide the intervals if they are larger than the scheduler intervals, and iteratively progress the game using
      * game loops of interval size + remainder.
      * @param intervalS Seconds elapsed since last gameLoop iteration.
      */

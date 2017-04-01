@@ -1,33 +1,59 @@
 package App.Shared.JFX;
 
 import App.Shared.Observables.ObservableScene;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
+ * The JFX Service provides functionality from the JFX library that does not belong to any individual component.
  * Created by Jerry Fan on 23/03/2017.
  */
 public class JFXService {
     private Stage stage; // stage for the game
-    private Map<String,SimpleImmutableEntry<Parent, Scene>> scenes;
     private ObservableScene sceneChange; // notices all observers that scene has changed
+    private Map<String,SimpleImmutableEntry<Parent, Scene>> scenes;
+    private Set<EventReceiver> eventReceivers;
+    private EventHandler<KeyEvent> keyEventHandler;
     public boolean active;
 
+    private void setupEventHooks() {
+
+        EventHandler<KeyEvent> keyAnyHandler = (key) -> {
+            for (EventReceiver receiver : this.eventReceivers) {
+                receiver.onKeyEvent(key);
+            }
+        };
+        this.stage.addEventHandler(KeyEvent.ANY, keyAnyHandler);
+        this.keyEventHandler = keyAnyHandler;
+    }
+
     /**
-     * constructor for the JFX Service, creates new scene and observable scene variable
+     * Default constructor for the JFX Service.
      */
     public JFXService() {
         this.active = false;
         this.scenes = new ConcurrentHashMap<>();
         this.sceneChange = new ObservableScene();
+        this.eventReceivers = new CopyOnWriteArraySet<>();
+    }
+
+
+    public void addEventReceiver(EventReceiver receiver) {
+        this.eventReceivers.add(receiver);
     }
 
     public void loadFXML(Object controller, Class<?> classType, String fxmlName) {
@@ -52,7 +78,11 @@ public class JFXService {
 
     public void setStage(Stage value) {
         if (!value.equals(this.stage)) {
+            if (this.stage != null) {
+                this.stage.removeEventHandler(KeyEvent.ANY,  this.keyEventHandler);
+            }
             this.stage = value;
+            this.setupEventHooks();
         }
     }
 
