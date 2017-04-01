@@ -19,14 +19,20 @@ public class FortComponent {
     private WallComponent wall;
     private ShieldComponent shield;
 
+
+    /**
+     * Contructor for fort
+     * @param shared shared module controlling all scenes
+     * @param game current game containing all services
+     */
     public FortComponent(SharedModule shared, GameService game, Integer player) {
         this.shared = shared;
         this.game = game;
         this.model = new FortService(player);
 
-        this.warlord = new WarlordComponent(this.shared, this.game);
-        this.wall = new WallComponent(this.shared, this.game);
-        this.shield = new ShieldComponent(this.shared, this.game);
+        this.warlord = new WarlordComponent(this.shared, this.game);//creates a warlord
+        this.wall = new WallComponent(this.shared, this.game);//creates a wall
+        this.shield = new ShieldComponent(this.shared, this.game);//creates a shield
     }
 
     public Integer getPlayer() {
@@ -39,22 +45,37 @@ public class FortComponent {
         }
     }
 
+    /**
+     * @return warlord of the fort
+     */
     public WarlordComponent getWarlord() {
         return this.warlord;
     }
 
+    /**
+     * @return wall of the fort
+     */
     public WallComponent getWall() {
         return this.wall;
     }
 
+    /**
+     * @return shield of the fort
+     */
     public ShieldComponent getShield() {
         return this.shield;
     }
 
+    /**
+     * @return true if fort won, false if fort didn't
+     */
     public Boolean getWon() {
         return this.model.won;
     }
 
+    /**
+     * @param value true if the fort is last alive or highest score
+     */
     public void setWon(Boolean value) {
         if (!value.equals(this.model.won)) {
             this.model.won = value;
@@ -62,12 +83,19 @@ public class FortComponent {
         }
     }
 
+    /**
+     * @param intervalS time between last frame and current so velocities stay consistent
+     */
     public void updateObject(Double intervalS) {
-        this.warlord.update(intervalS);
-        this.wall.update(intervalS);
-        this.shield.update(intervalS);
+        this.warlord.update(intervalS);//check if hit by ball
+        this.wall.update();//check if hit by ball
+        this.shield.update(intervalS);//check if hit by ball, also check if arrow keys are pressed
     }
 
+    /**
+     * @param context the 2Dgraphics context in the canvas
+     *                Function renders all components in the fort
+     */
     public void renderOnContext(GraphicsContext context) {
         this.warlord.renderOnContext(context);
         this.wall.renderOnContext(context);

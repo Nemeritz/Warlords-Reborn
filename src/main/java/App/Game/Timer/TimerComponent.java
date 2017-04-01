@@ -10,6 +10,10 @@ public class TimerComponent {
     private SharedModule shared;
     private GameService game;
 
+    /**
+     * @param shared allows access to JFX scenes and the stage
+     * @param game allows access to all other components
+     */
     public TimerComponent(SharedModule shared, GameService game) {
         this.shared = shared;
         this.game = game;

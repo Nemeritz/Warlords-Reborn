@@ -12,7 +12,7 @@ import java.awt.*;
 /**
  * Created by lichk on 26/03/2017.
  */
-public class BallComponent implements IBall, Destructor {
+public class BallComponent implements IBall{
     private SharedModule shared;
     private GameService game;
     private Image image;

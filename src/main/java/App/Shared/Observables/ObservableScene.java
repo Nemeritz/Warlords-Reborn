@@ -12,13 +12,22 @@ import java.util.Observable;
 public class ObservableScene extends Observable {
     Scene scene;
 
+    /**
+     * Constructor for the observable scene
+     */
     public ObservableScene() {
     }
 
+    /**
+     * @return the scene
+     */
     public Scene getScene() {
         return this.scene;
     }
 
+    /**
+     * @param value if not equal to current scene then notify observers that the scene has changed
+     */
     public void setScene(Scene value)  {
         if (!value.equals(scene)) {
             this.scene = value;
