@@ -37,6 +37,9 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
         this.game.getPhysics().getStatics().add(this);
     }
 
+    /**
+     * @param intervalS Time since last update, in seconds.
+     */
     public void update(Double intervalS) {
 
     }

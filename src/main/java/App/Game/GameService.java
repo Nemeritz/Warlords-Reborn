@@ -44,6 +44,9 @@ public class GameService {
         return this.timer;
     }
 
+    /**
+     * @return The physics service.
+     */
     public PhysicsService getPhysics() {
         return this.physics;
     }

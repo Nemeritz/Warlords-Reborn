@@ -11,13 +11,11 @@ public class FortService {
     public boolean winner;
 
     /**
-     * constructor for fortServices, initialize won to false
+     * Constructor for FortService
      */
     public FortService(int player) {
         this.player = player;
         this.winner = false;
         this.destroyed = false;
     }
-
-
 }

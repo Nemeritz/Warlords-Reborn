@@ -8,9 +8,6 @@ import App.Game.Physics.Physical;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -64,6 +61,10 @@ public class FortComponent {
         this.shield.renderOnContext(context);
     }
 
+
+    /**
+     * @return Set of physical components belonging to the fort.
+     */
     public HashSet<Physical> getPhysicalComponents() {
         HashSet<Physical> components =  new HashSet<>();
         components.add(this.warlord);
@@ -98,10 +99,6 @@ public class FortComponent {
      */
     public boolean isDestroyed() {
         return this.fort.destroyed;
-    }
-
-    public void setDestroyed(Boolean value)  {
-        this.fort.destroyed = value;
     }
 
     /**

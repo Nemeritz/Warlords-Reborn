@@ -2,7 +2,6 @@ package App.Shared.JFX;
 
 import App.Shared.Observables.ObservableScene;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,7 +11,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,10 +26,13 @@ public class JFXService {
     private Map<String,SimpleImmutableEntry<Parent, Scene>> scenes;
     private Set<EventReceiver> eventReceivers;
     private EventHandler<KeyEvent> keyEventHandler;
-    public boolean active;
+    public boolean active; // Must currently be manually set to true.
 
+
+    /**
+     * Runs on the acquisition of a new stage, where the existing event handlers are attached to the new stage.
+     */
     private void setupEventHooks() {
-
         EventHandler<KeyEvent> keyAnyHandler = (key) -> {
             for (EventReceiver receiver : this.eventReceivers) {
                 receiver.onKeyEvent(key);
@@ -52,10 +53,20 @@ public class JFXService {
     }
 
 
+    /**
+     * Adds a receiver object to be notified on keypress.
+     * @param receiver The receiver object that implements EventReceiver.
+     */
     public void addEventReceiver(EventReceiver receiver) {
         this.eventReceivers.add(receiver);
     }
 
+    /**
+     * Loads custom FXML components from the specified controller class' directory.
+     * @param controller The controller for loaded FXML component.
+     * @param classType The class type of the controller.
+     * @param fxmlName The name of the FXML file.
+     */
     public void loadFXML(Object controller, Class<?> classType, String fxmlName) {
         if (this.active) {
             FXMLLoader fxmlLoader = new FXMLLoader(
@@ -72,10 +83,21 @@ public class JFXService {
         }
     }
 
+
+    /**
+     * Loads images from the specified class' directory.
+     * @param classType The class type to search from.
+     * @param imageName Name of the image file.
+     * @return Image object containing the requested image.
+     */
     public Image loadImage(Class<?> classType, String imageName) {
         return new Image(classType.getResourceAsStream(imageName));
     }
 
+    /**
+     * Sets the current stage used by the JFX service. This must be done as soon as possible.
+     * @param value The new stage.
+     */
     public void setStage(Stage value) {
         if (!value.equals(this.stage)) {
             if (this.stage != null) {
@@ -86,17 +108,20 @@ public class JFXService {
         }
     }
 
-    public ObservableScene observeSceneChange() {
-        return this.sceneChange;
-    }
-
+    /**
+     * Gets a registered scene entry from the JFX service.
+     * @param sceneName The name of the scene that was registered in the JFX service.
+     * @return An entry set created from a JFX node (component) and a scene containing that node.
+     */
     public SimpleImmutableEntry<Parent, Scene> getScene(String sceneName) {
         return this.scenes.get(sceneName);
     }
 
     /**
-     * @param sceneName the new scene to put on the stage
-     * @param value
+     * Registers a new scene with the JFX service. Currently the controller must also be included, although this
+     * won't be needed once observable scene chances trigger the scene switch initialisation.
+     * @param sceneName The name of the new scene to put on the stage
+     * @param value An entry set created from a JFX node (component) and a scene containing that node.
      */
     public void putScene(String sceneName, SimpleImmutableEntry<Parent, Scene> value) {
         if (!value.equals(this.scenes.get(sceneName))) {
@@ -105,8 +130,8 @@ public class JFXService {
     }
 
     /**
-     * @param sceneName the key of the scene
-     *                  sets the current scene to the value of the scene according to the key
+     * Sets the current scene of the stage to the specified scene.
+     * @param sceneName The name of the scene that was registered in the JFX service.
      */
     public void setScene(String sceneName) {
         Scene scene = this.scenes.get(sceneName).getValue();

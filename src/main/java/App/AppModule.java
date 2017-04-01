@@ -7,7 +7,6 @@ package App;
 import App.Game.GameComponent;
 import App.Menu.MenuComponent;
 import App.Shared.SharedModule;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 

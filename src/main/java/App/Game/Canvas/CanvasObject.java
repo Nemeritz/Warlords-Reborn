@@ -7,7 +7,8 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public interface CanvasObject {
     /**
-     * @param context the 2D graphics context for the game screen
+     * @param context The method is called every render loop, after the canvas is cleared. The graphics context is
+     *                provided such that the component can draw itself.
      */
     public void renderOnContext(GraphicsContext context);
 }

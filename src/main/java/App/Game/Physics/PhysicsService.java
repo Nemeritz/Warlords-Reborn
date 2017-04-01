@@ -1,7 +1,5 @@
 package App.Game.Physics;
 
-import org.w3c.dom.css.Rect;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Set;
@@ -124,21 +122,21 @@ public class PhysicsService {
     }
 
     /**
-     * @paramwidth and height of the game boundary
+     * @param d width and height of the game boundary
      */
     public void setWorldBounds(Dimension d) {
         this.worldBounds.setRect(0, 0, d.width, d.height);
     }
 
     /**
-     * @return the static hit box created
+     * @return Set of static physical objects.
      */
     public Set<Physical> getStatics() {
         return this.statics;
     }
 
     /**
-     * @return the kinetic hit box created
+     * @return Set of kinetic physical objects.
      */
     public Set<Physical> getKinetics() {
         return this.kinetics;

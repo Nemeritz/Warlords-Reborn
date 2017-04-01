@@ -20,7 +20,7 @@ public class BallService {
     }
 
     /**
-     * @return position of the ball with x,y coords, 0,0 being top left
+     * @return position of the ball as a point, 0,0 being top left
      */
     public Point.Double getPosition() {
         return this.position;

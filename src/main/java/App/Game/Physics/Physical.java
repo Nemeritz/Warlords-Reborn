@@ -6,6 +6,10 @@ import java.awt.*;
  * Created by Jerry Fan on 31/03/2017.
  */
 public interface Physical {
+
+    /**
+     * @return Position of the object in units on the virtual game grid.
+     */
     public Point.Double getPosition();
 
     /**
@@ -14,9 +18,12 @@ public interface Physical {
     public Dimension getSize();
 
     /**
-     * @param hitBoxCenter center of the hit box for the object the function is in
-     * @param intersectionCenter the location of intersection between the ball and the
-     * @param object The object which the function is in
+     * Method is called when a registered physical object collides with another registered physical object. Any sort
+     * of reaction from collisions with other objects should be placed here.
+     *
+     * @param hitBoxCenter Center of the hit box for this object.
+     * @param intersectionCenter The center of the collision box.
+     * @param object The opposing object in the collision.
      */
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object);
 }

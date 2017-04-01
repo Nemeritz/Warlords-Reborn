@@ -5,6 +5,7 @@ import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortService;
 import App.Game.GameService;
 import App.Game.Physics.Physical;
+import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -13,8 +14,6 @@ import javafx.scene.input.KeyEvent;
 import warlordstest.IPaddle;
 
 import java.awt.*;
-
-import App.Shared.JFX.EventReceiver;
 
 /**
  * Created by Jerry Fan on 30/03/2017.
@@ -66,6 +65,10 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void renderOnContext(GraphicsContext context) {
         Point.Double position = this.model.getPosition();
         Dimension size = this.model.getSize();

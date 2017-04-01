@@ -56,7 +56,7 @@ public class WallComponent implements IWall, Physical, CanvasObject {
 
 
     /**
-     * checks for collisons and set to destroy wall if collision is detected
+     * @param intervalS Time since last update, in seconds.
      */
     public void update (Double intervalS) {
 

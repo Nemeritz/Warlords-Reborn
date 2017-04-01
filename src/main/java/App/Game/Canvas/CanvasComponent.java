@@ -7,8 +7,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 
-import java.util.TreeMap;
-
 /**
  * Created by Jerry Fan on 24/03/2017.
  */
@@ -32,19 +30,21 @@ public class CanvasComponent extends Pane {
         this.game = game;
         this.shared.getJFX().loadFXML(this, CanvasComponent.class,
                 "CanvasComponent.fxml");
-//        this.canvas.heightProperty().bind(this.canvasWrapper.heightProperty());
-//        this.canvas.widthProperty().bind(this.canvasWrapper.widthProperty());
+        if (this.shared.getJFX().active) {
+            this.canvas.heightProperty().bind(this.canvasWrapper.heightProperty());
+            this.canvas.widthProperty().bind(this.canvasWrapper.widthProperty());
+        }
     }
 
     /**
-     * @return the graphics context where the game is on
+     * @return The graphics context of this canvas.
      */
     public GraphicsContext getGraphicsContext() {
         return canvas.getGraphicsContext2D();
     }
 
     /**
-     * clears the canvas
+     * Clears the canvas.
      */
     public void clear() {
         this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());

@@ -99,6 +99,10 @@ public class BallComponent implements IBall, Physical, CanvasObject {
         return this.model.getPosition();
     }
 
+
+    /**
+     * @return Gets the velocity of the ball.
+     */
     public Vec2d getVelocity() {
         return this.model.getVelocity();
     }

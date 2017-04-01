@@ -9,7 +9,7 @@ public class ObservableFrame extends Observable {
     private long frame;
 
     /**
-     * Default constructor for observable frame, initializes frame to 1
+     * Default constructor for observable frame, initializes frame to 0
      */
     public ObservableFrame() {
         this.frame = 0;

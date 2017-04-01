@@ -16,6 +16,11 @@ import java.util.Observer;
 import java.util.TreeMap;
 
 /**
+ * Game component contains the implementation for the game, along with associated components required for playing the
+ * game. All distance measurements in the game are measured in virtual game grid 'units' where there is a 1:1 ratio
+ * between units and pixels at 1024x768. All time measurements in the game are measured in seconds, unless specified.
+ * Typical unit used in calculation is units/second.
+ *
  * Created by Jerry Fan on 21/03/2017.
  */
 public class GameComponent extends BorderPane implements IGame, Observer {
@@ -155,10 +160,9 @@ public class GameComponent extends BorderPane implements IGame, Observer {
     }
 
     /**
-     * Update method called when watched observables change.
-     * @param obs Observable object that fired an event.
-     * @param obj Any object passed by the observable object to observers.
+     * {@inheritDoc}
      */
+    @Override
     public void update(Observable obs, Object obj) {
         // Game timer observer function, fires when each animation frame changes, which is about once per nanosecond.
         // The render loop and game loop methods are hooked here.
@@ -187,12 +191,22 @@ public class GameComponent extends BorderPane implements IGame, Observer {
         this.game.getTimer().start();
     }
 
+
+    /**
+     * Adds a player to the game by giving them a fort.
+     * @param player Player's number, should be positive.
+     * @return
+     */
     public FortComponent addPlayer(Integer player) {
         FortComponent fort = new FortComponent(this.shared, this.game, player);
         this.forts.putIfAbsent(player, fort);
         return fort;
     }
 
+
+    /**
+     * Gets the forts (players) in the game.
+     */
     public Map<Integer, FortComponent> getPlayers() {
         return this.forts;
     }
@@ -226,6 +240,10 @@ public class GameComponent extends BorderPane implements IGame, Observer {
         return this.game.finished;
     }
 
+
+    /**
+     * @return Gets the ball component from the game. Only used for testing.
+     */
     public BallComponent getBall() {
         return this.ball;
     }

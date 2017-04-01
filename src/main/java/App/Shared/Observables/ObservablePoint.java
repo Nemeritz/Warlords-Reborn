@@ -34,7 +34,6 @@ public class ObservablePoint extends Observable {
     /**
      * @param x x coordinate of the new point
      * @param y y coordinate of the new point
-     *          notify observers of a location change
      */
     public void setPoint(int x, int y) {
         this.point.setLocation(x, y);
