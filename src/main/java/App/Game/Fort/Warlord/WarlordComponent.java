@@ -38,6 +38,10 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void renderOnContext(GraphicsContext context) {
         if (!this.model.destroyed) {
             Point.Double position = this.model.getPosition();
@@ -50,16 +54,27 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         this.model.destroyed = true;
         this.game.getPhysics().getStatics().remove(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Point.Double getPosition() {
         return this.model.getPosition();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Dimension getSize() {
         return this.model.getSize();
     }
@@ -68,18 +83,34 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
         this.model.won = true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setXPos(int x) {
         this.model.getPosition().x = x;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setYPos(int y) {
         this.model.getPosition().y = y;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean hasWon(){
         return this.model.won;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean isDead(){
         return this.model.destroyed;
     }

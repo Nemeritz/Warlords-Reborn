@@ -39,15 +39,13 @@ public class WallComponent implements IWall, Physical, CanvasObject {
     }
 
     /**
-     * @param context renders the WallComponent.png on the game 2D graphics context in the canvas
+     * {@inheritDoc}
      */
+    @Override
     public void renderOnContext(GraphicsContext context) {
         if (!this.model.destroyed) {
-            Point.Double position = this.model.getPosition();
-            Dimension size = this.model.getSize();
-        Point.Double position = this.model.getPosition();//position of the image taken from WallComponentService
-        Dimension size = this.model.getSize();//size of the image taken from WallComponentService
-        if (!this.isDestroyed()) {
+            Point.Double position = this.model.getPosition(); // position of the image taken from WallComponentService
+            Dimension size = this.model.getSize(); // size of the image taken from WallComponentService
             context.drawImage(this.image,
                     position.x,
                     position.y,
@@ -60,12 +58,12 @@ public class WallComponent implements IWall, Physical, CanvasObject {
     /**
      * checks for collisons and set to destroy wall if collision is detected
      */
-    public void update () {
+    public void update (Double intervalS) {
 
     }
 
     /**
-     * @param value set the destroyed variable, true if the model is to be destroyed
+     * {@inheritDoc}
      */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
@@ -78,36 +76,41 @@ public class WallComponent implements IWall, Physical, CanvasObject {
     }
 
     /**
-     * @return the Double position of the wall which contains the x and y coordinate
+     * {@inheritDoc}
      */
+    @Override
     public Point.Double getPosition() {
         return this.model.getPosition();
     }
 
     /**
-     * @return the Dimension size of the wall which contains the height and width of the wall
+     * {@inheritDoc}
      */
+    @Override
     public Dimension getSize() {
         return this.model.getSize();
     }
 
     /**
-     * @param x Sets the x axis position of the wall in the game, 0,0 being top left
+     * {@inheritDoc}
      */
+    @Override
     public void setXPos(int x) {
         this.model.getPosition().x = x;
     }
 
     /**
-     * @param y Sets the y axis position of the wall in the game, 0,0 being top left
+     * {@inheritDoc}
      */
+    @Override
     public void setYPos(int y) {
         this.model.getPosition().y = y;
     }
 
     /**
-     * @return whether the wall is destroyed, true if collision with ball, false if not
+     * {@inheritDoc}
      */
+    @Override
     public boolean isDestroyed() {
         return this.model.destroyed;
     }

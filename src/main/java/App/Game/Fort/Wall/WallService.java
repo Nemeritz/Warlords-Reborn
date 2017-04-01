@@ -10,7 +10,7 @@ import java.awt.*;
 public class WallService {
     private Point.Double position;
     private Dimension size;
-    boolean destroyed;//variable showing whether the wall has collided with ball or not
+    boolean destroyed; // variable showing whether the wall has collided with ball or not
 
     /**
      * Constructor for WallService, initializes size, dimension and destroyed boolean to false

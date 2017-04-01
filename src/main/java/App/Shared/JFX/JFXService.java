@@ -16,10 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by lichk on 23/03/2017.
  */
 public class JFXService {
-    private Stage stage;//stage for the game
+    private Stage stage; // stage for the game
     private Map<String,SimpleImmutableEntry<Parent, Scene>> scenes;
-    private ObservableScene sceneChange;//notices all observers that scene has changed
-    private boolean active;
+    private ObservableScene sceneChange; // notices all observers that scene has changed
+    public boolean active;
 
     /**
      * constructor for the JFX Service, creates new scene and observable scene variable
@@ -86,19 +86,10 @@ public class JFXService {
         }
     }
 
-
-     * closed/exits the game
-     */
     /**
+     * Closes and exits the game
+     */
     public void closeStage(){
     	this.stage.close();
-    }
-
-    public boolean isActive() {
-        return this.active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 }

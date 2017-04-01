@@ -41,12 +41,19 @@ public class FortComponent {
         this.shield = new ShieldComponent(this.shared, this.game);//creates a shield
     }
 
+    /**
+     * @param intervalS time between last frame and current so velocities stay consistent
+     */
     public void updateObject(Double intervalS) {
         this.warlord.update(intervalS);
         this.wall.update(intervalS);
         this.shield.update(intervalS);
     }
 
+    /**
+     * @param context the 2Dgraphics context in the canvas
+     *                Function renders all components in the fort
+     */
     public void renderOnContext(GraphicsContext context) {
         this.warlord.renderOnContext(context);
         this.wall.renderOnContext(context);
@@ -107,24 +114,5 @@ public class FortComponent {
             this.model.won = value;
             this.warlord.setWon(value);
         }
-    }
-
-    /**
-     * @param intervalS time between last frame and current so velocities stay consistent
-     */
-    public void updateObject(Double intervalS) {
-        this.warlord.update(intervalS);//check if hit by ball
-        this.wall.update();//check if hit by ball
-        this.shield.update(intervalS);//check if hit by ball, also check if arrow keys are pressed
-    }
-
-    /**
-     * @param context the 2Dgraphics context in the canvas
-     *                Function renders all components in the fort
-     */
-    public void renderOnContext(GraphicsContext context) {
-        this.warlord.renderOnContext(context);
-        this.wall.renderOnContext(context);
-        this.shield.renderOnContext(context);
     }
 }

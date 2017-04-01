@@ -24,25 +24,24 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
     private GameService game;
     private Image image;
     private ShieldService model;
-    public boolean leftIsPressed;//indicates if left arrow is pressed
-    public boolean rightIsPressed;//indicates if right arrow is pressed
+    private boolean leftIsPressed; // indicates if left arrow is pressed
+    private boolean rightIsPressed; // indicates if right arrow is pressed
 
     /**
-     * Contructor for shield
+     * Constructor for shield
      * @param shared shared module controlling all scenes
      * @param game current game containing all services
      */
     public ShieldComponent(SharedModule shared, GameService game) {
-        this.leftIsPressed = false;//shield stays still at the start
+        this.leftIsPressed = false; // shield stays still at the start
         this.rightIsPressed = false;
-        this.shared = shared;//allows access to JFX current scene for adding event handlers
-        this.game = game;//allows access to other services in the game
+        this.shared = shared; // allows access to JFX current scene for adding event handlers
+        this.game = game; // allows access to other services in the game
         this.image = this.shared.getJFX().loadImage(
                 this.getClass(), "barrier_shield.png"
         );
-        this.model = new ShieldService();
+        this.model = new ShieldService(); // accessing velocity, dimensions and locations of shield
         this.game.getPhysics().getStatics().add(this);
-        this.model = new ShieldService();//accessing velocity, dimensions and locations of shield
     }
 
     /**
@@ -53,37 +52,37 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
         Point.Double position = this.model.getPosition();
         Point velocity = this.model.getVelocity();
 
-        EventHandler<KeyEvent> keyEvent = new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event) {//when listener on Key triggers event
-                if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_PRESSED) {
-                    leftIsPressed = true;//if left arrow key is pressed
-                }
-                else if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_RELEASED) {
-                    leftIsPressed = false;//if left arrow key is released
-                }
-                else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_PRESSED) {
-                    rightIsPressed = true;//if right arrow key is pressed
-                }
-                else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_RELEASED) {
-                    rightIsPressed = false;//if right arrow key is released
-                }
-            }
-        };
-        if(this.leftIsPressed == true){
-
-            position.setLocation(position.getX() - velocity.getX() * intervalS, position.getY());//moves slider to the left
-        }
-        else if(this.rightIsPressed == true){
-            position.setLocation(position.getX() + velocity.getX() * intervalS, position.getY());//moves slider to the right
-        }
-        else {
-            position.setLocation(position.getX(), position.getY());//no keys pressed so stays still
-        }
-        this.shared.getJFX().getScene("game").getValue()
-                .addEventHandler(KeyEvent.KEY_PRESSED,keyEvent);//adds event handler to the game scene on keys pressed
-        this.shared.getJFX().getScene("game").getValue()
-                .addEventHandler(KeyEvent.KEY_RELEASED,keyEvent);//adds event handler to the game scene on keys released
+//        EventHandler<KeyEvent> keyEvent = new EventHandler<KeyEvent>(){
+//            @Override
+//            public void handle(KeyEvent event) {//when listener on Key triggers event
+//                if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_PRESSED) {
+//                    leftIsPressed = true;//if left arrow key is pressed
+//                }
+//                else if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_RELEASED) {
+//                    leftIsPressed = false;//if left arrow key is released
+//                }
+//                else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_PRESSED) {
+//                    rightIsPressed = true;//if right arrow key is pressed
+//                }
+//                else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_RELEASED) {
+//                    rightIsPressed = false;//if right arrow key is released
+//                }
+//            }
+//        };
+//        if (this.leftIsPressed) {
+//            position.setLocation(position.getX() - velocity.getX() * intervalS, position.getY());//moves slider to the left
+//        }
+//        else if (this.rightIsPressed) {
+//            position.setLocation(position.getX() + velocity.getX() * intervalS, position.getY());//moves slider to the right
+//        }
+//        else {
+//            position.setLocation(position.getX(), position.getY()); // no keys pressed so stays still
+//        }
+//        this.shared.getJFX().getScene("game").getValue()
+//                .addEventHandler(KeyEvent.KEY_PRESSED,keyEvent); // adds event handler to the game scene on keys pressed
+//        this.shared.getJFX().getScene("game").getValue()
+//                .addEventHandler(KeyEvent.KEY_RELEASED,keyEvent); // adds event handler to the game scene on keys
+        // released
     }
 
     public void renderOnContext(GraphicsContext context) {
@@ -96,14 +95,18 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
         );
     }
 
-     * @return position of the shield containing x and y coordinates, 0,0 being top left of the canvas
     /**
+     * {@inheritDoc}
      */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Point.Double getPosition() {
         return this.model.getPosition();
     }
@@ -116,22 +119,23 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
     }
 
     /**
-     * @return size of the shield containing width and length
+     * {@inheritDoc}
      */
+    @Override
     public Dimension getSize() { return this.model.getSize(); }
 
-    /***
-     *  Set the horizontal position of the paddle to the given value.
-     * @param x
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void setXPos(int x) {
         this.model.getPosition().x = x;
     };
 
-    /***
-     *  Set the vertical position of the paddle to the given value.
-     * @param y
+    /**
+     * {@inheritDoc}
      */
+    @Override
     public void setYPos(int y) {
         this.model.getPosition().y = y;
     };
