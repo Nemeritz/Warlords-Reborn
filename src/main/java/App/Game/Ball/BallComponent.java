@@ -39,6 +39,10 @@ public class BallComponent implements IBall, Physical, CanvasObject {
         );
     }
 
+    public void setLastDeflectedBy(int player) {
+        this.model.lastDeflectedBy = player;
+    }
+
     /**
      * {@inheritDoc}
      */

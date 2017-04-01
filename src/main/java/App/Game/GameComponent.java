@@ -38,16 +38,41 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      * @param intervalS Seconds elapsed since last gameLoop iteration.
      */
     private void gameLoop(Double intervalS) {
-        if (this.game.getStarted().equals(true) && this.game.getFinished().equals(false)) {
+        if (this.game.started && !this.game.finished) {
             this.game.getPhysics().check();
 
             this.ball.updateObject(intervalS);
+
+            int destroyedForts = 0;
+
             for (FortComponent fort : this.forts.values()) {
                 fort.updateObject(intervalS);
+
+                if (fort.isDestroyed()) {
+                    destroyedForts++;
+                }
+            }
+
+            boolean gameEnd = false;
+
+            if (destroyedForts >= (this.forts.size() - this.game.fortSurvivalThreshold)) {
+                gameEnd = true;
+                for (FortComponent fort : this.forts.values()) {
+                    fort.setWinner(true);
+                }
             }
 
             if (this.game.getTimer().currentTimeMs() > this.game.getTimeLimitMs()) {
-                this.game.setFinished(true);
+                gameEnd = true;
+
+                // Placeholder for real win condition under timeout - will be based on score.
+                for (FortComponent fort : this.forts.values()) {
+                    fort.setWinner(true);
+                }
+            }
+
+            if (gameEnd) {
+                this.game.finished = true;
             }
         }
     }
@@ -58,7 +83,7 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      * slow, decreasing FPS.
      */
     private void renderLoop() {
-        if (this.game.getStarted()) {
+        if (this.game.started) {
             GraphicsContext context = this.canvas.getGraphicsContext();
             this.canvas.clear();
             this.ball.renderOnContext(context);
@@ -133,7 +158,7 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      */
     public void startGameCountdown() {
         this.setup();
-        this.game.setStarted(true);
+        this.game.started = true;
         this.game.getTimer().getFrame().addObserver(this);
         this.game.getTimer().start();
     }
@@ -153,11 +178,11 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      */
     @Override
     public void tick() {
-        this.game.setStarted(true);
+        this.game.started = true;
         for (int i = 0; i < 50; i++) {
             this.gameLoop(0.02);
         }
-        this.game.setStarted(false);
+        this.game.started = false;
     }
 
     /**
@@ -173,7 +198,7 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      */
     @Override
     public boolean isFinished() {
-        return this.game.getFinished();
+        return this.game.finished;
     }
 
     public BallComponent getBall() {

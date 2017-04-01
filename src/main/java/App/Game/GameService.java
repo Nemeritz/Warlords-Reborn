@@ -7,16 +7,17 @@ import App.Game.Timer.TimerService;
 import java.awt.*;
 
 /**
- * Created by lichk on 27/03/2017.
+ * Created by Jerry Fan on 27/03/2017.
  */
 public class GameService {
 
-    private Boolean started;//true if game started
-    private Boolean finished;//true if game finished
-    private Long timeLimitMs;//time in Ms the game is allowed to go on for before finishing
-    private Dimension worldBounds;//boundaries of the game
+    boolean started; // true if game started
+    boolean finished; // true if game finished
+    int fortSurvivalThreshold;
+    private Long timeLimitMs; // time in Ms the game is allowed to go on for before finishing
+    private Dimension worldBounds; // boundaries of the game
 
-    private TimerService timer;//allows access to timer service data
+    private TimerService timer;
     private PhysicsService physics;
 
     /**
@@ -29,6 +30,7 @@ public class GameService {
         this.started = false;
         this.finished = false;
         this.timeLimitMs = 0L;
+        this.fortSurvivalThreshold = 1; // One player remaining threshold by default
         this.worldBounds = new Dimension(1024, 728);
 
         this.physics.setWorldBounds(this.worldBounds);
@@ -43,38 +45,6 @@ public class GameService {
 
     public PhysicsService getPhysics() {
         return this.physics;
-    }
-
-    /**
-     * @return if game started or not. true if started
-     */
-    public Boolean getStarted() {
-        return this.started;
-    }
-
-    /**
-     * @param value true if wants game to start
-     */
-    public void setStarted(Boolean value) {
-        if (!value.equals(this.started)) {
-            this.started = value;
-        }
-    }
-
-    /**
-     * @return if game finished or not, true if finished
-     */
-    public Boolean getFinished() {
-        return this.finished;
-    }
-
-    /**
-     * @param value true if want game to finish
-     */
-    public void setFinished(Boolean value) {
-        if (!value.equals(this.finished)) {
-            this.finished = value;
-        }
     }
 
     /**

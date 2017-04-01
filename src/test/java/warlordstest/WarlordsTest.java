@@ -146,42 +146,42 @@ public class WarlordsTest extends TestSuite {
         assertTrue("The ball's velocity should be reversed in the direction of the collision", this.ball.getXVelocity() == 300 && this.ball.getYVelocity() == -300);
 
     }
-//
-//    @Test
-//    public void testGameEndFromKnockout(){
-//
-//        assertFalse("The game should not be finished yet", this.game.isFinished());
-//        assertFalse("Fort 2 should not have won yet", this.player2.hasWon());
-//
-//        this.ball.setXPos(500);
-//        this.ball.setYPos(495);
-//        this.ball.setXVelocity(10);
-//        this.ball.setYVelocity(10);
-//
-//        this.player1.setXPos(500);
-//        this.player1.setYPos(500);
-//
-//        this.game.tick();
-//
-//        assertTrue("The game should be finished", this.game.isFinished());
-//        assertTrue("Fort 2 should have won", this.player2.hasWon());
-//
-//    }
-//
-//    @Test
-//    public void testGameEndFromTimeout(){
-//
-//        assertFalse("The game should not be finished yet", this.game.isFinished());
-//        assertFalse("Fort 1 should not have won yet", this.player1.hasWon());
-//
-//        this.game.setTimeRemaining(0);
-//
-//        this.game.tick();
-//
-//        assertTrue("The game should be finished", this.game.isFinished());
-//        assertTrue("Fort 1 should have won", this.player1.hasWon());
-//
-//    }
+
+    @Test
+    public void testGameEndFromKnockout(){
+
+        assertFalse("The game should not be finished yet", this.game.isFinished());
+        assertFalse("Fort 2 should not have won yet", this.player2.hasWon());
+
+        this.ball.setXPos(500);
+        this.ball.setYPos(495);
+        this.ball.setXVelocity(10);
+        this.ball.setYVelocity(10);
+
+        this.player1.setXPos(500);
+        this.player1.setYPos(500);
+
+        this.game.tick();
+
+        assertTrue("The game should be finished", this.game.isFinished());
+        assertTrue("Fort 2 should have won", this.player2.hasWon());
+
+    }
+
+    @Test
+    public void testGameEndFromTimeout(){
+
+        assertFalse("The game should not be finished yet", this.game.isFinished());
+        assertFalse("Fort 1 should not have won yet", this.player1.hasWon());
+
+        this.game.setTimeRemaining(0);
+
+        this.game.tick();
+
+        assertTrue("The game should be finished", this.game.isFinished());
+        assertTrue("Fort 1 should have won", this.player1.hasWon());
+
+    }
 
 
 

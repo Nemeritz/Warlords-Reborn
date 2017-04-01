@@ -1,6 +1,8 @@
 package App.Game.Fort.Shield;
 
+import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasObject;
+import App.Game.Fort.FortService;
 import App.Game.GameService;
 import App.Game.Physics.Physical;
 import App.Shared.SharedModule;
@@ -22,6 +24,7 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 public class ShieldComponent implements IPaddle, Physical, CanvasObject {
     private SharedModule shared;
     private GameService game;
+    private FortService fort;
     private Image image;
     private ShieldService model;
     private boolean leftIsPressed; // indicates if left arrow is pressed
@@ -32,11 +35,12 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
      * @param shared shared module controlling all scenes
      * @param game current game containing all services
      */
-    public ShieldComponent(SharedModule shared, GameService game) {
+    public ShieldComponent(SharedModule shared, GameService game, FortService fort) {
         this.leftIsPressed = false; // shield stays still at the start
         this.rightIsPressed = false;
         this.shared = shared; // allows access to JFX current scene for adding event handlers
         this.game = game; // allows access to other services in the game
+        this.fort = fort; // Allows access to fort services.
         this.image = this.shared.getJFX().loadImage(
                 this.getClass(), "barrier_shield.png"
         );
@@ -100,7 +104,10 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
      */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
-
+        if (BallComponent.class.isInstance(object)) {
+            BallComponent ball = (BallComponent) object;
+            ball.setLastDeflectedBy(fort.player);
+        }
     }
 
     /**

@@ -19,7 +19,7 @@ import java.util.HashSet;
 public class FortComponent {
     private SharedModule shared;
     private GameService game;
-    private FortService model;
+    private FortService fort;
 
     private WarlordComponent warlord;
     private WallComponent wall;
@@ -34,11 +34,11 @@ public class FortComponent {
     public FortComponent(SharedModule shared, GameService game, Integer player) {
         this.shared = shared;
         this.game = game;
-        this.model = new FortService(player);
+        this.fort = new FortService(player);
 
-        this.warlord = new WarlordComponent(this.shared, this.game);//creates a warlord
-        this.wall = new WallComponent(this.shared, this.game);//creates a wall
-        this.shield = new ShieldComponent(this.shared, this.game);//creates a shield
+        this.warlord = new WarlordComponent(this.shared, this.game, this.fort); // creates a warlord
+        this.wall = new WallComponent(this.shared, this.game); // creates a wall
+        this.shield = new ShieldComponent(this.shared, this.game, this.fort); // creates a shield
     }
 
     /**
@@ -48,6 +48,10 @@ public class FortComponent {
         this.warlord.update(intervalS);
         this.wall.update(intervalS);
         this.shield.update(intervalS);
+
+        if (warlord.isDead()) {
+            this.fort.destroyed = true;
+        }
     }
 
     /**
@@ -66,16 +70,6 @@ public class FortComponent {
         components.add(this.wall);
         components.add(this.shield);
         return components;
-    }
-
-    public Integer getPlayer() {
-        return this.model.player;
-    }
-
-    public void setPlayer(Integer value) {
-        if (!value.equals(this.model.player)) {
-            this.model.player = value;
-        }
     }
 
     /**
@@ -100,19 +94,21 @@ public class FortComponent {
     }
 
     /**
-     * @return true if fort won, false if fort didn't
+     * @return True if this fort has been destroyed.
      */
-    public Boolean getWon() {
-        return this.model.won;
+    public boolean isDestroyed() {
+        return this.fort.destroyed;
+    }
+
+    public void setDestroyed(Boolean value)  {
+        this.fort.destroyed = value;
     }
 
     /**
      * @param value true if the fort is last alive or highest score
      */
-    public void setWon(Boolean value) {
-        if (!value.equals(this.model.won)) {
-            this.model.won = value;
-            this.warlord.setWon(value);
-        }
+    public void setWinner(Boolean value) {
+        this.fort.winner = value;
+        this.warlord.setWinner(value);
     }
 }

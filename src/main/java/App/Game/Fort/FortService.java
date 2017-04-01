@@ -6,15 +6,17 @@ package App.Game.Fort;
  * Created by Jerry Fan on 31/03/2017.
  */
 public class FortService {
-    int player;
-    boolean won;
+    public int player;
+    public boolean destroyed;
+    public boolean winner;
 
     /**
      * constructor for fortServices, initialize won to false
      */
     public FortService(int player) {
         this.player = player;
-        this.won = false;
+        this.winner = false;
+        this.destroyed = false;
     }
 
 

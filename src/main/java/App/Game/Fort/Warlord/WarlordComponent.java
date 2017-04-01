@@ -5,6 +5,7 @@ package App.Game.Fort.Warlord;
  */
 
 import App.Game.Canvas.CanvasObject;
+import App.Game.Fort.FortService;
 import App.Game.GameService;
 import App.Game.Physics.Physical;
 import App.Shared.SharedModule;
@@ -22,11 +23,13 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
     private SharedModule shared;
     private Image image;
     private GameService game;
+    private FortService fort;
     private WarlordService model;
 
-    public WarlordComponent(SharedModule shared, GameService game) {
+    public WarlordComponent(SharedModule shared, GameService game, FortService fort) {
         this.shared = shared;
         this.game = game;
+        this.fort = fort;
         this.image = this.shared.getJFX().loadImage(
                 this.getClass(), "WarlordComponent.png"
         );
@@ -43,7 +46,7 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
      */
     @Override
     public void renderOnContext(GraphicsContext context) {
-        if (!this.model.destroyed) {
+        if (!this.fort.destroyed) {
             Point.Double position = this.model.getPosition();
             Dimension size = this.model.getSize();
             context.drawImage(this.image,
@@ -59,7 +62,7 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
      */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
-        this.model.destroyed = true;
+        this.fort.destroyed = true;
         this.game.getPhysics().getStatics().remove(this);
     }
 
@@ -79,8 +82,8 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
         return this.model.getSize();
     }
 
-    public void setWon(Boolean value) {
-        this.model.won = true;
+    public void setWinner(Boolean value) {
+        this.fort.winner = true;
     }
 
     /**
@@ -104,7 +107,7 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
      */
     @Override
     public boolean hasWon(){
-        return this.model.won;
+        return this.fort.winner;
     }
 
     /**
@@ -112,6 +115,6 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
      */
     @Override
     public boolean isDead(){
-        return this.model.destroyed;
+        return this.fort.destroyed;
     }
 }
