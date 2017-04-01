@@ -4,7 +4,9 @@ This README would normally document whatever steps are necessary to get your app
 
 ## Dependencies ##
 
-* JDK1.8+
+* JDK 1.8+
+* JavaFX 8+
+* jUnit (will be downloaded by Gradle)
 
 ## Build ##
 
@@ -13,17 +15,30 @@ cd /path/to/project
 ./gradlew build
 ```
 
-If you need to specify a JDK version for some reason (like on UoA computers *hint* *hint*), use the following build command instead:
+This command also runs the tests.
+
+## Test ##
 
 ```bash
-./gradlew -Dorg.gradle.java.home=/path_to_jdk_directory
+cd /path/to/project
+./gradlew test
 ```
 
-Uni Computer Example
+Test results stored at ```./build/reports/tests/test```
+
+## Run ##
 
 ```bash
-./gradlew -Dorg.gradle.java.home=$JAVA_HOME/jre/
+cd /path/to/project
+./gradlew run
 ```
+
+Ignore warnings on console about mismatching FXML versions.
+
+## Game Controls ##
+
+__Left Arrow__ - Move paddle left.
+__Right Arrow__ - Move paddle right.
 
 ## Contribution guidelines ##
 
@@ -37,21 +52,18 @@ __Module__
 
 A.K.A. Super Controller.
 
-Handles the creation and controlling of child controllers. Their distinctive 
-feature is that they don't have an associated view. These also typically 
-provide services to child controllers.
-
-In terms of usage with JavaFX, modules also handles scene transitions.
+Usually used for set-up purposes, such as in creating components. These also 
+typically provide services to child controllers.
 
 Typical file naming is ```SomethingModule```.
 
 __Component__
 
-A.K.A. JFX Controller, View and Style trio.
+A.K.A. Controller.
 
-Handles the communication between views and any storage classes, along with 
-providing event hooks to modules. These typically come in trios of a Java 
-class, FXML file and a CSS file. Scenes are created at this level.
+Handles the communication between FXML views, services and other controllers, 
+along with providing event handlers or observers. Scenes are created at this 
+level.
 
 Typical file naming is ```SomethingComponent```.
 
@@ -61,15 +73,12 @@ A.K.A. Model or Utility
 
 Services are classes made to do one thing, and do one thing very well. Modules 
 will usually create service objects and pass them down to child controllers 
-where needed.
+where needed. These usually provide either data models or utility functions.
 
 Typical file naming is ```SomethingService```.
-
-## Controls ##
-
-left arrow for slider to move left and right arrow for slider to move right
 
 ## Contacts ##
 
 Jerry Fan - jfan082@aucklanduni.ac.nz
+
 Chris Ding - hdin898@aucklanduni.ac.nz
