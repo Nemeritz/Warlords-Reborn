@@ -23,6 +23,10 @@ public class CanvasComponent extends Pane {
     private Canvas canvas;
 
 
+    /**
+     * @param shared contains the JFX scenes
+     * @param game contains the current game and allows access to all other services
+     */
     public CanvasComponent(SharedModule shared, GameService game) {
         this.shared = shared;
         this.game = game;
@@ -32,10 +36,16 @@ public class CanvasComponent extends Pane {
 //        this.canvas.widthProperty().bind(this.canvasWrapper.widthProperty());
     }
 
+    /**
+     * @return the graphics context where the game is on
+     */
     public GraphicsContext getGraphicsContext() {
         return canvas.getGraphicsContext2D();
     }
 
+    /**
+     * clears the canvas
+     */
     public void clear() {
         this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }

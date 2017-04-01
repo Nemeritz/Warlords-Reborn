@@ -9,6 +9,9 @@ public class FortService {
     int player;
     boolean won;
 
+    /**
+     * constructor for fortServices, initialize won to false
+     */
     public FortService(int player) {
         this.player = player;
         this.won = false;

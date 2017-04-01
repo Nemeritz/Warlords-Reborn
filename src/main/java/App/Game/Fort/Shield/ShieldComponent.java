@@ -27,18 +27,28 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
     public boolean leftIsPressed;//indicates if left arrow is pressed
     public boolean rightIsPressed;//indicates if right arrow is pressed
 
+    /**
+     * Contructor for shield
+     * @param shared shared module controlling all scenes
+     * @param game current game containing all services
+     */
     public ShieldComponent(SharedModule shared, GameService game) {
-        this.leftIsPressed = false;
+        this.leftIsPressed = false;//shield stays still at the start
         this.rightIsPressed = false;
-        this.shared = shared;
-        this.game = game;
+        this.shared = shared;//allows access to JFX current scene for adding event handlers
+        this.game = game;//allows access to other services in the game
         this.image = this.shared.getJFX().loadImage(
                 this.getClass(), "barrier_shield.png"
         );
         this.model = new ShieldService();
         this.game.getPhysics().getStatics().add(this);
+        this.model = new ShieldService();//accessing velocity, dimensions and locations of shield
     }
 
+    /**
+     * @param intervalS time difference between the frames, so changes in FPS would not affect velocity of shield
+     *                  function changes shield's location based on left or right arrow keys pressed
+     */
     public void update(Double intervalS) {
         Point.Double position = this.model.getPosition();
         Point velocity = this.model.getVelocity();
@@ -67,6 +77,9 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
         else if(this.rightIsPressed == true){
             position.setLocation(position.getX() + velocity.getX() * intervalS, position.getY());//moves slider to the right
         }
+        else {
+            position.setLocation(position.getX(), position.getY());//no keys pressed so stays still
+        }
         this.shared.getJFX().getScene("game").getValue()
                 .addEventHandler(KeyEvent.KEY_PRESSED,keyEvent);//adds event handler to the game scene on keys pressed
         this.shared.getJFX().getScene("game").getValue()
@@ -83,6 +96,9 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
         );
     }
 
+     * @return position of the shield containing x and y coordinates, 0,0 being top left of the canvas
+    /**
+     */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
 
@@ -92,10 +108,16 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject {
         return this.model.getPosition();
     }
 
+    /**
+     * @return velocity of the shield containing x velocity and y velocity
+     */
     public Point getVelocity() {
         return this.model.getVelocity();
     }
 
+    /**
+     * @return size of the shield containing width and length
+     */
     public Dimension getSize() { return this.model.getSize(); }
 
     /***
