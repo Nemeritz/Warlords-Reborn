@@ -2,6 +2,10 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
+Diagrams are located in the project folder:
+* mvc-diagram.pdf
+* package-diagram.png
+
 ## Dependencies ##
 
 * JDK 1.8+
