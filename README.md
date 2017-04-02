@@ -2,6 +2,10 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
+Diagrams are located in the project folder:
+* mvc-diagram.pdf
+* package-diagram.png
+
 ## Dependencies ##
 
 * JDK 1.8+
@@ -34,6 +38,23 @@ cd /path/to/project
 ```
 
 Ignore warnings on console about mismatching FXML versions.
+
+## Potential Issues ##
+
+If a permission denied error occurs when trying to execute the gradle wrapper, the following command is required.
+
+```bash
+chmod +x gradlew
+```
+
+Special note for uni computers:
+
+If gradle doesn't automatically pick up Java 8 (it did when tested), set the following JAVA_HOME variable.
+
+```bash
+PATH=$JAVA_HOME/jre/bin:$PATH
+export PATH
+```
 
 ## Game Controls ##
 
