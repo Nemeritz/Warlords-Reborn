@@ -26,14 +26,21 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
     private FortService fort;
     private WarlordService model;
 
+    private void setStyle() {
+        if (this.fort.player > 0 && this.fort.player <= 4) {
+            this.image = this.shared.getJFX().loadImage(
+                    this.getClass(), "assets/warlord-" + Integer.toString(this.fort.player) + ".png"
+            );
+        }
+    }
+
     public WarlordComponent(SharedModule shared, GameService game, FortService fort) {
         this.shared = shared;
         this.game = game;
         this.fort = fort;
-        this.image = this.shared.getJFX().loadImage(
-                this.getClass(), "WarlordComponent.png"
-        );
+        this.setStyle();
         this.model = new WarlordService();
+        this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getStatics().add(this);
     }
 

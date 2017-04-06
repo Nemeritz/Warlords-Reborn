@@ -1,16 +1,16 @@
 package warlordstest;
 
-import App.Game.Ball.BallComponent;
 import App.Game.Fort.FortComponent;
-import App.Game.Fort.Shield.ShieldComponent;
 import App.Game.GameComponent;
-import App.Game.GameService;
 import App.Shared.SharedModule;
 import junit.framework.TestSuite;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.awt.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class WarlordsTest extends TestSuite {
@@ -32,11 +32,11 @@ public class WarlordsTest extends TestSuite {
         this.game = game;
         this.ball = game.getBall();
 
-        FortComponent player1Fort = game.addPlayer(1);
-        FortComponent player2Fort = game.addPlayer(2);
+        FortComponent player1Fort = game.addPlayer(1, new Point.Double(0, 0));
+        FortComponent player2Fort = game.addPlayer(2, new Point.Double(736, 480));
 
         this.paddle = player1Fort.getShield();
-        this.player1Wall = player1Fort.getWall();
+        this.player1Wall = player1Fort.getWalls().get(0);
         this.player1 = player1Fort.getWarlord();
         this.player2 = player2Fort.getWarlord();
     }

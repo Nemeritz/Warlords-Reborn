@@ -1,7 +1,5 @@
 package App.Game.Fort.Shield;
 
-import warlordstest.IPaddle;
-
 import java.awt.*;
 
 /**
@@ -17,7 +15,7 @@ public class ShieldService {
     public ShieldService() {
         this.position = new Point.Double(0, 0);
         this.velocity = new Point(100, 100);
-        this.size = new Dimension(100, 20);
+        this.size = new Dimension(72, 72);
     }
 
     /**

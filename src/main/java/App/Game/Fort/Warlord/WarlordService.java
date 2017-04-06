@@ -11,7 +11,7 @@ public class WarlordService {
 
     public WarlordService() {
         this.position = new Point.Double(0, 0);
-        this.size = new Dimension(50,50);
+        this.size = new Dimension(33,47);
     }
 
     public Point.Double getPosition() {

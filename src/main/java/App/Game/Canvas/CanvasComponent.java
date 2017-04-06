@@ -20,7 +20,6 @@ public class CanvasComponent extends Pane {
     @FXML
     private Canvas canvas;
 
-
     /**
      * @param shared contains the JFX scenes
      * @param game contains the current game and allows access to all other services
@@ -41,12 +40,5 @@ public class CanvasComponent extends Pane {
      */
     public GraphicsContext getGraphicsContext() {
         return canvas.getGraphicsContext2D();
-    }
-
-    /**
-     * Clears the canvas.
-     */
-    public void clear() {
-        this.canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 }

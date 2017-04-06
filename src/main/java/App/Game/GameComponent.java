@@ -5,11 +5,11 @@ import App.Game.Canvas.CanvasComponent;
 import App.Game.Fort.FortComponent;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import warlordstest.IGame;
 
+import java.awt.*;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -91,7 +91,7 @@ public class GameComponent extends BorderPane implements IGame, Observer {
             }
         }
 
-        if (this.game.getTimer().currentTimeMs() > this.game.getTimeLimitMs()) {
+        if (this.game.getTimer().currentTimeMs() >= this.game.getTimeLimitMs()) {
             gameEnd = true;
 
             // Placeholder for real win condition under timeout - will be based on score.
@@ -112,12 +112,8 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      */
     private void renderLoop() {
         if (this.game.started) {
-            GraphicsContext context = this.canvas.getGraphicsContext();
-            this.canvas.clear();
-            this.ball.renderOnContext(context);
-            for (FortComponent fort : this.forts.values()) {
-                fort.renderOnContext(context);
-            }
+            this.game.getCanvas().clear();
+            this.game.getCanvas().render();
         }
 
         Double timeS = (double) (this.game.getTimer().currentTimeMs() / 1000);
@@ -130,32 +126,26 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      * game start (like manually testing the object rendering).
      */
     private void setup() {
-        this.ball.getPosition().setLocation(10,10);
-        this.ball.getVelocity().set(100, 100);
+        this.ball.getPosition().setLocation(500,500);
+        this.ball.getVelocity().set(0, 0);
 
-        FortComponent player1 = this.addPlayer(1);
-        FortComponent player2 = this.addPlayer(2);
+        FortComponent player1 = this.addPlayer(1, new Point.Double(0, 0));
+        FortComponent player2 = this.addPlayer(2, new Point.Double(736, 480));
 
         player1.getShield().getPosition().setLocation(300, 300);
         player2.getShield().getPosition().setLocation(700, 600);
-
-        player1.getWall().getPosition().setLocation(200, 200);
-        player2.getWall().getPosition().setLocation(500, 500);
-
-        player1.getWarlord().getPosition().setLocation(100, 400);
-        player2.getWarlord().getPosition().setLocation(400, 400);
     }
 
     public GameComponent(SharedModule shared) {
         this.shared = shared;
         this.game = new GameService();
         this.canvas = new CanvasComponent(this.shared, this.game);
+        this.game.getCanvas().setContext(this.canvas.getGraphicsContext());
         this.ball = new BallComponent(this.shared, this.game);
         this.forts = new TreeMap<>();
         this.shared.getJFX().loadFXML(this, GameComponent.class,
                 "GameComponent.fxml");
         this.setCenter(canvas);
-
         this.lastGameLoopTimeMs = 0;
     }
 
@@ -197,8 +187,8 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      * @param player Player's number, should be positive.
      * @return
      */
-    public FortComponent addPlayer(Integer player) {
-        FortComponent fort = new FortComponent(this.shared, this.game, player);
+    public FortComponent addPlayer(Integer player, Point.Double position) {
+        FortComponent fort = new FortComponent(this.shared, this.game, player, position);
         this.forts.putIfAbsent(player, fort);
         return fort;
     }

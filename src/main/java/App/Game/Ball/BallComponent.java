@@ -30,8 +30,9 @@ public class BallComponent implements IBall, Physical, CanvasObject {
         this.game = game;
         this.model = new BallService();
         this.image = this.shared.getJFX().loadImage(
-                this.getClass(), "BallComponent.png"
+                this.getClass(), "assets/ball.png"
         );
+        this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getKinetics().add(this);
     }
 

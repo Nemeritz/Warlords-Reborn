@@ -1,6 +1,7 @@
 package App.Game.Fort.Wall;
 
 import App.Game.Canvas.CanvasObject;
+import App.Game.Fort.FortService;
 import App.Game.GameService;
 import App.Game.Physics.Physical;
 import App.Shared.SharedModule;
@@ -18,23 +19,31 @@ public class WallComponent implements IWall, Physical, CanvasObject {
     private SharedModule shared;
     private Image image;
     private GameService game;
+    private FortService fort;
     private WallService model;
 
+
+    private void setStyle(Integer style) {
+        if (style > 0 && style <= 7) {
+            this.model.wallStyle = style;
+            this.image = this.shared.getJFX().loadImage(
+                    this.getClass(), "assets/wall-" + style.toString() + ".png"
+            );
+        }
+    }
 
     /**
      * Contructor for Wall
      * @param shared shared module controlling all scenes
      * @param game current game containing all services
      */
-    public WallComponent(SharedModule shared, GameService game) {
-        this.shared = shared;//the module shared with all other components, allows access to scenes
-        this.game = game;//allows access to other services
-        this.image = this.shared.getJFX().loadImage(
-                this.getClass(), "WallComponent.png"
-        );
-        this.model = new WallService();//creates a new wall service when a wall is created
-        this.model = new WallService();
-
+    public WallComponent(SharedModule shared, GameService game, FortService fort, Integer wallStyle) {
+        this.shared = shared; // the module shared with all other components, allows access to scenes
+        this.game = game; // allows access to other services
+        this.fort = fort;
+        this.model = new WallService(); // creates a new wall service when a wall is created
+        this.setStyle(wallStyle);
+        this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getStatics().add(this);
     }
 

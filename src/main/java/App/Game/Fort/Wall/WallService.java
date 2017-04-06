@@ -1,7 +1,5 @@
 package App.Game.Fort.Wall;
 
-import warlordstest.IWall;
-
 import java.awt.*;
 
 /**
@@ -11,6 +9,7 @@ public class WallService {
     private Point.Double position;
     private Dimension size;
     boolean destroyed; // variable showing whether the wall has collided with ball or not
+    int wallStyle;
 
     /**
      * Constructor for WallService, initializes size, dimension and destroyed boolean to false
@@ -18,7 +17,7 @@ public class WallService {
     public WallService() {
         this.position = new Point.Double(0,0);
         this.destroyed = false;
-        this.size = new Dimension(50,50);
+        this.size = new Dimension(36,36);
     }
 
     /**

@@ -27,6 +27,14 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     private boolean leftIsPressed; // indicates if left arrow is pressed
     private boolean rightIsPressed; // indicates if right arrow is pressed
 
+    private void setStyle() {
+        if (this.fort.player > 0 && this.fort.player <= 4) {
+            this.image = this.shared.getJFX().loadImage(
+                    this.getClass(), "assets/shield-" + Integer.toString(this.fort.player) + ".png"
+            );
+        }
+    }
+
     /**
      * Constructor for shield
      * @param shared shared module controlling all scenes
@@ -38,11 +46,10 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         this.shared = shared; // allows access to JFX current scene for adding event handlers
         this.game = game; // allows access to other services in the game
         this.fort = fort; // Allows access to fort services.
-        this.image = this.shared.getJFX().loadImage(
-                this.getClass(), "barrier_shield.png"
-        );
+        this.setStyle();
         this.model = new ShieldService(); // accessing velocity, dimensions and locations of shield
-        this.game.getPhysics().getStatics().add(this);
+        this.game.getCanvas().getCanvasObjects().add(this);
+        this.game.getPhysics().getKinetics().add(this);
         this.shared.getJFX().addEventReceiver(this);
     }
 
