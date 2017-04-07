@@ -1,5 +1,6 @@
 package App.Game.Fort.Wall;
 
+import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortService;
 import App.Game.GameService;
@@ -76,8 +77,10 @@ public class WallComponent implements IWall, Physical, CanvasObject {
      */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
-        this.model.destroyed = true;
-        this.game.getPhysics().getStatics().remove(this);
+        if (BallComponent.class.isInstance(object)) {
+            this.model.destroyed = true;
+            this.game.getPhysics().getStatics().remove(this);
+        }
     }
 
     public void setDestroyed (Boolean value) {

@@ -129,11 +129,8 @@ public class GameComponent extends BorderPane implements IGame, Observer {
         this.ball.getPosition().setLocation(500,500);
         this.ball.getVelocity().set(0, 0);
 
-        FortComponent player1 = this.addPlayer(1, new Point.Double(0, 0));
-        FortComponent player2 = this.addPlayer(2, new Point.Double(736, 480));
-
-        player1.getShield().getPosition().setLocation(300, 300);
-        player2.getShield().getPosition().setLocation(700, 600);
+        FortComponent player1 = this.addPlayer(1, 1, new Point.Double(0, 0));
+        FortComponent player2 = this.addPlayer(2, 4, new Point.Double(736, 480));
     }
 
     public GameComponent(SharedModule shared) {
@@ -179,6 +176,7 @@ public class GameComponent extends BorderPane implements IGame, Observer {
         this.game.started = true;
         this.game.getTimer().getFrame().addObserver(this);
         this.game.getTimer().start();
+        this.game.gameState = GameState.PREGAME;
     }
 
 
@@ -187,8 +185,8 @@ public class GameComponent extends BorderPane implements IGame, Observer {
      * @param player Player's number, should be positive.
      * @return
      */
-    public FortComponent addPlayer(Integer player, Point.Double position) {
-        FortComponent fort = new FortComponent(this.shared, this.game, player, position);
+    public FortComponent addPlayer(Integer player, Integer orientation, Point.Double position) {
+        FortComponent fort = new FortComponent(this.shared, this.game, player, orientation, position);
         this.forts.putIfAbsent(player, fort);
         return fort;
     }

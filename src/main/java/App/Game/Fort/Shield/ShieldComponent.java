@@ -7,6 +7,7 @@ import App.Game.GameService;
 import App.Game.Physics.Physical;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
+import com.sun.javafx.geom.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -24,8 +25,8 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     private FortService fort;
     private Image image;
     private ShieldService model;
-    private boolean leftIsPressed; // indicates if left arrow is pressed
-    private boolean rightIsPressed; // indicates if right arrow is pressed
+    private boolean leftPressed; // indicates if left arrow is pressed
+    private boolean rightPressed; // indicates if right arrow is pressed
 
     private void setStyle() {
         if (this.fort.player > 0 && this.fort.player <= 4) {
@@ -41,8 +42,8 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
      * @param game current game containing all services
      */
     public ShieldComponent(SharedModule shared, GameService game, FortService fort) {
-        this.leftIsPressed = false; // shield stays still at the start
-        this.rightIsPressed = false;
+        this.leftPressed = false; // shield stays still at the start
+        this.rightPressed = false;
         this.shared = shared; // allows access to JFX current scene for adding event handlers
         this.game = game; // allows access to other services in the game
         this.fort = fort; // Allows access to fort services.
@@ -59,17 +60,35 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
      */
     public void update(Double intervalS) {
         Point.Double position = this.model.getPosition();
-        Point velocity = this.model.getVelocity();
 
-        if (this.leftIsPressed) {
-            position.setLocation(position.x - velocity.x * intervalS, position.y); // moves slider to the left
+        // Figure out the positioning of the shield on the virtual 'rail' that runs along the center of the fort walls.
+        double railMin = -(this.fort.getSize().width - (double) this.model.getSize().width);
+        double railMax = this.fort.getSize().height - (double) this.model.getSize().height;
+
+        this.model.railPosition += this.model.railSpeed * (this.fort.mirrorY ? -1 : 1) * intervalS;
+
+        if (this.model.railPosition < railMin) {
+            this.model.railPosition = railMin;
+            this.model.railSpeed = 0;
         }
-        else if (this.rightIsPressed) {
-            position.setLocation(position.x + velocity.x * intervalS, position.y); // moves slider to the right
+        else if (this.model.railPosition > railMax) {
+            this.model.railPosition = railMax;
+            this.model.railSpeed = 0;
         }
-        else {
-            position.setLocation(position.x, position.y); // no keys pressed so stays still
-        }
+
+        double railMinMod = railMin * (this.fort.mirrorX ? 0 : 1);
+        double railMaxMod = railMax * (this.fort.mirrorY ? 0 : 1);
+        double railPositionModX = this.model.railPosition * (this.fort.mirrorX ? -1 : 1);
+        double railPositionModY = this.model.railPosition * (this.fort.mirrorY ? -1 : 1);
+
+        position.setLocation(
+                this.model.railPosition < 0 ?
+                        this.fort.getPosition().x - (railMinMod - railPositionModX) :
+                        this.fort.getPosition().x - railMinMod,
+                this.model.railPosition > 0 ?
+                        this.fort.getPosition().y + (railMaxMod - railPositionModY) :
+                        this.fort.getPosition().y + railMaxMod
+        );
     }
 
     /**
@@ -102,18 +121,83 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
      */
     @Override
     public void onKeyEvent(KeyEvent event) {
-        if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_PRESSED) {
-            leftIsPressed = true; // If left arrow key is pressed
+        switch(this.fort.player) {
+            case 1:
+                if (event.getCode() == KeyCode.Q) {
+                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                        this.leftPressed = true;
+                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                        this.leftPressed = false;
+                    }
+                }
+                else if (event.getCode() == KeyCode.W) {
+                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                        this.rightPressed = true;
+                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                        this.rightPressed = false;
+                    }
+                }
+                break;
+            case 2:
+                if (event.getCode() == KeyCode.V) {
+                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                        this.leftPressed = true;
+                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                        this.leftPressed = false;
+                    }
+                }
+                else if (event.getCode() == KeyCode.B) {
+                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                        this.rightPressed = true;
+                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                        this.rightPressed = false;
+                    }
+                }
+                break;
+            case 3:
+                if (event.getCode() == KeyCode.BRACELEFT) {
+                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                        this.leftPressed = true;
+                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                        this.leftPressed = false;
+                    }
+                }
+                else if (event.getCode() == KeyCode.BRACERIGHT) {
+                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                        this.rightPressed = true;
+                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                        this.rightPressed = false;
+                    }
+                }
+                break;
+            case 4:
+                if (event.getCode() == KeyCode.LEFT) {
+                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                        this.leftPressed = true;
+                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                        this.leftPressed = false;
+                    }
+                }
+                else if (event.getCode() == KeyCode.RIGHT) {
+                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                        this.rightPressed = true;
+                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                        this.rightPressed = false;
+                    }
+                }
+                break;
         }
-        else if (event.getCode() == KeyCode.LEFT && event.getEventType() == KeyEvent.KEY_RELEASED) {
-            leftIsPressed = false; // If left arrow key is released
+
+        int newRailSpeed = 0;
+
+        if (leftPressed) {
+            newRailSpeed += -400;
         }
-        else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_PRESSED) {
-            rightIsPressed = true; // If right arrow key is pressed
+        if (rightPressed) {
+            newRailSpeed += 400;
         }
-        else if (event.getCode() == KeyCode.RIGHT && event.getEventType() == KeyEvent.KEY_RELEASED) {
-            rightIsPressed = false; // If right arrow key is released
-        }
+
+        this.model.railSpeed = newRailSpeed;
     }
 
     /**
@@ -127,7 +211,7 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     /**
      * @return velocity of the shield containing x velocity and y velocity
      */
-    public Point getVelocity() {
+    public Vec2d getVelocity() {
         return this.model.getVelocity();
     }
 

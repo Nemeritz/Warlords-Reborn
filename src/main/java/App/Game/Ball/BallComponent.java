@@ -44,8 +44,8 @@ public class BallComponent implements IBall, Physical, CanvasObject {
         Point.Double position = this.model.getPosition();
         Vec2d velocity = this.model.getVelocity();
         position.setLocation(
-                position.x + velocity.x * intervalS,
-                position.y + velocity.y * intervalS
+            position.x + velocity.x * intervalS,
+            position.y + velocity.y * intervalS
         );
     }
 

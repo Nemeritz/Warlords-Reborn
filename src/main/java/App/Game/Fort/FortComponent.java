@@ -24,7 +24,22 @@ public class FortComponent {
     private List<WallComponent> walls;
     private ShieldComponent shield;
 
-    private void setup() {
+    private void setup(Integer orientation) {
+        switch (orientation) {
+            case 2:
+                this.fort.mirrorX = true;
+                break;
+            case 3:
+                this.fort.mirrorY = true;
+                break;
+            case 4:
+                this.fort.mirrorX = true;
+                this.fort.mirrorY = true;
+                break;
+            default:
+                break;
+        }
+
         this.walls = new ArrayList<>();
 
         Point.Double fortPosition = this.fort.getPosition();
@@ -61,8 +76,6 @@ public class FortComponent {
             this.walls.add(newWall);
         }
 
-        this.fort.getSize().setSize(size);
-
         newWall = new WallComponent(this.shared, this.game, this.fort, 5);
         newWall.getPosition().setLocation(position);
         size.height += newWall.getSize().height;
@@ -92,7 +105,30 @@ public class FortComponent {
                 fortPosition.y + (size.height / 2) - ((double) this.warlord.getSize().height) / 2
         );
 
+
         this.shield = new ShieldComponent(this.shared, this.game, this.fort); // creates a shield
+
+        this.shield.getPosition().setLocation(
+                fortPosition.x + size.width * (this.fort.mirrorX ? 0 : 1) -
+                        (((double) this.walls.get(15).getSize().width) /  2 +
+                        ((double) this.shield.getSize().width) * (this.fort.mirrorX ? 0 : 1) / 2),
+                fortPosition.y + size.height * (this.fort.mirrorY ? 0 : 1) -
+                        (((double) this.walls.get(15).getSize().height) / 2 +
+                        ((double) this.shield.getSize().height) * (this.fort.mirrorY ? 0 : 1) / 2)
+        );
+
+        double shieldWallDiffW = ((double) this.shield.getSize().width) / 2 -
+                ((double) this.walls.get(15).getSize().width) / 2;
+        double shieldWallDiffH = ((double) this.shield.getSize().height) / 2 -
+                ((double) this.walls.get(15).getSize().height) / 2;
+
+        size.width += shieldWallDiffW;
+        size.height += shieldWallDiffH;
+        fortPosition.setLocation(
+                position.x + (this.fort.mirrorX ? -shieldWallDiffW : 0),
+                position.y + (this.fort.mirrorY ? -shieldWallDiffH : 0)
+        );
+        this.fort.getSize().setSize(size);
     }
 
     /**
@@ -100,12 +136,13 @@ public class FortComponent {
      * @param shared shared module controlling all scenes
      * @param game current game containing all services
      */
-    public FortComponent(SharedModule shared, GameService game, Integer player, Point.Double position) {
+    public FortComponent(SharedModule shared, GameService game, Integer player,
+                         Integer orientation, Point.Double position) {
         this.shared = shared;
         this.game = game;
         this.fort = new FortService(player);
         this.fort.getPosition().setLocation(position);
-        this.setup();
+        this.setup(orientation);
     }
 
     /**

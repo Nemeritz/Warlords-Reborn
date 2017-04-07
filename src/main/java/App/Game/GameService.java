@@ -18,6 +18,7 @@ public class GameService {
     boolean finished; // true if game finished
     int fortSurvivalThreshold;
     double schedulerInterval;
+    GameState gameState;
     private Long timeLimitMs; // time in Ms the game is allowed to go on for before finishing
     private Dimension worldBounds; // boundaries of the game
 
@@ -35,6 +36,7 @@ public class GameService {
 
         this.started = false;
         this.finished = false;
+        this.gameState = GameState.SETUP;
         this.timeLimitMs = 180000L;
         this.fortSurvivalThreshold = 1; // One player remaining threshold by default
         this.schedulerInterval = 1.0/60;

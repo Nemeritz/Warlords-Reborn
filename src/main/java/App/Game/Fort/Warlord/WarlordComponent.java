@@ -4,6 +4,7 @@ package App.Game.Fort.Warlord;
  * Created by Hanliang Ding(Chris) on 30/03/17.
  */
 
+import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortService;
 import App.Game.GameService;
@@ -72,8 +73,10 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
      */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
-        this.fort.destroyed = true;
-        this.game.getPhysics().getStatics().remove(this);
+        if (BallComponent.class.isInstance(object)) {
+            this.fort.destroyed = true;
+            this.game.getPhysics().getStatics().remove(this);
+        }
     }
 
     /**

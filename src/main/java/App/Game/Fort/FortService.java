@@ -11,6 +11,8 @@ public class FortService {
     public int player;
     public boolean destroyed;
     public boolean winner;
+    public boolean mirrorX;
+    public boolean mirrorY;
     private Point.Double position;
     private Dimension size;
 
@@ -22,6 +24,8 @@ public class FortService {
         this.size = new Dimension(0, 0);
         this.player = player;
         this.winner = false;
+        this.mirrorX = false;
+        this.mirrorY = false;
         this.destroyed = false;
     }
 
