@@ -50,10 +50,14 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable 
         );
     }
 
+    public Integer getLastDeflectedBy() {
+        return this.model.lastDeflectedBy;
+    }
+
     /**
      * @param player the player who last touched the ball
      */
-    public void setLastDeflectedBy(int player) {
+    public void setLastDeflectedBy(Integer player) {
         this.model.lastDeflectedBy = player;
     }
 

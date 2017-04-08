@@ -13,6 +13,7 @@ public class FortService {
     public boolean winner;
     public boolean mirrorX;
     public boolean mirrorY;
+    public int score;
     private Point.Double position;
     private Dimension size;
 
@@ -22,6 +23,7 @@ public class FortService {
     public FortService(int player) {
         this.position = new Point.Double(0, 0);
         this.size = new Dimension(0, 0);
+        this.score = 0;
         this.player = player;
         this.winner = false;
         this.mirrorX = false;

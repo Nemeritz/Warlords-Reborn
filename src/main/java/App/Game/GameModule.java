@@ -2,6 +2,7 @@ package App.Game;
 
 import App.Game.Canvas.CanvasService;
 import App.Game.Physics.PhysicsService;
+import App.Game.Score.ScoreService;
 import App.Game.Timer.TimerService;
 
 import java.awt.*;
@@ -13,6 +14,7 @@ import java.awt.*;
  * Created by Jerry Fan on 27/03/2017.
  */
 public class GameModule {
+    private ScoreService score;
     private TimerService timer;
     private PhysicsService physics;
     private CanvasService canvas;
@@ -24,8 +26,13 @@ public class GameModule {
         this.timer = new TimerService();
         this.physics = new PhysicsService();
         this.canvas = new CanvasService();
+        this.score = new ScoreService();
 
         this.physics.setWorldBounds(new Dimension(1024, 768));
+    }
+
+    public ScoreService getScore() {
+        return this.score;
     }
 
     /**

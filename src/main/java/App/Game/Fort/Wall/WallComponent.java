@@ -81,6 +81,11 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable 
         if (BallComponent.class.isInstance(object)) {
             this.model.destroyed = true;
             this.game.getPhysics().getStatics().remove(this);
+
+            BallComponent ball = (BallComponent) object;
+            if (ball.getLastDeflectedBy() != null) {
+                this.game.getScore().getScoreKeeper(ball.getLastDeflectedBy()).increaseScore(100);
+            }
         }
     }
 

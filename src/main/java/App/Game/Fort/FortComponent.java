@@ -5,6 +5,7 @@ import App.Game.Fort.Wall.WallComponent;
 import App.Game.Fort.Warlord.WarlordComponent;
 import App.Game.GameModule;
 import App.Game.Physics.Physical;
+import App.Game.Score.ScoreKeeper;
 import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by Jerry Fan on 31/03/2017.
  */
-public class FortComponent implements Disposable {
+public class FortComponent implements Disposable, ScoreKeeper {
     private SharedModule shared;
     private GameModule game;
     private FortService fort;
@@ -143,6 +144,7 @@ public class FortComponent implements Disposable {
         this.game = game;
         this.fort = new FortService(player);
         this.fort.getPosition().setLocation(position);
+        this.game.getScore().getScoreKeepers().add(this);
         this.setup(orientation);
     }
 
@@ -168,6 +170,16 @@ public class FortComponent implements Disposable {
         components.addAll(this.walls);
         components.add(this.shield);
         return components;
+    }
+
+    @Override
+    public void increaseScore(int value) {
+        this.fort.score += Math.abs(value);
+    }
+
+    @Override
+    public int getPlayer() {
+        return this.fort.player;
     }
 
     /**
@@ -206,9 +218,11 @@ public class FortComponent implements Disposable {
         this.warlord.setWinner(value);
     }
 
+    @Override
     public void dispose() {
         this.warlord.dispose();
         this.walls.forEach(WallComponent::dispose);
         this.shield.dispose();
+        this.game.getScore().getScoreKeepers().remove(this);
     }
 }

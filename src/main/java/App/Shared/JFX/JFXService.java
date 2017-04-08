@@ -1,7 +1,7 @@
 package App.Shared.JFX;
 
 import App.Shared.Observables.ObservableScene;
-import App.Shared.SharedSettingsModule;
+import App.Shared.Settings.SettingsService;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,10 +11,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.io.File;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 import java.util.Set;
@@ -35,7 +33,7 @@ public class JFXService {
     private Media music;
     private MediaPlayer soundMediaPlayer;
     private Media sound;
-    private SharedSettingsModule sharedSettings;
+    private SettingsService sharedSettings;
     public boolean active; // Must currently be manually set to true.
 
 
@@ -60,7 +58,6 @@ public class JFXService {
         this.scenes = new ConcurrentHashMap<>();
         this.sceneChange = new ObservableScene();
         this.eventReceivers = new CopyOnWriteArraySet<>();
-        this.sharedSettings = new SharedSettingsModule();
     }
 
 
@@ -156,7 +153,7 @@ public class JFXService {
     	 }
     	 this.music = new Media(classType.getResource("Media/"+musicName).toString());
     	 this.musicMediaPlayer = new MediaPlayer(this.music);
-    	 this.musicMediaPlayer.setVolume(this.sharedSettings.getMusicVolume());
+    	 this.musicMediaPlayer.setVolume(this.sharedSettings.musicVolume);
     	 this.musicMediaPlayer.play();
     	 this.musicMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
     }
@@ -171,7 +168,7 @@ public class JFXService {
     public void loadSound( Class<?> classType, String musicName) {
         this.sound = new Media(classType.getResource("Media/"+musicName).toString());
         this.soundMediaPlayer = new MediaPlayer(this.sound);
-        this.soundMediaPlayer.setVolume(this.sharedSettings.getSoundEffectsVolume());
+        this.soundMediaPlayer.setVolume(this.sharedSettings.soundEffectsVolume);
         this.soundMediaPlayer.play();
     }
 
@@ -182,7 +179,7 @@ public class JFXService {
         return null;
     }
 
-    public SharedSettingsModule getSharedSettings() {
+    public SettingsService getSharedSettings() {
     	return this.sharedSettings;
     }
 

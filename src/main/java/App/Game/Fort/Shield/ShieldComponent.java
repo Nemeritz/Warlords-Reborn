@@ -113,6 +113,11 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
             BallComponent ball = (BallComponent) object;
+
+            if (ball.getLastDeflectedBy() != null) {
+                this.game.getScore().getScoreKeeper(ball.getLastDeflectedBy()).increaseScore(10);
+            }
+
             ball.setLastDeflectedBy(fort.player);
         }
     }

@@ -11,7 +11,7 @@ public class BallService {
     private Point.Double position;
     private Vec2d velocity;
     private Dimension size;
-    public int lastDeflectedBy; // Last player to hit the ball
+    public Integer lastDeflectedBy; // Last player to hit the ball
 
     public BallService() {
         this.position = new Point.Double(0, 0);

@@ -1,21 +1,11 @@
 package App.Menu.GameSettings;
 
-import App.Game.GameComponent;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.control.Slider;
-import javafx.scene.control.CheckBox;
-import javafx.event.ActionEvent;
-
-import java.io.IOException;
-import java.util.AbstractMap.SimpleImmutableEntry;
 
 
 public class GameSettingsComponent extends BorderPane {
@@ -37,10 +27,10 @@ public class GameSettingsComponent extends BorderPane {
         this.shared.getJFX().loadFXML(this, GameSettingsComponent.class,
                 "GameSettingsComponent.fxml");
         this.VolumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-        	this.shared.getJFX().getSharedSettings().setMusicVolume(((double)newValue)/100);
-        	this.shared.getJFX().getSharedSettings().setSoundEffectsVolume(((double)newValue)/100);
-        	this.shared.getJFX().getMusic().setVolume(this.shared.getJFX().getSharedSettings().getMusicVolume());
-        	this.shared.getJFX().getSound().setVolume(this.shared.getJFX().getSharedSettings().getSoundEffectsVolume());
+        	this.shared.getJFX().getSharedSettings().musicVolume = (((double)newValue)/100);
+        	this.shared.getJFX().getSharedSettings().soundEffectsVolume = (((double)newValue)/100);
+        	this.shared.getJFX().getMusic().setVolume(this.shared.getJFX().getSharedSettings().musicVolume);
+        	this.shared.getJFX().getSound().setVolume(this.shared.getJFX().getSharedSettings().soundEffectsVolume);
         });
     }
 
