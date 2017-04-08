@@ -37,8 +37,10 @@ public class GameSettingsComponent extends BorderPane {
         this.shared.getJFX().loadFXML(this, GameSettingsComponent.class,
                 "GameSettingsComponent.fxml");
         this.VolumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-        	this.shared.getJFX().getMusic().setVolume(((double)newValue)/100);
-        	this.shared.getJFX().getSound().setVolume(((double)newValue)/100);
+        	this.shared.getJFX().getSharedSettings().setMusicVolume(((double)newValue)/100);
+        	this.shared.getJFX().getSharedSettings().setSoundEffectsVolume(((double)newValue)/100);
+        	this.shared.getJFX().getMusic().setVolume(this.shared.getJFX().getSharedSettings().getMusicVolume());
+        	this.shared.getJFX().getSound().setVolume(this.shared.getJFX().getSharedSettings().getSoundEffectsVolume());
         });
     }
 
@@ -60,20 +62,21 @@ public class GameSettingsComponent extends BorderPane {
     @FXML
     	void onEffectsClicked(){
     	if (this.EffectsBox.isSelected()) {
-        	this.shared.getJFX().getSound().setVolume(0);
+        	this.shared.getJFX().getSound().stop();
     	}
     	else{
-        	this.shared.getJFX().getSound().setVolume(1);
+        	this.shared.getJFX().getSound().play();
     	}
     }
 
     @FXML
 		void onMusicClicked(){
+
     	if (this.EffectsBox.isSelected()) {
-    		this.shared.getJFX().getMusic().setVolume(0);
+    		this.shared.getJFX().getMusic().pause();
     	}
     	else {
-    		this.shared.getJFX().getSound().setVolume(1);
+    		this.shared.getJFX().getMusic().play();
     	}
     }
 }

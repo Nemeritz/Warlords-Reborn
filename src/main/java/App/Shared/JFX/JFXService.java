@@ -1,6 +1,7 @@
 package App.Shared.JFX;
 
 import App.Shared.Observables.ObservableScene;
+import App.Shared.SharedSettingsModule;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,6 +35,7 @@ public class JFXService {
     private Media music;
     private MediaPlayer soundMediaPlayer;
     private Media sound;
+    private SharedSettingsModule sharedSettings;
     public boolean active; // Must currently be manually set to true.
 
 
@@ -58,6 +60,7 @@ public class JFXService {
         this.scenes = new ConcurrentHashMap<>();
         this.sceneChange = new ObservableScene();
         this.eventReceivers = new CopyOnWriteArraySet<>();
+        this.sharedSettings = new SharedSettingsModule();
     }
 
 
@@ -153,6 +156,7 @@ public class JFXService {
     	 }
     	 this.music = new Media(classType.getResource("Media/"+musicName).toString());
     	 this.musicMediaPlayer = new MediaPlayer(this.music);
+    	 this.musicMediaPlayer.setVolume(this.sharedSettings.getMusicVolume());
     	 this.musicMediaPlayer.play();
     	 this.musicMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
     }
@@ -167,6 +171,7 @@ public class JFXService {
     public void loadSound( Class<?> classType, String musicName) {
         this.sound = new Media(classType.getResource("Media/"+musicName).toString());
         this.soundMediaPlayer = new MediaPlayer(this.sound);
+        this.soundMediaPlayer.setVolume(this.sharedSettings.getSoundEffectsVolume());
         this.soundMediaPlayer.play();
     }
 
@@ -175,6 +180,10 @@ public class JFXService {
             return this.soundMediaPlayer;
         }
         return null;
+    }
+
+    public SharedSettingsModule getSharedSettings() {
+    	return this.sharedSettings;
     }
 
     /**

@@ -41,7 +41,7 @@
                <Text text="Sound Effects"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               <CheckBox  fx:id="EffectsBox" onMouseClicked="#onEffectsClicked"></CheckBox>
+               <CheckBox  fx:id="EffectsBox" onMousePressed="#onEffectsClicked"></CheckBox>
             </HBox>
          </HBox>
 
@@ -50,7 +50,7 @@
                <Text text="Music"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               <CheckBox fx:id="MusicBox" onMouseClicked="#onMusicClicked"></CheckBox>
+               <CheckBox fx:id="MusicBox" onMouseReleased="#onMusicClicked"></CheckBox>
             </HBox>
          </HBox>
 
