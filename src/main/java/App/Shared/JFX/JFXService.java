@@ -8,8 +8,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +30,10 @@ public class JFXService {
     private Map<String,SimpleImmutableEntry<Parent, Scene>> scenes;
     private Set<EventReceiver> eventReceivers;
     private EventHandler<KeyEvent> keyEventHandler;
+    private MediaPlayer musicMediaPlayer;
+    private Media music;
+    private MediaPlayer soundMediaPlayer;
+    private Media sound;
     public boolean active; // Must currently be manually set to true.
 
 
@@ -139,6 +147,36 @@ public class JFXService {
             this.stage.setScene(scene);
             this.sceneChange.setScene(scene);
         }
+    }
+
+    public void loadMusic( Class<?> classType, String musicName) {
+    	 if(this.musicMediaPlayer != null){
+    	 this.musicMediaPlayer.stop();
+    	 }
+    	 this.music = new Media(classType.getResource("Media/"+musicName).toString());
+    	 this.musicMediaPlayer = new MediaPlayer(this.music);
+    	 this.musicMediaPlayer.play();
+    	 this.musicMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+    }
+
+    public MediaPlayer getMusic() {
+        if(this.musicMediaPlayer != null) {
+            return this.musicMediaPlayer;
+        }
+        return null;
+    }
+
+    public void loadSound( Class<?> classType, String musicName) {
+        this.sound = new Media(classType.getResource("Media/"+musicName).toString());
+        this.soundMediaPlayer = new MediaPlayer(this.sound);
+        this.soundMediaPlayer.play();
+    }
+
+    public MediaPlayer getSound() {
+        if(this.soundMediaPlayer != null) {
+            return this.soundMediaPlayer;
+        }
+        return null;
     }
 
     /**

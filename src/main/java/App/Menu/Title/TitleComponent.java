@@ -50,17 +50,19 @@ public class TitleComponent extends BorderPane {
      */
     @FXML
     void onPlayClicked() {
-
         this.shared.getJFX().setScene("game");
         ((GameComponent) this.shared.getJFX().getScene("game").getKey())
                 .startGameCountdown();
+        this.shared.getJFX().loadSound(this.shared.getClass(), "Button.mp3");
+        this.shared.getJFX().loadMusic(this.shared.getClass(), "MenuMusicBackup.mp3");
     }
 
     /**
-     * exits the game when cliced, closing scenes
+     * exits the game when clicked, closing scenes
      */
     @FXML
     void onExitClicked() {
+    	this.shared.getJFX().loadSound(this.shared.getClass(), "Button.mp3");
     	this.shared.getJFX().closeStage();
     }
 
@@ -70,5 +72,6 @@ public class TitleComponent extends BorderPane {
     @FXML
     void onSettingsClicked() {
         this.shared.getJFX().setScene("settings");
+        this.shared.getJFX().loadSound(this.shared.getClass(), "Button.mp3");
     }
 }

@@ -6,9 +6,11 @@ package App;
 
 import App.Game.GameComponent;
 import App.Menu.MenuComponent;
+import App.Menu.GameSettings.GameSettingsComponent;
 import App.Shared.SharedModule;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.io.File;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 
@@ -34,6 +36,11 @@ public class AppModule {
          Scene gameScene = new Scene(game);
          this.shared.getJFX().putScene("game",
                  new SimpleImmutableEntry<>(game, gameScene));
+
+        GameSettingsComponent settings = new GameSettingsComponent(this.shared);
+        Scene settingsScene = new Scene(settings);
+        this.shared.getJFX().putScene("settings",
+                new SimpleImmutableEntry<>(settings, settingsScene));
     }
 
     /**
@@ -49,6 +56,9 @@ public class AppModule {
 
         // Initially change scene to the menu
         this.shared.getJFX().setScene("menu");
+
+        // Initial Menu music
+        this.shared.getJFX().loadMusic(this.shared.getClass(), "MenuMusic.mp3");
 
         stage.show();
     }

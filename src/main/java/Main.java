@@ -1,7 +1,6 @@
 import App.AppModule;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 /**
  * Main class for the application, launches the JavaFX render process.
  * Created by Jerry Fan on 21/03/2017.
