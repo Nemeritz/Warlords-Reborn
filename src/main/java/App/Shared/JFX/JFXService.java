@@ -62,11 +62,9 @@ public class JFXService {
 
 
     /**
-     * Adds a receiver object to be notified on keypress.
-     * @param receiver The receiver object that implements EventReceiver.
      */
-    public void addEventReceiver(EventReceiver receiver) {
-        this.eventReceivers.add(receiver);
+    public Set<EventReceiver> getEventReceivers() {
+        return this.eventReceivers;
     }
 
     /**

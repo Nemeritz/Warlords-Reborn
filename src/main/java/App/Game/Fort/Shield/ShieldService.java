@@ -1,6 +1,6 @@
 package App.Game.Fort.Shield;
 
-import warlordstest.IPaddle;
+import com.sun.javafx.geom.Vec2d;
 
 import java.awt.*;
 
@@ -8,16 +8,20 @@ import java.awt.*;
  * Created by Jerry Fan on 30/03/2017.
  */
 public class ShieldService {
+    public double railPosition;
+    public double railSpeed;
     private Point.Double position;
-    private Point velocity;
+    private Vec2d velocity;
     private Dimension size;
     /**
      * Constructor for ShieldService, initializes size, dimension and destroyed boolean to false
      */
     public ShieldService() {
+        this.railPosition = 0;
+        this.railSpeed = 0;
         this.position = new Point.Double(0, 0);
-        this.velocity = new Point(100, 100);
-        this.size = new Dimension(100, 20);
+        this.velocity = new Vec2d(0, 0);
+        this.size = new Dimension(72, 72);
     }
 
     /**
@@ -30,7 +34,7 @@ public class ShieldService {
     /**
      * @return velocity of the shield, contains x and y velocities
      */
-    public Point getVelocity() {
+    public Vec2d getVelocity() {
         return this.velocity;
     }
 

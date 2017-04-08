@@ -121,6 +121,10 @@ public class PhysicsService {
         this.kinetics = new CopyOnWriteArraySet<>();
     }
 
+    public Rectangle2D.Double getWorldBounds() {
+        return this.worldBounds;
+    }
+
     /**
      * @param d width and height of the game boundary
      */

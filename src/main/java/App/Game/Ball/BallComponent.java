@@ -1,8 +1,9 @@
 package App.Game.Ball;
 
 import App.Game.Canvas.CanvasObject;
-import App.Game.GameService;
+import App.Game.GameModule;
 import App.Game.Physics.Physical;
+import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 import com.sun.javafx.geom.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,9 +15,9 @@ import java.awt.*;
 /**
  * Created by Jerry Fan on 26/03/2017.
  */
-public class BallComponent implements IBall, Physical, CanvasObject {
+public class BallComponent implements IBall, Physical, CanvasObject, Disposable {
     private SharedModule shared;
-    private GameService game;
+    private GameModule game;
     private Image image;
     private BallService model;
 
@@ -25,13 +26,14 @@ public class BallComponent implements IBall, Physical, CanvasObject {
      * @param shared access to JFX scenes and stages
      * @param game access to other services
      */
-    public BallComponent(SharedModule shared, GameService game) {
+    public BallComponent(SharedModule shared, GameModule game) {
         this.shared = shared;
         this.game = game;
         this.model = new BallService();
         this.image = this.shared.getJFX().loadImage(
-                this.getClass(), "BallComponent.png"
+                this.getClass(), "assets/ball.png"
         );
+        this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getKinetics().add(this);
     }
 
@@ -43,8 +45,8 @@ public class BallComponent implements IBall, Physical, CanvasObject {
         Point.Double position = this.model.getPosition();
         Vec2d velocity = this.model.getVelocity();
         position.setLocation(
-                position.x + velocity.x * intervalS,
-                position.y + velocity.y * intervalS
+            position.x + velocity.x * intervalS,
+            position.y + velocity.y * intervalS
         );
     }
 
@@ -177,4 +179,8 @@ public class BallComponent implements IBall, Physical, CanvasObject {
         return ((int) this.model.getVelocity().y);
     }
 
+    public void dispose() {
+        this.game.getCanvas().getCanvasObjects().remove(this);
+        this.game.getPhysics().getKinetics().remove(this);
+    }
 }

@@ -4,10 +4,12 @@ package App.Game.Fort.Warlord;
  * Created by Hanliang Ding(Chris) on 30/03/17.
  */
 
+import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortService;
-import App.Game.GameService;
+import App.Game.GameModule;
 import App.Game.Physics.Physical;
+import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -19,21 +21,28 @@ import java.awt.*;
 /**
  * Created by Hanliang Ding(Chris) on 28/03/17.
  */
-public class WarlordComponent implements IWarlord, Physical, CanvasObject {
+public class WarlordComponent implements IWarlord, Physical, CanvasObject, Disposable {
     private SharedModule shared;
     private Image image;
-    private GameService game;
+    private GameModule game;
     private FortService fort;
     private WarlordService model;
 
-    public WarlordComponent(SharedModule shared, GameService game, FortService fort) {
+    private void setStyle() {
+        if (this.fort.player > 0 && this.fort.player <= 4) {
+            this.image = this.shared.getJFX().loadImage(
+                    this.getClass(), "assets/warlord-" + Integer.toString(this.fort.player) + ".png"
+            );
+        }
+    }
+
+    public WarlordComponent(SharedModule shared, GameModule game, FortService fort) {
         this.shared = shared;
         this.game = game;
         this.fort = fort;
-        this.image = this.shared.getJFX().loadImage(
-                this.getClass(), "WarlordComponent.png"
-        );
+        this.setStyle();
         this.model = new WarlordService();
+        this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getStatics().add(this);
     }
 
@@ -65,8 +74,10 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
      */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
-        this.fort.destroyed = true;
-        this.game.getPhysics().getStatics().remove(this);
+        if (BallComponent.class.isInstance(object)) {
+            this.fort.destroyed = true;
+            this.game.getPhysics().getStatics().remove(this);
+        }
     }
 
     /**
@@ -119,5 +130,11 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
     @Override
     public boolean isDead(){
         return this.fort.destroyed;
+    }
+
+    @Override
+    public void dispose() {
+        this.game.getCanvas().getCanvasObjects().remove(this);
+        this.game.getPhysics().getStatics().remove(this);
     }
 }
