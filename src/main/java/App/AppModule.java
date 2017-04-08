@@ -58,7 +58,7 @@ public class AppModule {
         this.shared.getJFX().setScene("menu");
 
         // Initial Menu music
-        this.shared.getJFX().loadMusic(this.shared.getClass(), "MenuMusic.mp3");
+        //this.shared.getJFX().loadMusic(this.shared.getClass(), "MenuMusic.mp3");
 
         stage.show();
     }
