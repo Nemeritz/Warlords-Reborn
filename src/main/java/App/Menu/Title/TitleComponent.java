@@ -46,15 +46,12 @@ public class TitleComponent extends BorderPane {
     }
 
     /**
-     * transitions scene to game scene when clicked
+     * transitions scene to match options when clicked
      */
     @FXML
     void onPlayClicked() {
-        this.shared.getJFX().setScene("game");
-        ((GameComponent) this.shared.getJFX().getScene("game").getKey())
-                .startGameCountdown();
+        this.shared.getJFX().setScene("options");
         this.shared.getJFX().loadSound(this.shared.getClass(), "Button.mp3");
-        this.shared.getJFX().loadMusic(this.shared.getClass(), "MenuMusicBackup.mp3");
     }
 
     /**

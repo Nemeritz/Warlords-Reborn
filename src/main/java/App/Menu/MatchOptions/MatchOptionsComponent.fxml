@@ -1,1 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<fx:root prefHeight="728" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.114" xmlns:fx="http://javafx.com/fxml/1">
+   <stylesheets>
+      <URL value="@MatchOptionsComponent.css" />
+   </stylesheets>
+
+   <top>
+      <HBox styleClass="options-title" HBox.hgrow="ALWAYS" alignment="TOP_CENTER">
+         <Text text="Match Options" />
+      </HBox>
+   </top>
+
+   <center>
+      <VBox styleClass="settings-center" alignment="TOP_CENTER">
+         <HBox alignment="CENTER" styleClass="vol">
+            <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
+               <Text text="Ghosting"/>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <CheckBox  fx:id="GhostingBox"></CheckBox>
+            </HBox>
+         </HBox>
+
+		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="soundef">
+            <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
+               <Text text="Powerups"/>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <CheckBox  fx:id="PowerupsBox"></CheckBox>
+            </HBox>
+         </HBox>
+
+		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="music">
+            <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
+               <Text text="Music"/>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <CheckBox fx:id="MusicBox"></CheckBox>
+            </HBox>
+         </HBox>
+
+      </VBox>
+   </center>
+
+   <bottom>
+      <HBox styleClass="options-items">
+         <HBox HBox.hgrow="ALWAYS" alignment="BOTTOM_CENTER">
+            <Text fx:id="back" onMousePressed="#onBackClicked" text="Back" />
+         </HBox>
+
+         <HBox HBox.hgrow="ALWAYS" alignment="BOTTOM_CENTER">
+            <Text fx:id="cont" onMousePressed="#onContinueClicked" text="Continue" />
+         </HBox>
+      </HBox>
+   </bottom>
+</fx:root>

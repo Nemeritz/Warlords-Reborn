@@ -7,6 +7,7 @@ package App;
 import App.Game.GameComponent;
 import App.Menu.MenuComponent;
 import App.Menu.GameSettings.GameSettingsComponent;
+import App.Menu.MatchOptions.MatchOptionsComponent;
 import App.Shared.SharedModule;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -41,6 +42,11 @@ public class AppModule {
         Scene settingsScene = new Scene(settings);
         this.shared.getJFX().putScene("settings",
                 new SimpleImmutableEntry<>(settings, settingsScene));
+
+        MatchOptionsComponent options = new MatchOptionsComponent(this.shared);
+        Scene optionsScene = new Scene(options);
+        this.shared.getJFX().putScene("options",
+                new SimpleImmutableEntry<>(options, optionsScene));
     }
 
     /**
