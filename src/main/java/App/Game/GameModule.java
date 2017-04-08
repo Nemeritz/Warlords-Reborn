@@ -1,6 +1,7 @@
 package App.Game;
 
 import App.Game.Canvas.CanvasService;
+import App.Game.Loop.LoopService;
 import App.Game.Physics.PhysicsService;
 import App.Game.Score.ScoreService;
 import App.Game.Timer.TimerService;
@@ -18,6 +19,7 @@ public class GameModule {
     private TimerService timer;
     private PhysicsService physics;
     private CanvasService canvas;
+    private LoopService loop;
 
     /**
      * Game service default constructor, initializes all the services
@@ -27,7 +29,9 @@ public class GameModule {
         this.physics = new PhysicsService();
         this.canvas = new CanvasService();
         this.score = new ScoreService();
+        this.loop = new LoopService();
 
+        this.loop.setMasterTimer(this.timer);
         this.physics.setWorldBounds(new Dimension(1024, 768));
     }
 
@@ -51,5 +55,9 @@ public class GameModule {
 
     public CanvasService getCanvas() {
         return this.canvas;
+    }
+
+    public LoopService getLoop() {
+        return this.loop;
     }
 }

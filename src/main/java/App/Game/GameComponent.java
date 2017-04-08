@@ -3,6 +3,7 @@ package App.Game;
 import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasComponent;
 import App.Game.Fort.FortComponent;
+import App.Game.Loop.Looper;
 import App.Game.Overlay.OverlayComponent;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
@@ -16,8 +17,6 @@ import warlordstest.IGame;
 
 import java.awt.*;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.TreeMap;
 
 /**
@@ -28,7 +27,7 @@ import java.util.TreeMap;
  *
  * Created by Jerry Fan on 21/03/2017.
  */
-public class GameComponent extends BorderPane implements IGame, Observer, EventReceiver {
+public class GameComponent extends BorderPane implements IGame, EventReceiver, Looper {
     private SharedModule shared;
     private GameModule game;
 
@@ -45,31 +44,30 @@ public class GameComponent extends BorderPane implements IGame, Observer, EventR
     private OverlayComponent overlay;
     private Map<Integer,FortComponent> forts;
 
-    private long lastGameLoopTimeMs;
     private long lastCountdownStart;
 
-    /**
-     * Divide the intervals if they are larger than the scheduler intervals, and iteratively progress the game using
-     * game loops of interval size + remainder.
-     * @param intervalS Seconds elapsed since last gameLoop iteration.
-     */
-    private void gameLoopScheduler(Double intervalS) {
-        double remainder;
+    public GameComponent(SharedModule shared) {
+        this.shared = shared;
+        this.game = new GameModule();
+        this.model = new GameService();
+        this.overlay = new OverlayComponent(this.shared, this.game);
+        this.canvas = new CanvasComponent(this.shared, this.game);
 
-        if (intervalS > this.model.schedulerInterval) {
-            int iterations = (int) Math.floor(intervalS / this.model.schedulerInterval);
-
-            for (int i = 0; i < iterations; i++) {
-                this.gameLoop(this.model.schedulerInterval);
-            }
-
-            remainder = intervalS % this.model.schedulerInterval;
-        }
-        else {
-            remainder = intervalS;
+        if (this.canvas.hasJFXCanvas()) {
+            this.game.getCanvas().setContext(this.canvas.getGraphicsContext());
         }
 
-        this.gameLoop(remainder);
+        this.ball = new BallComponent(this.shared, this.game);
+        this.forts = new TreeMap<>();
+        this.shared.getJFX().loadFXML(this, GameComponent.class,
+                "GameComponent.fxml");
+
+        if (this.gameStack != null) {
+            this.gameStack.getChildren().add(canvas);
+            this.gameStack.getChildren().add(overlay);
+        }
+
+        this.lastCountdownStart = 0;
     }
 
     /**
@@ -77,7 +75,8 @@ public class GameComponent extends BorderPane implements IGame, Observer, EventR
      * potentially be split into multiple functions and multi-threaded for efficiency if needed.
      * @param intervalS Seconds to calculate for. Objects will use this time to determine positions etc.
      */
-    private void gameLoop(Double intervalS) {
+    @Override
+    public void onGameLoop(double intervalS) {
         if (this.model.gameState.equals(GameState.PREGAME)) {
             this.gameTime.setText("PREGAME");
             if (this.game.getTimer().currentTimeMs() >= 1000) {
@@ -151,54 +150,6 @@ public class GameComponent extends BorderPane implements IGame, Observer, EventR
         }
     }
 
-    public GameComponent(SharedModule shared) {
-        this.shared = shared;
-        this.game = new GameModule();
-        this.model = new GameService();
-        this.overlay = new OverlayComponent(this.shared, this.game);
-        this.canvas = new CanvasComponent(this.shared, this.game);
-
-        if (this.canvas.hasJFXCanvas()) {
-            this.game.getCanvas().setContext(this.canvas.getGraphicsContext());
-        }
-
-        this.ball = new BallComponent(this.shared, this.game);
-        this.forts = new TreeMap<>();
-        this.shared.getJFX().loadFXML(this, GameComponent.class,
-                "GameComponent.fxml");
-
-        if (this.gameStack != null) {
-            this.gameStack.getChildren().add(canvas);
-            this.gameStack.getChildren().add(overlay);
-        }
-
-        this.lastGameLoopTimeMs = 0;
-        this.lastCountdownStart = 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void update(Observable obs, Object obj) {
-        // Game timer observer function, fires when each animation frame changes, which is about once per nanosecond.
-        // The render loop and game loop methods are hooked here.
-        if (obs == this.game.getTimer().getFrame()) {
-            long currentTimeMs = this.game.getTimer().currentTimeMs();
-
-            long intervalMs = currentTimeMs - this.lastGameLoopTimeMs; // Calculate time since last game loop iteration.
-
-            if (intervalMs > 0) {
-                this.lastGameLoopTimeMs = currentTimeMs; // Immediately set current time as last iteration time
-                this.gameLoopScheduler((double) intervalMs / 1000); // Runs every animation frame (optimally).
-            }
-        }
-        // TODO: Implement scene switch trigger
-//        else if (obs == this.shared.getJFX().getScene()) {
-//
-//        }
-    }
-
     @Override
     public void onKeyEvent(KeyEvent event) {
         if (event.getCode() == KeyCode.F9) {
@@ -223,13 +174,6 @@ public class GameComponent extends BorderPane implements IGame, Observer, EventR
      * game start (like manually testing the object rendering).
      */
     public void load() {
-        this.game.getTimer().getFrame().addObserver(this);
-        this.shared.getJFX().getEventReceivers().add(this);
-        this.overlay.showCountdown();
-        this.lastCountdownStart = this.game.getTimer().currentTimeMs();
-        this.game.getTimer().start();
-        this.model.gameState = GameState.PREGAME;
-
         this.ball.getPosition().setLocation(
                 this.game.getPhysics().getWorldBounds().width / 2 - (double) this.ball.getSize().width / 2,
                 this.game.getPhysics().getWorldBounds().height / 2 - (double) this.ball.getSize().height / 2
@@ -240,6 +184,16 @@ public class GameComponent extends BorderPane implements IGame, Observer, EventR
         FortComponent player2 = this.addPlayer(2, 2, new Point.Double(736, 0));
         FortComponent player3 = this.addPlayer(3, 3, new Point.Double(0, 480));
         FortComponent player4 = this.addPlayer(4, 4, new Point.Double(736, 480));
+
+        this.game.getLoop().getLoopers().add(this);
+        this.shared.getJFX().getEventReceivers().add(this);
+
+        this.overlay.showCountdown();
+        this.lastCountdownStart = this.game.getTimer().currentTimeMs();
+
+        this.model.gameState = GameState.PREGAME;
+
+        this.game.getTimer().start();
     }
 
     public void unload() {
@@ -247,7 +201,7 @@ public class GameComponent extends BorderPane implements IGame, Observer, EventR
         this.model.gameState = GameState.UNLOAD;
         this.ball.dispose();
         this.forts.values().forEach(FortComponent::dispose);
-        this.game.getTimer().getFrame().deleteObserver(this);
+        this.game.getLoop().getLoopers().remove(this);
         this.shared.getJFX().getEventReceivers().remove(this);
         this.model = new GameService();
     }
@@ -295,7 +249,7 @@ public class GameComponent extends BorderPane implements IGame, Observer, EventR
     public void tick() {
         GameState originalStarted = this.model.gameState;
         this.model.gameState = GameState.GAME;
-        this.gameLoopScheduler(1.0);
+        this.game.getLoop().tick();
         this.model.gameState = originalStarted;
     }
 

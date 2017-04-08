@@ -58,6 +58,7 @@ public class JFXService {
         this.scenes = new ConcurrentHashMap<>();
         this.sceneChange = new ObservableScene();
         this.eventReceivers = new CopyOnWriteArraySet<>();
+        this.sharedSettings = new SettingsService();
     }
 
 
