@@ -7,8 +7,9 @@ package App.Game.Fort.Warlord;
 import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortService;
-import App.Game.GameService;
+import App.Game.GameModule;
 import App.Game.Physics.Physical;
+import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -20,10 +21,10 @@ import java.awt.*;
 /**
  * Created by Hanliang Ding(Chris) on 28/03/17.
  */
-public class WarlordComponent implements IWarlord, Physical, CanvasObject {
+public class WarlordComponent implements IWarlord, Physical, CanvasObject, Disposable {
     private SharedModule shared;
     private Image image;
-    private GameService game;
+    private GameModule game;
     private FortService fort;
     private WarlordService model;
 
@@ -35,7 +36,7 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
         }
     }
 
-    public WarlordComponent(SharedModule shared, GameService game, FortService fort) {
+    public WarlordComponent(SharedModule shared, GameModule game, FortService fort) {
         this.shared = shared;
         this.game = game;
         this.fort = fort;
@@ -129,5 +130,11 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject {
     @Override
     public boolean isDead(){
         return this.fort.destroyed;
+    }
+
+    @Override
+    public void dispose() {
+        this.game.getCanvas().getCanvasObjects().remove(this);
+        this.game.getPhysics().getStatics().remove(this);
     }
 }

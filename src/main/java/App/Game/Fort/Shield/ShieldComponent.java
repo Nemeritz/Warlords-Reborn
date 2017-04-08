@@ -3,8 +3,9 @@ package App.Game.Fort.Shield;
 import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortService;
-import App.Game.GameService;
+import App.Game.GameModule;
 import App.Game.Physics.Physical;
+import App.Shared.Interfaces.Disposable;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
 import com.sun.javafx.geom.Vec2d;
@@ -19,9 +20,9 @@ import java.awt.*;
 /**
  * Created by Jerry Fan on 30/03/2017.
  */
-public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventReceiver {
+public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventReceiver, Disposable {
     private SharedModule shared;
-    private GameService game;
+    private GameModule game;
     private FortService fort;
     private Image image;
     private ShieldService model;
@@ -41,7 +42,7 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
      * @param shared shared module controlling all scenes
      * @param game current game containing all services
      */
-    public ShieldComponent(SharedModule shared, GameService game, FortService fort) {
+    public ShieldComponent(SharedModule shared, GameModule game, FortService fort) {
         this.leftPressed = false; // shield stays still at the start
         this.rightPressed = false;
         this.shared = shared; // allows access to JFX current scene for adding event handlers
@@ -50,8 +51,8 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         this.setStyle();
         this.model = new ShieldService(); // accessing velocity, dimensions and locations of shield
         this.game.getCanvas().getCanvasObjects().add(this);
-        this.game.getPhysics().getKinetics().add(this);
-        this.shared.getJFX().addEventReceiver(this);
+        this.game.getPhysics().getStatics().add(this);
+        this.shared.getJFX().getEventReceivers().add(this);
     }
 
     /**
@@ -65,7 +66,7 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         double railMin = -(this.fort.getSize().width - (double) this.model.getSize().width);
         double railMax = this.fort.getSize().height - (double) this.model.getSize().height;
 
-        this.model.railPosition += this.model.railSpeed * (this.fort.mirrorY ? -1 : 1) * intervalS;
+        this.model.railPosition += this.model.railSpeed * (this.fort.mirrorX ? -1 : 1) * intervalS;
 
         if (this.model.railPosition < railMin) {
             this.model.railPosition = railMin;
@@ -155,14 +156,14 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
                 }
                 break;
             case 3:
-                if (event.getCode() == KeyCode.BRACELEFT) {
+                if (event.getCode() == KeyCode.O) {
                     if (event.getEventType() == KeyEvent.KEY_PRESSED) {
                         this.leftPressed = true;
                     } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
                         this.leftPressed = false;
                     }
                 }
-                else if (event.getCode() == KeyCode.BRACERIGHT) {
+                else if (event.getCode() == KeyCode.P) {
                     if (event.getEventType() == KeyEvent.KEY_PRESSED) {
                         this.rightPressed = true;
                     } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
@@ -236,4 +237,10 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     public void setYPos(int y) {
         this.model.getPosition().y = y;
     };
+
+    public void dispose() {
+        this.game.getCanvas().getCanvasObjects().remove(this);
+        this.game.getPhysics().getStatics().remove(this);
+        this.shared.getJFX().getEventReceivers().remove(this);
+    }
 }

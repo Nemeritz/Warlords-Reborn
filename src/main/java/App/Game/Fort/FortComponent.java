@@ -3,8 +3,9 @@ package App.Game.Fort;
 import App.Game.Fort.Shield.ShieldComponent;
 import App.Game.Fort.Wall.WallComponent;
 import App.Game.Fort.Warlord.WarlordComponent;
-import App.Game.GameService;
+import App.Game.GameModule;
 import App.Game.Physics.Physical;
+import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 
 import java.awt.*;
@@ -15,9 +16,9 @@ import java.util.List;
 /**
  * Created by Jerry Fan on 31/03/2017.
  */
-public class FortComponent {
+public class FortComponent implements Disposable {
     private SharedModule shared;
-    private GameService game;
+    private GameModule game;
     private FortService fort;
 
     private WarlordComponent warlord;
@@ -136,7 +137,7 @@ public class FortComponent {
      * @param shared shared module controlling all scenes
      * @param game current game containing all services
      */
-    public FortComponent(SharedModule shared, GameService game, Integer player,
+    public FortComponent(SharedModule shared, GameModule game, Integer player,
                          Integer orientation, Point.Double position) {
         this.shared = shared;
         this.game = game;
@@ -203,5 +204,11 @@ public class FortComponent {
     public void setWinner(Boolean value) {
         this.fort.winner = value;
         this.warlord.setWinner(value);
+    }
+
+    public void dispose() {
+        this.warlord.dispose();
+        this.walls.forEach(WallComponent::dispose);
+        this.shield.dispose();
     }
 }

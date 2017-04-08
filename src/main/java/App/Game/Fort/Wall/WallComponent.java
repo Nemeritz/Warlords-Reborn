@@ -3,8 +3,9 @@ package App.Game.Fort.Wall;
 import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortService;
-import App.Game.GameService;
+import App.Game.GameModule;
 import App.Game.Physics.Physical;
+import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -16,10 +17,10 @@ import java.awt.*;
 /**
  * Created by Hanliang Ding(Chris) on 28/03/17.
  */
-public class WallComponent implements IWall, Physical, CanvasObject {
+public class WallComponent implements IWall, Physical, CanvasObject, Disposable {
     private SharedModule shared;
     private Image image;
-    private GameService game;
+    private GameModule game;
     private FortService fort;
     private WallService model;
 
@@ -38,7 +39,7 @@ public class WallComponent implements IWall, Physical, CanvasObject {
      * @param shared shared module controlling all scenes
      * @param game current game containing all services
      */
-    public WallComponent(SharedModule shared, GameService game, FortService fort, Integer wallStyle) {
+    public WallComponent(SharedModule shared, GameModule game, FortService fort, Integer wallStyle) {
         this.shared = shared; // the module shared with all other components, allows access to scenes
         this.game = game; // allows access to other services
         this.fort = fort;
@@ -125,5 +126,10 @@ public class WallComponent implements IWall, Physical, CanvasObject {
     @Override
     public boolean isDestroyed() {
         return this.model.destroyed;
+    }
+
+    public void dispose() {
+        this.game.getCanvas().getCanvasObjects().remove(this);
+        this.game.getPhysics().getStatics().remove(this);
     }
 }

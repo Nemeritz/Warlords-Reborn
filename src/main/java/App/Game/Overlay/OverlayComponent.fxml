@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<?import javafx.scene.layout.StackPane?>
+<fx:root fx:id="overlay" type="VBox" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml">
+    <stylesheets>
+        <URL value="@OverlayComponent.css" />
+    </stylesheets>
+    <StackPane>
+        <VBox fx:id="countdownWrapper" styleClass="countdown-wrapper, hidden">
+            <Text fx:id="countdown" text="GET READY" styleClass="countdown"/>
+        </VBox>
+        <VBox fx:id="pauseMenu" styleClass="pause-menu, hidden">
+            <Text fx:id="pause" text="GAME IS PAUSED" styleClass="pause" />
+        </VBox>
+    </StackPane>
+</fx:root>
