@@ -12,6 +12,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.Slider;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
@@ -23,6 +25,15 @@ import java.util.AbstractMap.SimpleImmutableEntry;
 public class MatchOptionsComponent extends BorderPane {
     private SharedModule shared;
     private MediaPlayer buttonSound;
+
+    @FXML
+    private ComboBox timeCombo;
+
+    @FXML
+    private RadioButton timeRadio;
+
+    @FXML
+    private RadioButton deathRadio;
 
     @FXML
     private Text back;
@@ -80,5 +91,15 @@ public class MatchOptionsComponent extends BorderPane {
         this.buttonSound.stop();
         this.buttonSound.play();
 //        this.shared.getJFX().loadMusic(this.shared.getClass(), "MenuMusicBackup.mp3");
+    }
+
+    @FXML
+		void onDeathClicked(){
+    		this.timeCombo.setDisable(true);
+    }
+
+    @FXML
+		void onTimeClicked(){
+    		this.timeCombo.setDisable(false);
     }
 }

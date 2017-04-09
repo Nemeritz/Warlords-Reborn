@@ -12,6 +12,8 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 
 
 <fx:root prefHeight="728" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.114" xmlns:fx="http://javafx.com/fxml/1">
@@ -27,7 +29,7 @@
 
    <center>
       <VBox styleClass="settings-center" alignment="TOP_CENTER">
-         <HBox alignment="CENTER" styleClass="vol">
+         <HBox alignment="CENTER" styleClass="ghost">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
                <Text text="Ghosting"/>
             </HBox>
@@ -45,12 +47,55 @@
             </HBox>
          </HBox>
 
-		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="music">
+		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="speed">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="Music"/>
+               <Text text="Ball Speed"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               <CheckBox fx:id="MusicBox"></CheckBox>
+            	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+              	 	<RadioButton text="Slow" textFill="WHITE">
+              	     	<toggleGroup>
+           					<ToggleGroup fx:id="speedoptions" />
+         			 	</toggleGroup>
+         		 	</RadioButton>
+            	</HBox>
+            	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               		 <RadioButton text="Medium" textFill="WHITE" selected="true" toggleGroup="$speedoptions">
+         			 </RadioButton>
+            	</HBox>
+            	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               		 <RadioButton text="Fast" textFill="WHITE" toggleGroup="$speedoptions" >
+         			 </RadioButton>
+            	</HBox>
+            </HBox>
+         </HBox>
+
+         <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="wincond">
+            <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
+               <Text text="KILL TO WIN"/>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <Text text="SCORE TO WIN"/>
+            </HBox>
+         </HBox>
+
+         <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="wincondsel">
+            <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
+              	 <RadioButton fx:id="deathRadio" selected = "true" onMouseReleased="#onDeathClicked">
+              	     <toggleGroup>
+           				<ToggleGroup fx:id="timeoptions" />
+         			 </toggleGroup>
+         		 </RadioButton>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+            	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+            		<RadioButton fx:id="timeRadio" toggleGroup="$timeoptions" onMouseReleased="#onTimeClicked">
+            		</RadioButton>
+            	</HBox>
+            	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+            		<ComboBox fx:id="timeCombo" minWidth="150" disable="true">
+            		</ComboBox>
+            	</HBox>
             </HBox>
          </HBox>
 
