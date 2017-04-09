@@ -4,6 +4,7 @@ import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortService;
 import App.Game.GameModule;
+import App.Game.Loop.LooperChild;
 import App.Game.Physics.Physical;
 import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
@@ -17,7 +18,7 @@ import java.awt.*;
 /**
  * Created by Hanliang Ding(Chris) on 28/03/17.
  */
-public class WallComponent implements IWall, Physical, CanvasObject, Disposable {
+public class WallComponent implements IWall, Physical, CanvasObject, Disposable, LooperChild {
     private SharedModule shared;
     private Image image;
     private GameModule game;

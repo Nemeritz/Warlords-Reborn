@@ -4,6 +4,7 @@ import App.Game.Fort.Shield.ShieldComponent;
 import App.Game.Fort.Wall.WallComponent;
 import App.Game.Fort.Warlord.WarlordComponent;
 import App.Game.GameModule;
+import App.Game.Loop.LooperChild;
 import App.Game.Physics.Physical;
 import App.Game.Score.ScoreKeeper;
 import App.Shared.Interfaces.Disposable;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by Jerry Fan on 31/03/2017.
  */
-public class FortComponent implements Disposable, ScoreKeeper {
+public class FortComponent implements Disposable, ScoreKeeper, LooperChild {
     private SharedModule shared;
     private GameModule game;
     private FortService fort;
@@ -151,7 +152,7 @@ public class FortComponent implements Disposable, ScoreKeeper {
     /**
      * @param intervalS time between last frame and current so velocities stay consistent
      */
-    public void updateObject(Double intervalS) {
+    public void update(Double intervalS) {
         this.warlord.update(intervalS);
         this.walls.forEach((w) -> w.update(intervalS));
         this.shield.update(intervalS);

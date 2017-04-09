@@ -5,6 +5,7 @@ import App.Game.Canvas.CanvasComponent;
 import App.Game.Fort.FortComponent;
 import App.Game.Loop.Looper;
 import App.Game.Overlay.OverlayComponent;
+import App.Game.Powerup.PowerupComponent;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.text.Text;
 import warlordstest.IGame;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -34,17 +36,27 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     private GameService model;
 
     @FXML
-    private Text gameTime;
+    private Text statusText;
 
     @FXML
     private StackPane gameStack;
 
     private CanvasComponent canvas;
     private BallComponent ball;
+    private ArrayList<PowerupComponent> powerups;
     private OverlayComponent overlay;
     private Map<Integer,FortComponent> forts;
 
-    private long lastCountdownStart;
+    private void spawnPowerupMaybe() {
+        if (this.shared.getSettings().powerups) {
+            if (this.model.gameTime - this.model.lastPowerupSpawn > this.model.powerupSpawnInterval) {
+                this.model.lastPowerupSpawn = this.model.gameTime;
+
+                PowerupComponent newPowerup = new PowerupComponent(this.shared, this.game);
+                this.powerups.add(newPowerup);
+            }
+        }
+    }
 
     public GameComponent(SharedModule shared) {
         this.shared = shared;
@@ -52,6 +64,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.model = new GameService();
         this.overlay = new OverlayComponent(this.shared, this.game);
         this.canvas = new CanvasComponent(this.shared, this.game);
+        this.powerups = new ArrayList<>();
 
         if (this.canvas.hasJFXCanvas()) {
             this.game.getCanvas().setContext(this.canvas.getGraphicsContext());
@@ -66,8 +79,6 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             this.gameStack.getChildren().add(canvas);
             this.gameStack.getChildren().add(overlay);
         }
-
-        this.lastCountdownStart = 0;
     }
 
     /**
@@ -76,11 +87,12 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
      * @param intervalS Seconds to calculate for. Objects will use this time to determine positions etc.
      */
     @Override
-    public void onGameLoop(double intervalS) {
+    public void onGameLoop(Double intervalS) {
         if (this.model.gameState.equals(GameState.PREGAME)) {
-            this.gameTime.setText("PREGAME");
+            this.statusText.setText("PREGAME");
             if (this.game.getTimer().currentTimeMs() >= 1000) {
-                long countdownTime = lastCountdownStart / 1000 + 4 - this.game.getTimer().currentTimeMs() / 1000;
+                long countdownTime = this.model.lastCountdownStartMs / 1000 + 4 -
+                        this.game.getTimer().currentTimeMs() / 1000;
                 this.overlay.setCountdown(countdownTime);
                 if (countdownTime == 0) {
                     this.model.gameState = GameState.GAME;
@@ -91,18 +103,20 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         else if (this.model.gameState.equals(GameState.GAME)) {
             this.model.gameTime += intervalS;
 
-            if (this.gameTime != null) {
-                this.gameTime.setText(Integer.toString((int) this.model.gameTime));
+            if (this.statusText != null) {
+                this.statusText.setText(Integer.toString((int) this.model.gameTime));
             }
 
             this.game.getPhysics().check();
 
-            this.ball.updateObject(intervalS);
+            this.ball.update(intervalS);
+
+            this.powerups.forEach(p -> p.update(intervalS));
 
             int destroyedForts = 0;
 
             for (FortComponent fort : this.forts.values()) {
-                fort.updateObject(intervalS);
+                fort.update(intervalS);
 
                 if (fort.isDestroyed()) {
                     destroyedForts++;
@@ -130,13 +144,16 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             if (gameEnd) {
                 this.model.gameState = GameState.END;
             }
+            else {
+                this.spawnPowerupMaybe();
+            }
         }
         else if (this.model.gameState.equals(GameState.PAUSE)) {
-            this.gameTime.setText("PAUSE");
+            this.statusText.setText("PAUSE");
         }
         else if (this.model.gameState.equals(GameState.UNPAUSE)) {
-            this.gameTime.setText("UNPAUSE");
-            long countdownTime = (lastCountdownStart + 4000 - this.game.getTimer().currentTimeMs()) / 1000;
+            this.statusText.setText("UNPAUSE");
+            long countdownTime = (this.model.lastCountdownStartMs + 4000 - this.game.getTimer().currentTimeMs()) / 1000;
             this.overlay.setCountdown(countdownTime);
             if (countdownTime == 0) {
                 this.model.gameState = GameState.GAME;
@@ -144,8 +161,8 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             }
         }
         else if (this.model.gameState.equals(GameState.END)) {
-            if (this.gameTime != null) {
-                this.gameTime.setText("END");
+            if (this.statusText != null) {
+                this.statusText.setText("END");
             }
         }
     }
@@ -161,7 +178,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 else if (this.model.gameState.equals(GameState.PAUSE)) {
                     this.overlay.hidePauseMenu();
                     this.overlay.showCountdown();
-                    this.lastCountdownStart = this.game.getTimer().currentTimeMs();
+                    this.model.lastCountdownStartMs = this.game.getTimer().currentTimeMs();
                     this.model.gameState = GameState.UNPAUSE;
                 }
             }
@@ -189,7 +206,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.shared.getJFX().getEventReceivers().add(this);
 
         this.overlay.showCountdown();
-        this.lastCountdownStart = this.game.getTimer().currentTimeMs();
+        this.model.lastCountdownStartMs = this.game.getTimer().currentTimeMs();
 
         this.model.gameState = GameState.PREGAME;
 

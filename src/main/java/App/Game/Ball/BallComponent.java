@@ -1,8 +1,12 @@
 package App.Game.Ball;
 
 import App.Game.Canvas.CanvasObject;
+import App.Game.Fort.Shield.ShieldComponent;
 import App.Game.GameModule;
+import App.Game.Loop.LooperChild;
 import App.Game.Physics.Physical;
+import App.Game.Powerup.Power;
+import App.Game.Powerup.PowerupComponent;
 import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 import com.sun.javafx.geom.Vec2d;
@@ -11,11 +15,12 @@ import javafx.scene.image.Image;
 import warlordstest.IBall;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by Jerry Fan on 26/03/2017.
  */
-public class BallComponent implements IBall, Physical, CanvasObject, Disposable {
+public class BallComponent implements IBall, Physical, CanvasObject, Disposable, LooperChild {
     private SharedModule shared;
     private GameModule game;
     private Image image;
@@ -41,12 +46,46 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable 
      * updates the ball so it moves
      * @param intervalS time from last frame change
      */
-    public void updateObject(Double intervalS) {
+    public void update(Double intervalS) {
+        this.model.invisible = false;
+        this.model.unstoppable = false;
+
         Point.Double position = this.model.getPosition();
         Vec2d velocity = this.model.getVelocity();
+
+        double modVX = velocity.x;
+        double modVY = velocity.y;
+
+        ArrayList<Power> expiredPowers = new ArrayList<>();
+
+        for (Power power : this.model.getPowers()) {
+            switch(power) {
+                case HASTE:
+                    modVX += 100;
+                    modVY += 100;
+                    break;
+                case BOUNTY:
+                    this.game.getScore().getScoreKeeper(this.model.lastDeflectedBy).increaseScore(200);
+                    break;
+                case INVISIBLITY:
+                    this.model.invisible = true;
+                    break;
+                case DOUBLE_DAMAGE:
+                    this.model.unstoppable = true;
+                    break;
+            }
+
+            power.lifeSpan -= intervalS;
+            if (power.lifeSpan <= 0) {
+                expiredPowers.add(power);
+            }
+        }
+
+        this.model.getPowers().removeAll(expiredPowers);
+
         position.setLocation(
-            position.x + velocity.x * intervalS,
-            position.y + velocity.y * intervalS
+            position.x + modVX * intervalS,
+            position.y + modVY * intervalS
         );
     }
 
@@ -55,7 +94,7 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable 
     }
 
     /**
-     * @param player the player who last touched the ball
+     * @param player the player who last deflected the ball
      */
     public void setLastDeflectedBy(Integer player) {
         this.model.lastDeflectedBy = player;
@@ -66,13 +105,15 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable 
      */
     @Override
     public void renderOnContext(GraphicsContext context) {
-        Point.Double position = this.model.getPosition();
-        Dimension size = this.model.getSize();
-        context.drawImage(this.image,
-                position.x,
-                position.y,
-                size.width, size.height
-        );
+        if (!this.model.invisible) {
+            Point.Double position = this.model.getPosition();
+            Dimension size = this.model.getSize();
+            context.drawImage(this.image,
+                    position.x,
+                    position.y,
+                    size.width, size.height
+            );
+        }
     }
 
     /**
@@ -80,21 +121,38 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable 
      */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
-        Vec2d velocity = this.getVelocity();
+        boolean isShield = ShieldComponent.class.isInstance(object);
 
-        double reactionX = hitBoxCenter.x - intersectionCenter.x;
-        double reactionY = hitBoxCenter.y - intersectionCenter.y;
+        if (!this.model.unstoppable || isShield) {
+            Vec2d velocity = this.getVelocity();
 
-        double signumX = Math.signum(Math.abs(reactionX) > 0.0001 ? reactionX : 0.0);
-        double signumY = Math.signum(Math.abs(reactionY) > 0.0001 ? reactionY : 0.0);
+            double reactionX = hitBoxCenter.x - intersectionCenter.x;
+            double reactionY = hitBoxCenter.y - intersectionCenter.y;
 
-        if (signumX != 0 && signumX != Math.signum(velocity.x)) {
-            velocity.x = -velocity.x;
+            double signumX = Math.signum(Math.abs(reactionX) > 0.0001 ? reactionX : 0.0);
+            double signumY = Math.signum(Math.abs(reactionY) > 0.0001 ? reactionY : 0.0);
+
+            if (signumX != 0 && signumX != Math.signum(velocity.x)) {
+                velocity.x = -velocity.x;
+            }
+
+            if (signumY != 0 && signumY != Math.signum(velocity.y)) {
+                velocity.y = -velocity.y;
+            }
         }
 
-        if (signumY != 0 && signumY != Math.signum(velocity.y)) {
-            velocity.y = -velocity.y;
+        if (object != null && !PowerupComponent.class.isInstance(object) && !isShield) {
+            this.model.getPowers().clear();
         }
+    }
+
+    public void dispose() {
+        this.game.getCanvas().getCanvasObjects().remove(this);
+        this.game.getPhysics().getKinetics().remove(this);
+    }
+
+    public void addPower(Power power) {
+        this.model.getPowers().add(power);
     }
 
     /**
@@ -181,10 +239,5 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable 
     @Override
     public int getYVelocity() {
         return ((int) this.model.getVelocity().y);
-    }
-
-    public void dispose() {
-        this.game.getCanvas().getCanvasObjects().remove(this);
-        this.game.getPhysics().getKinetics().remove(this);
     }
 }

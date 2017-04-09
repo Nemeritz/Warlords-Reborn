@@ -47,15 +47,15 @@ public class PhysicsService {
                     Point.Double intersectionCenter = new Point.Double(
                             intersection.getCenterX(), intersection.getCenterY()
                     );
-                    k.onCollision(
-                            new Point.Double(kHitBox.getCenterX(), kHitBox.getCenterY()),
-                            intersectionCenter,
-                            s
-                    );
                     s.onCollision(
                             new Point.Double(sHitBox.getCenterX(), sHitBox.getCenterY()),
                             intersectionCenter,
                             k
+                    );
+                    k.onCollision(
+                            new Point.Double(kHitBox.getCenterX(), kHitBox.getCenterY()),
+                            intersectionCenter,
+                            s
                     );
                 }
             }

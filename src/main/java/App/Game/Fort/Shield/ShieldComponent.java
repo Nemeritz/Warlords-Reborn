@@ -4,6 +4,7 @@ import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortService;
 import App.Game.GameModule;
+import App.Game.Loop.LooperChild;
 import App.Game.Physics.Physical;
 import App.Shared.Interfaces.Disposable;
 import App.Shared.JFX.EventReceiver;
@@ -20,7 +21,7 @@ import java.awt.*;
 /**
  * Created by Jerry Fan on 30/03/2017.
  */
-public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventReceiver, Disposable {
+public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventReceiver, Disposable, LooperChild {
     private SharedModule shared;
     private GameModule game;
     private FortService fort;

@@ -17,7 +17,7 @@
                 <Text text="---Status Bar Placeholder---"/>
             </HBox>
             <HBox style="-fx-alignment:center-right" HBox.hgrow="ALWAYS">
-                <Text fx:id="gameTime"/>
+                <Text fx:id="statusText"/>
             </HBox>
         </HBox>
     </top>
