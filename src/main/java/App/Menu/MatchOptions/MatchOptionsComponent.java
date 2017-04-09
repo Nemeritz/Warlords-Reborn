@@ -22,6 +22,7 @@ import java.util.AbstractMap.SimpleImmutableEntry;
  */
 public class MatchOptionsComponent extends BorderPane {
     private SharedModule shared;
+    private MediaPlayer buttonSound;
 
     @FXML
     private Text back;
@@ -35,6 +36,9 @@ public class MatchOptionsComponent extends BorderPane {
     private void construct() {
         this.shared.getJFX().loadFXML(this, MatchOptionsComponent.class,
                 "MatchOptionsComponent.fxml");
+
+        this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "Button.mp3");
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
     }
 
     /**
@@ -58,8 +62,10 @@ public class MatchOptionsComponent extends BorderPane {
      */
     @FXML
     void onBackClicked() {
-        this.shared.getJFX().setScene("menu");
-        this.shared.getJFX().loadSound(this.shared.getClass(), "Button.mp3");
+    	this.shared.getJFX().getMenu().transitionTitle();
+        this.buttonSound.stop();
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+        this.buttonSound.play();
     }
 
     /**
@@ -70,7 +76,9 @@ public class MatchOptionsComponent extends BorderPane {
     	this.shared.getJFX().setScene("game");
         ((GameComponent) this.shared.getJFX().getScene("game").getKey())
         .startGameCountdown();
-        this.shared.getJFX().loadSound(this.shared.getClass(), "Button.mp3");
-        this.shared.getJFX().loadMusic(this.shared.getClass(), "MenuMusicBackup.mp3");
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+        this.buttonSound.stop();
+        this.buttonSound.play();
+//        this.shared.getJFX().loadMusic(this.shared.getClass(), "MenuMusicBackup.mp3");
     }
 }

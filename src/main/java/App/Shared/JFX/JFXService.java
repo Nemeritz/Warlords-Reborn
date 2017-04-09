@@ -1,7 +1,7 @@
 package App.Shared.JFX;
 
 import App.Shared.Observables.ObservableScene;
-import App.Shared.Settings.SettingsService;
+import App.Menu.MenuComponent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,11 +29,9 @@ public class JFXService {
     private Map<String,SimpleImmutableEntry<Parent, Scene>> scenes;
     private Set<EventReceiver> eventReceivers;
     private EventHandler<KeyEvent> keyEventHandler;
-    private MediaPlayer musicMediaPlayer;
-    private Media music;
-    private MediaPlayer soundMediaPlayer;
+    private MediaPlayer mediaPlayer;
     private Media sound;
-    private SettingsService sharedSettings;
+    public MenuComponent mainMenu;
     public boolean active; // Must currently be manually set to true.
 
 
@@ -58,7 +56,6 @@ public class JFXService {
         this.scenes = new ConcurrentHashMap<>();
         this.sceneChange = new ObservableScene();
         this.eventReceivers = new CopyOnWriteArraySet<>();
-        this.sharedSettings = new SettingsService();
     }
 
 
@@ -148,40 +145,14 @@ public class JFXService {
         }
     }
 
-    public void loadMusic( Class<?> classType, String musicName) {
-    	 if(this.musicMediaPlayer != null){
-    	 this.musicMediaPlayer.stop();
-    	 }
-    	 this.music = new Media(classType.getResource("Media/"+musicName).toString());
-    	 this.musicMediaPlayer = new MediaPlayer(this.music);
-    	 this.musicMediaPlayer.setVolume(this.sharedSettings.musicVolume);
-    	 this.musicMediaPlayer.play();
-    	 this.musicMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+    public MediaPlayer loadMedia( Class<?> classType, String fileName) {
+    	 this.sound = new Media(classType.getResource("Media/"+fileName).toString());
+    	 this.mediaPlayer = new MediaPlayer(this.sound);
+    	 return this.mediaPlayer;
     }
 
-    public MediaPlayer getMusic() {
-        if(this.musicMediaPlayer != null) {
-            return this.musicMediaPlayer;
-        }
-        return null;
-    }
-
-    public void loadSound( Class<?> classType, String musicName) {
-        this.sound = new Media(classType.getResource("Media/"+musicName).toString());
-        this.soundMediaPlayer = new MediaPlayer(this.sound);
-        this.soundMediaPlayer.setVolume(this.sharedSettings.soundEffectsVolume);
-        this.soundMediaPlayer.play();
-    }
-
-    public MediaPlayer getSound() {
-        if(this.soundMediaPlayer != null) {
-            return this.soundMediaPlayer;
-        }
-        return null;
-    }
-
-    public SettingsService getSharedSettings() {
-    	return this.sharedSettings;
+    public MenuComponent getMenu() {
+    	return this.mainMenu;
     }
 
     /**

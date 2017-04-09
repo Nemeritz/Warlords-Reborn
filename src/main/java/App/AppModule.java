@@ -6,8 +6,6 @@ package App;
 
 import App.Game.GameComponent;
 import App.Menu.MenuComponent;
-import App.Menu.GameSettings.GameSettingsComponent;
-import App.Menu.MatchOptions.MatchOptionsComponent;
 import App.Shared.SharedModule;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -33,20 +31,12 @@ public class AppModule {
         this.shared.getJFX().putScene("menu",
                 new SimpleImmutableEntry<>(menu, menuScene));
 
+        this.shared.getJFX().mainMenu = menu;
+
         GameComponent game = new GameComponent(this.shared);
          Scene gameScene = new Scene(game);
          this.shared.getJFX().putScene("game",
                  new SimpleImmutableEntry<>(game, gameScene));
-
-        GameSettingsComponent settings = new GameSettingsComponent(this.shared);
-        Scene settingsScene = new Scene(settings);
-        this.shared.getJFX().putScene("settings",
-                new SimpleImmutableEntry<>(settings, settingsScene));
-
-        MatchOptionsComponent options = new MatchOptionsComponent(this.shared);
-        Scene optionsScene = new Scene(options);
-        this.shared.getJFX().putScene("options",
-                new SimpleImmutableEntry<>(options, optionsScene));
     }
 
     /**
@@ -62,9 +52,6 @@ public class AppModule {
 
         // Initially change scene to the menu
         this.shared.getJFX().setScene("menu");
-
-        // Initial Menu music
-        this.shared.getJFX().loadMusic(this.shared.getClass(), "MenuMusic.mp3");
 
         stage.show();
     }

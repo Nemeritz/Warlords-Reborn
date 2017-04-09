@@ -11,7 +11,7 @@ public class SharedModule {
     private JFXService jfx;
 
     /**
-     * Constructor for a shared module, creates a new JFX service
+     * Constructor for a shared module, creates a new JFX service and Settings service
      */
     public SharedModule() {
         this.jfx = new JFXService();
@@ -26,6 +26,6 @@ public class SharedModule {
     }
 
     public SettingsService getSettings() {
-        return this.getSettings();
+        return this.settings;
     }
 }

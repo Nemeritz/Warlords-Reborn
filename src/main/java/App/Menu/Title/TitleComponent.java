@@ -1,16 +1,19 @@
 package App.Menu.Title;
 
 import App.Game.GameComponent;
+import App.Menu.MenuComponent;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.scene.media.MediaPlayer;
 
 /**
  * Created by Jerry Fan on 21/03/2017.
  */
 public class TitleComponent extends BorderPane {
     private SharedModule shared;
+    private MediaPlayer buttonSound;
 
     @FXML
     private Text play;
@@ -27,6 +30,8 @@ public class TitleComponent extends BorderPane {
     private void construct() {
         this.shared.getJFX().loadFXML(this, TitleComponent.class,
                 "TitleComponent.fxml");
+        this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "Button.mp3");
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
     }
 
     /**
@@ -50,8 +55,10 @@ public class TitleComponent extends BorderPane {
      */
     @FXML
     void onPlayClicked() {
-        this.shared.getJFX().setScene("options");
-        this.shared.getJFX().loadSound(this.shared.getClass(), "Button.mp3");
+        this.shared.getJFX().getMenu().transitionOptions();
+        this.buttonSound.stop();
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+        this.buttonSound.play();
     }
 
     /**
@@ -59,7 +66,9 @@ public class TitleComponent extends BorderPane {
      */
     @FXML
     void onExitClicked() {
-    	this.shared.getJFX().loadSound(this.shared.getClass(), "Button.mp3");
+        this.buttonSound.stop();
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+        this.buttonSound.play();
     	this.shared.getJFX().closeStage();
     }
 
@@ -68,7 +77,10 @@ public class TitleComponent extends BorderPane {
      */
     @FXML
     void onSettingsClicked() {
-        this.shared.getJFX().setScene("settings");
-        this.shared.getJFX().loadSound(this.shared.getClass(), "Button.mp3");
+        this.shared.getJFX().getMenu().transitionSettings();
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+        this.buttonSound.stop();
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+        this.buttonSound.play();
     }
 }

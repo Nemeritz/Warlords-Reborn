@@ -1,6 +1,10 @@
+* {
+    -fx-fill: #FFF;
+    -fx-alignment: center;
+}
+
 .menu-title {
     -fx-alignment: center;
-    -fx-background-color: #000;
 }
 
 .settings-center {

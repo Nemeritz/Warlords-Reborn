@@ -32,22 +32,22 @@
                <Text text="Volume"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               <Slider fx:id="VolumeSlider" minWidth="200.0"></Slider>
+               <Slider fx:id="VolumeSlider" minWidth="200.0" value="100.0" ></Slider>
             </HBox>
          </HBox>
 
 		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="soundef">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="Sound Effects"/>
+               <Text text="Mute Sound Effects"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               <CheckBox  fx:id="EffectsBox" onMousePressed="#onEffectsClicked"></CheckBox>
+               <CheckBox  fx:id="EffectsBox" onMouseReleased="#onEffectsClicked"></CheckBox>
             </HBox>
          </HBox>
 
 		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="music">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="Music"/>
+               <Text text="Mute Music"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
                <CheckBox fx:id="MusicBox" onMouseReleased="#onMusicClicked"></CheckBox>
