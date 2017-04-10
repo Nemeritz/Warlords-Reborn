@@ -4,7 +4,6 @@
 }
 
 .menu-title {
-    /*-fx-background-color: #555;*/
     -fx-padding: 2em;
 }
 
@@ -23,3 +22,18 @@
 .menu-items Text:hover {
     -fx-fill: #FFF;
 }
+
+.settings-center {
+    -fx-font-size: 2em;
+    -fx-padding: 50px;
+}
+
+.settings-center Text{
+    -fx-fill: #FFF;
+}
+
+.score-title {
+	-fx-font-size: 40px;
+}
+
+

@@ -3,9 +3,10 @@
 <?import java.net.URL?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<fx:root prefHeight="728" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="728" maxWidth="1024" minWidth="1024" minHeight="728" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@TitleComponent.css" />
     </stylesheets>
@@ -14,6 +15,72 @@
             <Text text="Warlords Reborn" />
        </HBox>
    </top>
+
+   <center>
+    <VBox styleClass="settings-center" alignment="TOP_CENTER" >
+       	<HBox styleClass="Score-title" HBox.hgrow="ALWAYS" alignment="CENTER" style="-fx-font-size: 35">
+            <Text text="HIGH SCORES" />
+       	</HBox>
+
+       	<HBox HBox.hgrow="NEVER">
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_LEFT">
+            	<Text text="1ST" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER">
+            	<Text text="NAMEONE" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_RIGHT">
+            	<Text text="SCOREONE" />
+       		</HBox>
+       	</HBox>
+
+       	<HBox HBox.hgrow="NEVER">
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_LEFT">
+            	<Text text="2ND" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER">
+            	<Text text="NAMETWO" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_RIGHT">
+            	<Text text="SCORETWO" />
+       		</HBox>
+       	</HBox>
+       	<HBox HBox.hgrow="NEVER">
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_LEFT">
+            	<Text text="3RD" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER">
+            	<Text text="NAMETHREE" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_RIGHT">
+            	<Text text="SCORETHREE" />
+       		</HBox>
+       	</HBox>
+       	<HBox HBox.hgrow="NEVER">
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_LEFT">
+            	<Text text="4TH" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER">
+            	<Text text="NAMEFOUR" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_RIGHT">
+            	<Text text="SCOREFOUR" />
+       		</HBox>
+       	</HBox>
+       	<HBox HBox.hgrow="NEVER">
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_LEFT">
+            	<Text text="5TH" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER">
+            	<Text text="NAMEFIFTH" />
+       		</HBox>
+       		<HBox HBox.hgrow="NEVER" minWidth="300" maxWidth="300" style="-fx-padding:30" alignment="CENTER_RIGHT">
+            	<Text text="SCOREFIFTH" />
+       		</HBox>
+       	</HBox>
+      </VBox>
+   </center>
+
    <bottom>
        <HBox styleClass="menu-items">
            <HBox HBox.hgrow="ALWAYS">

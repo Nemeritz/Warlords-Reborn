@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<fx:root prefHeight="728" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.113" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="728" minHeight="728" maxHeight="728" minWidth="1024" maxWidth="1024" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.113" xmlns:fx="http://javafx.com/fxml/1">
    <stylesheets>
       <URL value="@GameSettingsComponent.css" />
    </stylesheets>

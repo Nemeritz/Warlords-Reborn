@@ -16,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import warlordstest.IGame;
+import javafx.scene.media.MediaPlayer;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     private OverlayComponent overlay;
     private Map<Integer, FortComponent> forts;
 
+    public MediaPlayer gameMusic;
+
     private void spawnPowerupMaybe() {
         if (this.shared.getSettings().powerups) {
             if (this.model.gameTime - this.model.lastPowerupSpawn > this.model.powerupSpawnInterval) {
@@ -67,12 +70,16 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.overlay = new OverlayComponent(this.shared, this.game);
         this.canvas = new CanvasComponent(this.shared, this.game);
         this.powerups = new ArrayList<>();
+        this.gameMusic = this.shared.getJFX().loadMedia(this.shared.getClass(), "MenuMusicBackup.mp3");
 
         if (this.canvas.hasJFXCanvas()) {
             this.game.getCanvas().setContext(this.canvas.getGraphicsContext());
         }
 
         this.ball = new BallComponent(this.shared, this.game);
+        this.ball.setXVelocity(this.shared.getSettings().ballSpeed);
+        this.ball.setYVelocity(this.shared.getSettings().ballSpeed);
+
         this.forts = new TreeMap<>();
         this.ai = new TreeMap<>();
         this.shared.getJFX().loadFXML(this, GameComponent.class,
@@ -240,6 +247,12 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
      */
     public void startGameCountdown() {
         this.load();
+    }
+
+    public void startGameMusic() {
+        this.gameMusic.setVolume(this.shared.getSettings().musicVolume);
+        this.gameMusic.setCycleCount(MediaPlayer.INDEFINITE);
+        this.gameMusic.play();
     }
 
     public void exitToMenu() {

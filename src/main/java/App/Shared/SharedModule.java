@@ -25,6 +25,9 @@ public class SharedModule {
         return this.jfx;
     }
 
+    /**
+     * @return the settings service in the shared module
+     */
     public SettingsService getSettings() {
         return this.settings;
     }

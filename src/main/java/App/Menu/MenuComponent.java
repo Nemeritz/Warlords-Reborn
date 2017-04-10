@@ -1,6 +1,7 @@
 package App.Menu;
 
 import App.Menu.Title.TitleComponent;
+import App.Menu.Title.Highscores.HighscoresComponent;
 import App.Menu.GameSettings.GameSettingsComponent;
 import App.Menu.MatchOptions.MatchOptionsComponent;
 import App.Shared.SharedModule;
@@ -28,6 +29,8 @@ public class MenuComponent extends Pane {
 
     private MatchOptionsComponent options;
 
+//    private HighscoresComponent highscores;
+
     public MediaPlayer menuMusic;
 
     /**
@@ -37,6 +40,7 @@ public class MenuComponent extends Pane {
         this.title = new TitleComponent(shared);
         this.settings = new GameSettingsComponent(shared);
         this.options = new MatchOptionsComponent(shared);
+ //      this.highscores = new HighscoresComponent(shared);
 
         this.shared.getJFX().loadFXML(this, MenuComponent.class,
                 "MenuComponent.fxml");
@@ -75,14 +79,21 @@ public class MenuComponent extends Pane {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();
         this.menuWrapper.getChildren().add(this.title);
+//        this.menuWrapper.getChildren().add(this.highscores);
     }
 
+    /**
+     * removes existing components in the menu and add in the settings menu component
+     */
     public void transitionSettings() {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();
         this.menuWrapper.getChildren().add(this.settings);
     }
 
+    /**
+     * removes existing components in the menu and add in the options menu component
+     */
     public void transitionOptions() {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();
