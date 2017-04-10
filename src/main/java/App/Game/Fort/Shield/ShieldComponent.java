@@ -60,37 +60,38 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
      * @param intervalS time difference between the frames, so changes in FPS would not affect velocity of shield
      *                  function changes shield's location based on left or right arrow keys pressed
      */
-    public void update(Double intervalS) {
-        Point.Double position = this.model.getPosition();
+    public void onGameLoop(Double intervalS) {
+        if (!this.fort.destroyed || this.shared.getSettings().ghosting) {
+            Point.Double position = this.model.getPosition();
 
-        // Figure out the positioning of the shield on the virtual 'rail' that runs along the center of the fort walls.
-        double railMin = -(this.fort.getSize().width - (double) this.model.getSize().width);
-        double railMax = this.fort.getSize().height - (double) this.model.getSize().height;
+            // Figure out the positioning of the shield on the virtual 'rail' that runs along the center of the fort walls.
+            double railMin = -(this.fort.getSize().width - (double) this.model.getSize().width);
+            double railMax = this.fort.getSize().height - (double) this.model.getSize().height;
 
-        this.model.railPosition += this.model.railSpeed * (this.fort.mirrorX ? -1 : 1) * intervalS;
+            this.model.railPosition += this.model.railSpeed * (this.fort.mirrorX ? -1 : 1) * intervalS;
 
-        if (this.model.railPosition < railMin) {
-            this.model.railPosition = railMin;
-            this.model.railSpeed = 0;
+            if (this.model.railPosition < railMin) {
+                this.model.railPosition = railMin;
+                this.model.railSpeed = 0;
+            } else if (this.model.railPosition > railMax) {
+                this.model.railPosition = railMax;
+                this.model.railSpeed = 0;
+            }
+
+            double railMinMod = railMin * (this.fort.mirrorX ? 0 : 1);
+            double railMaxMod = railMax * (this.fort.mirrorY ? 0 : 1);
+            double railPositionModX = this.model.railPosition * (this.fort.mirrorX ? -1 : 1);
+            double railPositionModY = this.model.railPosition * (this.fort.mirrorY ? -1 : 1);
+
+            position.setLocation(
+                    this.model.railPosition < 0 ?
+                            this.fort.getPosition().x - (railMinMod - railPositionModX) :
+                            this.fort.getPosition().x - railMinMod,
+                    this.model.railPosition > 0 ?
+                            this.fort.getPosition().y + (railMaxMod - railPositionModY) :
+                            this.fort.getPosition().y + railMaxMod
+            );
         }
-        else if (this.model.railPosition > railMax) {
-            this.model.railPosition = railMax;
-            this.model.railSpeed = 0;
-        }
-
-        double railMinMod = railMin * (this.fort.mirrorX ? 0 : 1);
-        double railMaxMod = railMax * (this.fort.mirrorY ? 0 : 1);
-        double railPositionModX = this.model.railPosition * (this.fort.mirrorX ? -1 : 1);
-        double railPositionModY = this.model.railPosition * (this.fort.mirrorY ? -1 : 1);
-
-        position.setLocation(
-                this.model.railPosition < 0 ?
-                        this.fort.getPosition().x - (railMinMod - railPositionModX) :
-                        this.fort.getPosition().x - railMinMod,
-                this.model.railPosition > 0 ?
-                        this.fort.getPosition().y + (railMaxMod - railPositionModY) :
-                        this.fort.getPosition().y + railMaxMod
-        );
     }
 
     /**
@@ -98,13 +99,15 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
      */
     @Override
     public void renderOnContext(GraphicsContext context) {
-        Point.Double position = this.model.getPosition();
-        Dimension size = this.model.getSize();
-        context.drawImage(this.image,
-                position.x,
-                position.y,
-                size.width, size.height
-        );
+        if (!this.fort.destroyed || this.shared.getSettings().ghosting) {
+            Point.Double position = this.model.getPosition();
+            Dimension size = this.model.getSize();
+            context.drawImage(this.image,
+                    position.x,
+                    position.y,
+                    size.width, size.height
+            );
+        }
     }
 
     /**

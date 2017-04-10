@@ -25,6 +25,7 @@ import java.awt.*;
 public class WarlordComponent implements IWarlord, Physical, CanvasObject, Disposable, LooperChild {
     private SharedModule shared;
     private Image image;
+    private Image ghostImage;
     private GameModule game;
     private FortService fort;
     private WarlordService model;
@@ -33,6 +34,10 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
         if (this.fort.player > 0 && this.fort.player <= 4) {
             this.image = this.shared.getJFX().loadImage(
                     this.getClass(), "assets/warlord-" + Integer.toString(this.fort.player) + ".png"
+            );
+            this.ghostImage = this.shared.getJFX().loadImage(
+                    this.getClass(), "assets/warlord-" + Integer.toString(this.fort.player) +
+                            "-ghost.png"
             );
         }
     }
@@ -50,8 +55,7 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
     /**
      * @param intervalS Time since last update, in seconds.
      */
-    public void update(Double intervalS) {
-
+    public void onGameLoop(Double intervalS) {
     }
 
     /**
@@ -59,12 +63,20 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
      */
     @Override
     public void renderOnContext(GraphicsContext context) {
+        Point.Double position = this.model.getPosition();
+        Dimension size = this.model.getSize();
+        Image image = null;
+
         if (!this.fort.destroyed) {
-            Point.Double position = this.model.getPosition();
-            Dimension size = this.model.getSize();
-            context.drawImage(this.image,
-                    position.x,
-                    position.y,
+            image = this.image;
+        }
+        else if (this.model.ghost) {
+            image = this.ghostImage;
+        }
+        
+        if (image != null) {
+            context.drawImage(image,
+                    position.x, position.y,
                     size.width, size.height
             );
         }
@@ -77,6 +89,11 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
             this.fort.destroyed = true;
+
+            if (this.shared.getSettings().ghosting) {
+                this.model.ghost = true;
+            }
+
             this.game.getPhysics().getStatics().remove(this);
 
             BallComponent ball = (BallComponent) object;
@@ -136,6 +153,10 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
     @Override
     public boolean isDead(){
         return this.fort.destroyed;
+    }
+
+    public boolean isGhost() {
+        return this.model.ghost;
     }
 
     @Override

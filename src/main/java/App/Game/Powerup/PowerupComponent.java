@@ -28,6 +28,11 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
         this.game = game;
         this.model = new PowerupService();
 
+        Power[] powerList = Power.values();
+        this.model.setPower(
+                Power.values()[ThreadLocalRandom.current().nextInt(0, powerList.length)]
+        );
+
         int spawnPosition = ThreadLocalRandom.current().nextInt(0, 4);
 
         Rectangle.Double bounds = this.game.getPhysics().getWorldBounds();
@@ -112,7 +117,7 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
     }
 
     @Override
-    public void update(Double intervalS) {
+    public void onGameLoop(Double intervalS) {
         this.model.timeSinceSpawn += intervalS;
 
         if (this.model.timeSinceSpawn >= 20) {

@@ -152,14 +152,13 @@ public class FortComponent implements Disposable, ScoreKeeper, LooperChild {
     /**
      * @param intervalS time between last frame and current so velocities stay consistent
      */
-    public void update(Double intervalS) {
-        this.warlord.update(intervalS);
-        this.walls.forEach((w) -> w.update(intervalS));
-        this.shield.update(intervalS);
-
+    public void onGameLoop(Double intervalS) {
         if (warlord.isDead()) {
             this.fort.destroyed = true;
         }
+
+        this.walls.forEach((w) -> w.onGameLoop(intervalS));
+        this.shield.onGameLoop(intervalS);
     }
 
     /**

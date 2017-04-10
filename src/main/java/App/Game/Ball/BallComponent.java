@@ -46,7 +46,7 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable,
      * updates the ball so it moves
      * @param intervalS time from last frame change
      */
-    public void update(Double intervalS) {
+    public void onGameLoop(Double intervalS) {
         this.model.invisible = false;
         this.model.unstoppable = false;
 

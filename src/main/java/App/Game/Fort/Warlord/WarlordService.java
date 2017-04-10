@@ -10,12 +10,14 @@ public class WarlordService {
     private Point.Double position;
     public int hitScore;
     public int destroyScore;
+    public boolean ghost;
 
     public WarlordService() {
         this.position = new Point.Double(0, 0);
         this.size = new Dimension(33,47);
         this.hitScore = 20;
         this.destroyScore = 100;
+        this.ghost = false;
     }
 
     public Point.Double getPosition() {

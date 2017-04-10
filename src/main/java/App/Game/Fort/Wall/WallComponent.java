@@ -70,7 +70,7 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
     /**
      * @param intervalS Time since last update, in seconds.
      */
-    public void update (Double intervalS) {
+    public void onGameLoop(Double intervalS) {
 
     }
 

@@ -1,5 +1,6 @@
 package App.Game;
 
+import App.Game.AI.AIService;
 import App.Game.Ball.BallComponent;
 import App.Game.Canvas.CanvasComponent;
 import App.Game.Fort.FortComponent;
@@ -44,8 +45,9 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     private CanvasComponent canvas;
     private BallComponent ball;
     private ArrayList<PowerupComponent> powerups;
+    private Map<Integer, AIService> ai;
     private OverlayComponent overlay;
-    private Map<Integer,FortComponent> forts;
+    private Map<Integer, FortComponent> forts;
 
     private void spawnPowerupMaybe() {
         if (this.shared.getSettings().powerups) {
@@ -72,6 +74,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
         this.ball = new BallComponent(this.shared, this.game);
         this.forts = new TreeMap<>();
+        this.ai = new TreeMap<>();
         this.shared.getJFX().loadFXML(this, GameComponent.class,
                 "GameComponent.fxml");
 
@@ -109,14 +112,14 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
             this.game.getPhysics().check();
 
-            this.ball.update(intervalS);
+            this.ball.onGameLoop(intervalS);
 
-            this.powerups.forEach(p -> p.update(intervalS));
+            this.powerups.forEach(p -> p.onGameLoop(intervalS));
 
             int destroyedForts = 0;
 
             for (FortComponent fort : this.forts.values()) {
-                fort.update(intervalS);
+                fort.onGameLoop(intervalS);
 
                 if (fort.isDestroyed()) {
                     destroyedForts++;
@@ -145,6 +148,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 this.model.gameState = GameState.END;
             }
             else {
+                this.ai.values().forEach(a -> a.onGameLoop(intervalS));
                 this.spawnPowerupMaybe();
             }
         }
@@ -202,6 +206,8 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         FortComponent player3 = this.addPlayer(3, 3, new Point.Double(0, 480));
         FortComponent player4 = this.addPlayer(4, 4, new Point.Double(736, 480));
 
+        this.addAI(3, player3);
+
         this.game.getLoop().getLoopers().add(this);
         this.shared.getJFX().getEventReceivers().add(this);
 
@@ -214,12 +220,16 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     }
 
     public void unload() {
-        // TODO: Finish unload procedure.
         this.model.gameState = GameState.UNLOAD;
+        this.ai.clear();
         this.ball.dispose();
         this.forts.values().forEach(FortComponent::dispose);
+        this.forts.clear();
+        this.powerups.forEach(PowerupComponent::dispose);
+        this.powerups.clear();
         this.game.getLoop().getLoopers().remove(this);
         this.shared.getJFX().getEventReceivers().remove(this);
+        this.game.getCanvas().clear();
         this.model = new GameService();
     }
 
@@ -247,6 +257,15 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         FortComponent fort = new FortComponent(this.shared, this.game, player, orientation, wallTopLeftPos);
         this.forts.putIfAbsent(player, fort);
         return fort;
+    }
+
+    public AIService addAI(Integer player, FortComponent playerFort) {
+        AIService ai = new AIService();
+        ai.trackBall(this.ball);
+        ai.giveFort(playerFort);
+        ai.setBounds(this.game.getPhysics().getWorldBounds());
+        this.ai.putIfAbsent(player, ai);
+        return ai;
     }
 
 
