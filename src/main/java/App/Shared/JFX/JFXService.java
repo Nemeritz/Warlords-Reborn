@@ -87,6 +87,20 @@ public class JFXService {
         }
     }
 
+    public void nonRootLoadFXML(Object controller, Class<?> classType, String fxmlName) {
+        if (this.active) {
+            FXMLLoader fxmlLoader = new FXMLLoader(
+                    classType.getResource(fxmlName)
+            );
+            fxmlLoader.setController(controller);
+
+            try {
+                fxmlLoader.load();
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
+            }
+        }
+    }
 
     /**
      * Loads images from the specified class' directory.

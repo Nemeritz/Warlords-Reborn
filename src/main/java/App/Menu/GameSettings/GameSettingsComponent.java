@@ -49,16 +49,21 @@ public class GameSettingsComponent extends BorderPane {
         this.construct();
     }
 
-    @FXML
-    	void onBackClicked() {
-    	this.shared.getJFX().getMenu().transitionTitle();
-        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+    public void playButtonSound() {
         this.buttonSound.stop();
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.buttonSound.play();
     }
 
     @FXML
+    	void onBackClicked() {
+    	this.shared.getJFX().getMenu().transitionTitle();
+    	this.playButtonSound();
+    }
+
+    @FXML
         void onEffectsClicked(){
+    	this.playButtonSound();
     	if (this.EffectsBox.isSelected()) {
     		this.shared.getSettings().soundEffectsVolume = 0.0;
     	}
@@ -69,6 +74,7 @@ public class GameSettingsComponent extends BorderPane {
 
     @FXML
 		void onMusicClicked(){
+    	this.playButtonSound();
     	if (this.MusicBox.isSelected()) {
     		this.shared.getJFX().getMenu().menuMusic.setMute(true);
     	}

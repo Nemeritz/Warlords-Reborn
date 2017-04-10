@@ -11,6 +11,10 @@ public class SettingsService {
 	public boolean scoreWin;
 	public double ballSpeed;
 	public boolean powerups;
+	public boolean topLeftAI;
+	public boolean topRightAI;
+	public boolean botLeftAI;
+	public boolean botRightAI;
 
 	public SettingsService() {
 		this.musicVolume = 1.0;
@@ -20,5 +24,9 @@ public class SettingsService {
 		this.scoreWin = true;
 		this.ballSpeed = 20;
 		this.powerups = false;
+		this.topLeftAI = false;
+		this.topRightAI = false;
+		this.botLeftAI = false;
+		this.botRightAI = false;
 	}
 }

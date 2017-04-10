@@ -16,7 +16,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 
 
-<fx:root prefHeight="728" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.114" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="728" minHeight="728" maxHeight="728" minWidth="1024" maxWidth="1024" prefWidth="1024"  styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.114" xmlns:fx="http://javafx.com/fxml/1">
    <stylesheets>
       <URL value="@MatchOptionsComponent.css" />
    </stylesheets>
@@ -34,7 +34,7 @@
                <Text text="Ghosting"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               <CheckBox  fx:id="GhostingBox"></CheckBox>
+               <CheckBox  fx:id="GhostingBox" onMouseReleased="#onGhostClicked"></CheckBox>
             </HBox>
          </HBox>
 
@@ -43,7 +43,7 @@
                <Text text="Powerups"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               <CheckBox  fx:id="PowerupsBox"></CheckBox>
+               <CheckBox  fx:id="PowerupsBox" onMouseReleased="#onPowerClicked"></CheckBox>
             </HBox>
          </HBox>
 
@@ -53,18 +53,18 @@
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
             	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-              	 	<RadioButton text="Slow" textFill="WHITE">
+              	 	<RadioButton text="Slow" textFill="WHITE" onMouseReleased="#onSlowClicked">
               	     	<toggleGroup>
            					<ToggleGroup fx:id="speedoptions" />
          			 	</toggleGroup>
          		 	</RadioButton>
             	</HBox>
             	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               		 <RadioButton text="Medium" textFill="WHITE" selected="true" toggleGroup="$speedoptions">
+               		 <RadioButton text="Medium" textFill="WHITE" selected="true" toggleGroup="$speedoptions" onMouseReleased="#onMediumClicked">
          			 </RadioButton>
             	</HBox>
             	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               		 <RadioButton text="Fast" textFill="WHITE" toggleGroup="$speedoptions" >
+               		 <RadioButton text="Fast" textFill="WHITE" toggleGroup="$speedoptions" onMouseReleased="#onFastClicked">
          			 </RadioButton>
             	</HBox>
             </HBox>
@@ -96,6 +96,33 @@
             		<ComboBox fx:id="timeCombo" minWidth="150" disable="true">
             		</ComboBox>
             	</HBox>
+            </HBox>
+         </HBox>
+
+         <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="wincond">
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <Text text="Top Left AI"/>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <CheckBox  fx:id="topLeftBox" onMouseReleased="#onTopLeftClicked"></CheckBox>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <Text text="Top Right AI"/>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <CheckBox  fx:id="topRightBox" onMouseReleased="#onTopRightClicked"></CheckBox>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <Text text="Bot Left AI"/>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <CheckBox  fx:id="botLeftBox" onMouseReleased="#onBotLeftClicked"></CheckBox>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <Text text="Bot Right AI"/>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
+               <CheckBox  fx:id="botRightBox" onMouseReleased="#onBotRightClicked"></CheckBox>
             </HBox>
          </HBox>
 

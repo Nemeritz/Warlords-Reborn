@@ -50,15 +50,19 @@ public class TitleComponent extends BorderPane {
         this.construct();
     }
 
+    public void playButtonSound() {
+        this.buttonSound.stop();
+        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+        this.buttonSound.play();
+    }
+
     /**
      * transitions scene to match options when clicked
      */
     @FXML
     void onPlayClicked() {
         this.shared.getJFX().getMenu().transitionOptions();
-        this.buttonSound.stop();
-        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
-        this.buttonSound.play();
+        this.playButtonSound();
     }
 
     /**
@@ -66,9 +70,7 @@ public class TitleComponent extends BorderPane {
      */
     @FXML
     void onExitClicked() {
-        this.buttonSound.stop();
-        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
-        this.buttonSound.play();
+    	this.playButtonSound();
     	this.shared.getJFX().closeStage();
     }
 
@@ -78,9 +80,6 @@ public class TitleComponent extends BorderPane {
     @FXML
     void onSettingsClicked() {
         this.shared.getJFX().getMenu().transitionSettings();
-        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
-        this.buttonSound.stop();
-        this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
-        this.buttonSound.play();
+        this.playButtonSound();
     }
 }
