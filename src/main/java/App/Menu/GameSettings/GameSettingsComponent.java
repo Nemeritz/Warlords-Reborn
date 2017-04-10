@@ -25,6 +25,9 @@ public class GameSettingsComponent extends BorderPane {
     @FXML
     private Text back;
 
+    /**
+     * load the menu, set listener for sliders and volume for button sounds
+     */
     private void construct() {
         this.shared.getJFX().loadFXML(this, GameSettingsComponent.class,
                 "GameSettingsComponent.fxml");
@@ -32,6 +35,7 @@ public class GameSettingsComponent extends BorderPane {
         this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "Button.mp3");
         this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
 
+        //adds a listener for slider value change and detect them, change volume proportional to slider
         this.VolumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
         	this.shared.getSettings().musicVolume = (((double)newValue)/100);
         	this.shared.getSettings().soundEffectsVolume = (((double)newValue)/100);
@@ -40,27 +44,43 @@ public class GameSettingsComponent extends BorderPane {
         });
     }
 
+    /**
+     * default constructor
+     */
     public GameSettingsComponent() {
         this.construct();
     }
 
+    /**
+     * Constructor
+     * @param shared allows access to JFX service
+     */
     public GameSettingsComponent(SharedModule shared) {
         this.shared = shared;
         this.construct();
     }
 
+    /**
+     * plays the button sound effect
+     */
     public void playButtonSound() {
         this.buttonSound.stop();
         this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.buttonSound.play();
     }
 
+    /**
+     * transition to the main menu
+     */
     @FXML
     	void onBackClicked() {
     	this.shared.getJFX().getMenu().transitionTitle();
     	this.playButtonSound();
     }
 
+    /**
+     *mutes the sound effects if selected
+     */
     @FXML
         void onEffectsClicked(){
     	this.playButtonSound();
@@ -72,6 +92,9 @@ public class GameSettingsComponent extends BorderPane {
     	}
     }
 
+    /**
+     * mutes the music if selected
+     */
     @FXML
 		void onMusicClicked(){
     	this.playButtonSound();

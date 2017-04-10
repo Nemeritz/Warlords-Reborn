@@ -63,6 +63,7 @@ public class MatchOptionsComponent extends BorderPane {
 
         this.timeCombo.getItems().addAll("3 minutes", "6 minutes", "9 minutes");
 
+        //adds a listener for combo box selection change and detect them
         this.timeCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         	this.playButtonSound();
         	if (this.timeCombo.getSelectionModel().getSelectedItem().toString().equals("3 minutes")) {
@@ -93,7 +94,10 @@ public class MatchOptionsComponent extends BorderPane {
         this.construct();
     }
 
-    public void playButtonSound() {
+	/**
+	 * plays the button press sound effect
+	 */
+	public void playButtonSound() {
         this.buttonSound.stop();
         this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.buttonSound.play();
@@ -124,21 +128,30 @@ public class MatchOptionsComponent extends BorderPane {
         this.shared.getJFX().getMenu().menuMusic.stop();
     }
 
-    @FXML
+	/**
+	 * sets game mode to death match
+	 */
+	@FXML
 		void onDeathClicked(){
 			this.playButtonSound();
     		this.timeCombo.setDisable(true);
     		this.shared.getSettings().scoreWin = false;
     }
 
-    @FXML
+	/**
+	 * sets game mode to score based, win condition is highest score when game limit ends
+	 */
+	@FXML
 		void onTimeClicked(){
 			this.playButtonSound();
     		this.timeCombo.setDisable(false);
     		this.shared.getSettings().scoreWin = true;
     }
 
-    @FXML
+	/**
+	 * Allows ghosting after a player dies
+	 */
+	@FXML
 		void onGhostClicked(){
     	this.playButtonSound();
     	if (this.GhostingBox.isSelected()) {
@@ -149,7 +162,10 @@ public class MatchOptionsComponent extends BorderPane {
     	}
     }
 
-    @FXML
+	/**
+	 * Adds powerups
+	 */
+	@FXML
 		void onPowerClicked(){
     	this.playButtonSound();
     	if (this.PowerupsBox.isSelected()) {
@@ -160,7 +176,10 @@ public class MatchOptionsComponent extends BorderPane {
     	}
     }
 
-    @FXML
+	/**
+	 * top left is AI or human
+	 */
+	@FXML
 		void onTopLeftClicked(){
     	this.playButtonSound();
     	if (this.topLeftBox.isSelected()) {
@@ -171,7 +190,10 @@ public class MatchOptionsComponent extends BorderPane {
     	}
     }
 
-    @FXML
+	/**
+	 * top right is AI or human
+	 */
+	@FXML
 		void onTopRightClicked(){
     	this.playButtonSound();
     	if (this.topRightBox.isSelected()) {
@@ -182,7 +204,10 @@ public class MatchOptionsComponent extends BorderPane {
     	}
     }
 
-    @FXML
+	/**
+	 * bottom left AI or human player
+	 */
+	@FXML
 		void onBotLeftClicked(){
     	this.playButtonSound();
     	if (this.botLeftBox.isSelected()) {
@@ -193,7 +218,10 @@ public class MatchOptionsComponent extends BorderPane {
     	}
     }
 
-    @FXML
+	/**
+	 * bottom right AI or human player
+	 */
+	@FXML
 		void onBotRightClicked(){
     	this.playButtonSound();
     	if (this.botRightBox.isSelected()) {
@@ -204,19 +232,28 @@ public class MatchOptionsComponent extends BorderPane {
     	}
     }
 
-    @FXML
+	/**
+	 * sets ball speed to slow
+	 */
+	@FXML
 		void onSlowClicked(){
 			this.playButtonSound();
     		this.shared.getSettings().ballSpeed = 10;
     }
 
-    @FXML
+	/**
+	 * sets ball speed to medium
+	 */
+	@FXML
 		void onMediumClicked(){
 			this.playButtonSound();
 			this.shared.getSettings().ballSpeed = 20;
     }
 
-    @FXML
+	/**
+	 * sets ball speed to fast
+	 */
+	@FXML
 		void onFastClicked(){
     		this.playButtonSound();
 			this.shared.getSettings().ballSpeed = 30;

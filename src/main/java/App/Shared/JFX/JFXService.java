@@ -87,21 +87,6 @@ public class JFXService {
         }
     }
 
-    public void nonRootLoadFXML(Object controller, Class<?> classType, String fxmlName) {
-        if (this.active) {
-            FXMLLoader fxmlLoader = new FXMLLoader(
-                    classType.getResource(fxmlName)
-            );
-            fxmlLoader.setController(controller);
-
-            try {
-                fxmlLoader.load();
-            } catch (IOException exception) {
-                throw new RuntimeException(exception);
-            }
-        }
-    }
-
     /**
      * Loads images from the specified class' directory.
      * @param classType The class type to search from.
@@ -159,12 +144,21 @@ public class JFXService {
         }
     }
 
+    /**
+     * creates a media player using a mp3 file
+     * @param classType class where the media files is located at
+     * @param fileName name of the file
+     * @return the new mediaplayer created
+     */
     public MediaPlayer loadMedia( Class<?> classType, String fileName) {
     	 this.sound = new Media(classType.getResource("Media/"+fileName).toString());
     	 this.mediaPlayer = new MediaPlayer(this.sound);
     	 return this.mediaPlayer;
     }
 
+    /**
+     * @return main menu scene
+     */
     public MenuComponent getMenu() {
     	return this.mainMenu;
     }

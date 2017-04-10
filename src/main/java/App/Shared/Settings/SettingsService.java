@@ -9,7 +9,7 @@ public class SettingsService {
 	public boolean ghosting;
 	public double maxGameTime;
 	public boolean scoreWin;
-	public double ballSpeed;
+	public int ballSpeed;
 	public boolean powerups;
 	public boolean topLeftAI;
 	public boolean topRightAI;

@@ -82,12 +82,18 @@ public class MenuComponent extends Pane {
 //        this.menuWrapper.getChildren().add(this.highscores);
     }
 
+    /**
+     * removes existing components in the menu and add in the settings menu component
+     */
     public void transitionSettings() {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();
         this.menuWrapper.getChildren().add(this.settings);
     }
 
+    /**
+     * removes existing components in the menu and add in the options menu component
+     */
     public void transitionOptions() {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();

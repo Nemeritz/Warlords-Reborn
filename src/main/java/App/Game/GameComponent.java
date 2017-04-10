@@ -75,6 +75,9 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         }
 
         this.ball = new BallComponent(this.shared, this.game);
+        this.ball.setXVelocity(this.shared.getSettings().ballSpeed);
+        this.ball.setYVelocity(this.shared.getSettings().ballSpeed);
+
         this.forts = new TreeMap<>();
         this.shared.getJFX().loadFXML(this, GameComponent.class,
                 "GameComponent.fxml");

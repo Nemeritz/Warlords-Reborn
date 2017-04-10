@@ -22,7 +22,7 @@ public class HighscoresComponent extends BorderPane {
      * Constructs the Match options component
      */
     private void construct() {
-        this.shared.getJFX().nonRootLoadFXML(this, HighscoresComponent.class,
+        this.shared.getJFX().loadFXML(this, HighscoresComponent.class,
                 "HighscoresComponent.fxml");
     }
 
