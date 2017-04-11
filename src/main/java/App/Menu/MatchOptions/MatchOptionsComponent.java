@@ -37,6 +37,15 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
 
     @FXML
     private RadioButton deathRadio;
+    
+    @FXML
+    private RadioButton slowRadio;
+    
+    @FXML
+    private RadioButton mediumRadio;
+    
+    @FXML
+    private RadioButton fastRadio;
 
     @FXML
     private Text back;
@@ -184,10 +193,10 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
 		void onTopLeftClicked(){
     	this.playButtonSound();
     	if (this.topLeftBox.isSelected()) {
-    		this.shared.getSettings().topLeftAI = true;
+    		this.shared.getSettings().topLeft = 1;
     	}
     	else {
-    		this.shared.getSettings().topLeftAI = false;
+    		this.shared.getSettings().topLeft = 1;
     	}
     }
 
@@ -198,10 +207,10 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
 		void onTopRightClicked(){
     	this.playButtonSound();
     	if (this.topRightBox.isSelected()) {
-    		this.shared.getSettings().topRightAI = true;
+    		this.shared.getSettings().topRight = 1;
     	}
     	else {
-    		this.shared.getSettings().topRightAI = false;
+    		this.shared.getSettings().topRight = 1;
     	}
     }
 
@@ -212,10 +221,10 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
 		void onBotLeftClicked(){
     	this.playButtonSound();
     	if (this.botLeftBox.isSelected()) {
-    		this.shared.getSettings().botLeftAI = true;
+    		this.shared.getSettings().botLeft = 1;
     	}
     	else {
-    		this.shared.getSettings().botLeftAI = false;
+    		this.shared.getSettings().botLeft = 1;
     	}
     }
 
@@ -226,10 +235,10 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
 		void onBotRightClicked(){
     	this.playButtonSound();
     	if (this.botRightBox.isSelected()) {
-    		this.shared.getSettings().botRightAI = true;
+    		this.shared.getSettings().botRight = 1;
     	}
     	else {
-    		this.shared.getSettings().botRightAI = false;
+    		this.shared.getSettings().botRight = 1;
     	}
     }
 
@@ -265,31 +274,63 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
     	
     	if (event.getEventType() == KeyEvent.KEY_RELEASED) {
     		if (event.getCode() == KeyCode.TAB) {
-    			if (currentButton < 2) {
+    			if (currentButton < 11) {
     				currentButton++;
     			}
-    			else if (currentButton == 2) {
+    			else if (currentButton == 11) {
     				currentButton = 0;
     			}
     		}
 
     		else if (event.getCode() == KeyCode.ENTER) {
     			switch (currentButton) {
-    			case 0:	  this.shared.getJFX().setScene("game");
-    	                  ((GameComponent) this.shared.getJFX().getScene("game").getKey())
-    	                  .startGameCountdown();
-
-    			this.playButtonSound();
-    	        this.menu.getMusic().stop();
+    			case 0:	this.GhostingBox.fire();
+        				this.playButtonSound();
     			break;
 
-    			case 1: this.menu.transitionSettings();
+    			case 1: this.PowerupsBox.fire();
+						this.playButtonSound();
+    			break;
+
+    			case 2: this.slowRadio.setSelected(true);
+						this.playButtonSound();
+    			break;
+    			
+    			case 3: this.mediumRadio.setSelected(true);
+						this.playButtonSound();
+				break;
+		
+    			case 4: this.fastRadio.setSelected(true);
     					this.playButtonSound();
-    			break;
+				break;
+		
+    			case 5: this.playButtonSound();
+						this.shared.getJFX().closeStage();
+				break;
 
-    			case 2: this.playButtonSound();
-    					this.shared.getJFX().closeStage();
-    			break;
+    			case 6: this.playButtonSound();
+				this.shared.getJFX().closeStage();
+				break;
+		
+    			case 7: this.playButtonSound();
+				this.shared.getJFX().closeStage();
+				break;
+		
+    			case 8: this.playButtonSound();
+				this.shared.getJFX().closeStage();
+				break;
+		
+    			case 9: this.playButtonSound();
+				this.shared.getJFX().closeStage();
+				break;
+		
+    			case 10: this.playButtonSound();
+				this.shared.getJFX().closeStage();
+				break;
+		
+    			case 11: this.playButtonSound();
+				this.shared.getJFX().closeStage();
+				break;
     			}
     		}
     	}

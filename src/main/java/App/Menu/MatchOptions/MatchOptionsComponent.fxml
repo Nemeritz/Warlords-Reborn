@@ -53,18 +53,18 @@
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
             	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-              	 	<RadioButton text="Slow" textFill="WHITE" onMouseReleased="#onSlowClicked">
+              	 	<RadioButton fx:id="slowRadio" text="Slow" textFill="WHITE" onMouseReleased="#onSlowClicked">
               	     	<toggleGroup>
            					<ToggleGroup fx:id="speedoptions" />
          			 	</toggleGroup>
          		 	</RadioButton>
             	</HBox>
             	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               		 <RadioButton text="Medium" textFill="WHITE" selected="true" toggleGroup="$speedoptions" onMouseReleased="#onMediumClicked">
+               		 <RadioButton fx:id="mediumRadio" text="Medium" textFill="WHITE" selected="true" toggleGroup="$speedoptions" onMouseReleased="#onMediumClicked">
          			 </RadioButton>
             	</HBox>
             	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               		 <RadioButton text="Fast" textFill="WHITE" toggleGroup="$speedoptions" onMouseReleased="#onFastClicked">
+               		 <RadioButton fx:id="fastRadio" text="Fast" textFill="WHITE" toggleGroup="$speedoptions" onMouseReleased="#onFastClicked">
          			 </RadioButton>
             	</HBox>
             </HBox>
