@@ -1,6 +1,7 @@
 package App.Menu;
 
 import App.Menu.GameSettings.GameSettingsComponent;
+import App.Menu.ModeSelection.ModeSelectionComponent;
 import App.Menu.MatchOptions.MatchOptionsComponent;
 import App.Menu.Title.TitleComponent;
 import App.Shared.SharedModule;
@@ -25,6 +26,10 @@ public class MenuComponent extends Pane {
 
     private MatchOptionsComponent options;
 
+    private ModeSelectionComponent mode;
+
+    private int currentMenu;
+
 //    private HighscoresComponent highscores;
 
     /**
@@ -40,12 +45,15 @@ public class MenuComponent extends Pane {
         this.title = new TitleComponent(shared, this);
         this.settings = new GameSettingsComponent(shared, this);
         this.options = new MatchOptionsComponent(shared, this);
+        this.mode = new ModeSelectionComponent(shared, this);
  //      this.highscores = new HighscoresComponent(shared);
 
         this.shared.getJFX().loadFXML(this, MenuComponent.class,
                 "MenuComponent.fxml");
         // Load the title by default
         this.transitionTitle();
+
+        this.currentMenu = 0;
     }
 
     /**
@@ -71,7 +79,8 @@ public class MenuComponent extends Pane {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();
         this.menuWrapper.getChildren().add(this.title);
-//        this.menuWrapper.getChildren().add(this.highscores);
+        this.title.resetCurrentButton();
+        this.currentMenu = 0;
     }
 
     /**
@@ -81,6 +90,8 @@ public class MenuComponent extends Pane {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();
         this.menuWrapper.getChildren().add(this.settings);
+        this.settings.resetCurrentButton();
+        this.currentMenu = 1;
     }
 
     /**
@@ -90,6 +101,23 @@ public class MenuComponent extends Pane {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();
         this.menuWrapper.getChildren().add(this.options);
+        this.options.resetCurrentButton();
+        this.currentMenu = 2;
+    }
+
+    /**
+     * removes existing components in the menu and add in the mode selection menu component
+     */
+    public void transitionMode() {
+        this.menuWrapper.getChildren().clear();
+        this.menuWrapper.getChildren().removeAll();
+        this.menuWrapper.getChildren().add(this.mode);
+        this.mode.resetCurrentButton();
+        this.currentMenu = 3;
+    }
+
+    public int getCurrentMenu() {
+    	return this.currentMenu;
     }
 
     public MediaPlayer getMusic() {

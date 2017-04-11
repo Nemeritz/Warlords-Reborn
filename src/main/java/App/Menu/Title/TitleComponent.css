@@ -4,7 +4,9 @@
 }
 
 .menu-title {
+	-fx-focus-color: transparent;
     -fx-padding: 2em;
+    -fx-faint-focus-color: transparent;
 }
 
 .game-title {

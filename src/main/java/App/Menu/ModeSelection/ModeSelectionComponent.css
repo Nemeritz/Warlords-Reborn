@@ -1,0 +1,48 @@
+.menu-title {
+    -fx-alignment: center;
+    -fx-background-color: #000;
+}
+
+.mode-title {
+    -fx-alignment: center;
+    -fx-background-color: #000;
+    -fx-fill: #FFF;
+    -fx-padding: 2em;
+    -fx-font-size: 4em;
+}
+
+.mode-title Text {
+    -fx-fill: #FFF;
+    -fx-padding: 2em;
+    -fx-font-size: 4em;
+}
+
+.mode-center {
+    -fx-font-size: 2em;
+    -fx-padding: 60px;
+}
+
+.mode-center Text{
+    -fx-fill: #FFF;
+}
+
+.options-items {
+    -fx-font-size: 2em;
+    -fx-padding: 2em;
+}
+
+.options-items Text {
+    -fx-fill: #A8A8A8;
+}
+
+.options-items Text:hover {
+    -fx-fill: #FFF;
+}
+
+.topHBox {
+	-fx-padding: 30px;
+}
+
+.botHBox {
+	-fx-padding: 30px;
+}

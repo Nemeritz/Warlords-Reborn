@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+
+<fx:root prefHeight="728" minHeight="728" maxHeight="728" minWidth="1024" maxWidth="1024" prefWidth="1024" styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.116" xmlns:fx="http://javafx.com/fxml/1">
+   <stylesheets>
+      <URL value="@ModeSelectionComponent.css" />
+   </stylesheets>
+
+   <top>
+      <HBox styleClass="mode-title" HBox.hgrow="ALWAYS" alignment="TOP_CENTER">
+         <Text text="Player Selections" />
+      </HBox>
+   </top>
+
+  <center>
+      <VBox styleClass="mode-center" alignment="CENTER">
+         <HBox alignment="CENTER" styleClass="topHbox" minHeight="210" maxHeight="210">
+            <VBox VBox.vgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
+               <Text text="Player or AI"/>
+               <ComboBox fx:id="tlcombo" minWidth="150" maxWidth="150"/>
+               <Text text="Name"/>
+               <TextField fx:id="tltext" minWidth="150" maxWidth="150"/>
+            </VBox>
+            <VBox VBox.vgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
+               <Text text="Player or AI"/>
+               <ComboBox fx:id="trcombo" minWidth="150" maxWidth="150"/>
+               <Text text="Name"/>
+               <TextField fx:id="trtext" minWidth="150" maxWidth="150"/>
+            </VBox>
+         </HBox>
+
+         <HBox alignment="CENTER" styleClass="botHbox" minHeight="210" maxHeight="210">
+            <VBox VBox.vgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
+               <Text text="Player or AI"/>
+               <ComboBox fx:id="blcombo" minWidth="150" maxWidth="150"/>
+               <Text text="Name"/>
+               <TextField fx:id="bltext" minWidth="150" maxWidth="150"/>
+            </VBox>
+            <VBox VBox.vgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
+               <Text text="Player or AI"/>
+               <ComboBox fx:id="brcombo" minWidth="150" maxWidth="150"/>
+               <Text text="Name"/>
+               <TextField fx:id="brtext" minWidth="150" maxWidth="150"/>
+            </VBox>
+         </HBox>
+      </VBox>
+   </center>
+
+   <bottom>
+      <HBox styleClass="options-items">
+         <HBox HBox.hgrow="ALWAYS" alignment="BOTTOM_CENTER">
+            <Text fx:id="back" onMousePressed="#onBackClicked" text="Back" />
+         </HBox>
+
+         <HBox HBox.hgrow="ALWAYS" alignment="BOTTOM_CENTER">
+            <Text fx:id="cont" onMousePressed="#onContinueClicked" text="Continue" />
+         </HBox>
+      </HBox>
+   </bottom>
+</fx:root>

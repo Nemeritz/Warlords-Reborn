@@ -1,0 +1,3 @@
+Button.mp3 http://soundbible.com/tags-button.html (Button Clicking)
+GameMusic.mp3 http://ozzed.net/music/cor-metallicum.shtml#tune01 (The misadventure begins)
+MenuMusic.mp3 http://ozzed.net/music/cor-metallicum.shtml#tune01 (Ferrous Rage)

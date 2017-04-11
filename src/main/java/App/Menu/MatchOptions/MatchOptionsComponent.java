@@ -17,7 +17,7 @@ import javafx.scene.text.Text;
 /**
  * Created by Hanliang Ding on 09/04/2017.
  */
-public class MatchOptionsComponent extends BorderPane implements EventReceiver{
+public class MatchOptionsComponent extends BorderPane implements EventReceiver {
     private MenuComponent menu;
     private SharedModule shared;
     private MediaPlayer buttonSound;
@@ -37,13 +37,13 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
 
     @FXML
     private RadioButton deathRadio;
-    
+
     @FXML
     private RadioButton slowRadio;
-    
+
     @FXML
     private RadioButton mediumRadio;
-    
+
     @FXML
     private RadioButton fastRadio;
 
@@ -54,7 +54,7 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
     private Text cont;
 
     @FXML
-    private CheckBox topLeftBox, topRightBox, botLeftBox, botRightBox;
+    private BorderPane pane;
 
     /**
      * Constructs the Match options component
@@ -65,7 +65,7 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
 
         this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "assets/Button.mp3");
         this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
-        
+
         this.currentButton = 0;
         this.shared.getJFX().getEventReceivers().add(this);
 
@@ -130,12 +130,8 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
      */
     @FXML
     void onContinueClicked() {
-    	this.shared.getJFX().setScene("game");
-        ((GameComponent) this.shared.getJFX().getScene("game").getKey())
-        .startGameCountdown();
-
+    	this.menu.transitionMode();
 		this.playButtonSound();
-        this.menu.getMusic().stop();
     }
 
 	/**
@@ -187,62 +183,6 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
     }
 
 	/**
-	 * top left is AI or human
-	 */
-	@FXML
-		void onTopLeftClicked(){
-    	this.playButtonSound();
-    	if (this.topLeftBox.isSelected()) {
-    		this.shared.getSettings().topLeft = 1;
-    	}
-    	else {
-    		this.shared.getSettings().topLeft = 1;
-    	}
-    }
-
-	/**
-	 * top right is AI or human
-	 */
-	@FXML
-		void onTopRightClicked(){
-    	this.playButtonSound();
-    	if (this.topRightBox.isSelected()) {
-    		this.shared.getSettings().topRight = 1;
-    	}
-    	else {
-    		this.shared.getSettings().topRight = 1;
-    	}
-    }
-
-	/**
-	 * bottom left AI or human player
-	 */
-	@FXML
-		void onBotLeftClicked(){
-    	this.playButtonSound();
-    	if (this.botLeftBox.isSelected()) {
-    		this.shared.getSettings().botLeft = 1;
-    	}
-    	else {
-    		this.shared.getSettings().botLeft = 1;
-    	}
-    }
-
-	/**
-	 * bottom right AI or human player
-	 */
-	@FXML
-		void onBotRightClicked(){
-    	this.playButtonSound();
-    	if (this.botRightBox.isSelected()) {
-    		this.shared.getSettings().botRight = 1;
-    	}
-    	else {
-    		this.shared.getSettings().botRight = 1;
-    	}
-    }
-
-	/**
 	 * sets ball speed to slow
 	 */
 	@FXML
@@ -268,10 +208,14 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
     		this.playButtonSound();
 			this.shared.getSettings().ballSpeed = 300;
     }
-	
+
+    public void resetCurrentButton() {
+    	this.currentButton = 0;
+    }
+
     @Override
     public void onKeyEvent(KeyEvent event){
-    	
+
     	if (event.getEventType() == KeyEvent.KEY_RELEASED) {
     		if (event.getCode() == KeyCode.TAB) {
     			if (currentButton < 11) {
@@ -282,7 +226,7 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
     			}
     		}
 
-    		else if (event.getCode() == KeyCode.ENTER) {
+    		else if ((event.getCode() == KeyCode.ENTER) && (this.menu.getCurrentMenu() == 2)) {
     			switch (currentButton) {
     			case 0:	this.GhostingBox.fire();
         				this.playButtonSound();
@@ -295,15 +239,15 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
     			case 2: this.slowRadio.setSelected(true);
 						this.playButtonSound();
     			break;
-    			
+
     			case 3: this.mediumRadio.setSelected(true);
 						this.playButtonSound();
 				break;
-		
+
     			case 4: this.fastRadio.setSelected(true);
     					this.playButtonSound();
 				break;
-		
+
     			case 5: this.playButtonSound();
 						this.shared.getJFX().closeStage();
 				break;
@@ -311,23 +255,23 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
     			case 6: this.playButtonSound();
 				this.shared.getJFX().closeStage();
 				break;
-		
+
     			case 7: this.playButtonSound();
 				this.shared.getJFX().closeStage();
 				break;
-		
+
     			case 8: this.playButtonSound();
 				this.shared.getJFX().closeStage();
 				break;
-		
+
     			case 9: this.playButtonSound();
 				this.shared.getJFX().closeStage();
 				break;
-		
+
     			case 10: this.playButtonSound();
 				this.shared.getJFX().closeStage();
 				break;
-		
+
     			case 11: this.playButtonSound();
 				this.shared.getJFX().closeStage();
 				break;

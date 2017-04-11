@@ -29,7 +29,7 @@
       <VBox styleClass="settings-center" alignment="TOP_CENTER">
          <HBox alignment="CENTER" styleClass="vol">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="Volume"/>
+               <Text fx:id="volumeText" text="Volume"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
                <Slider fx:id="VolumeSlider" minWidth="200.0" value="100.0" ></Slider>
@@ -38,7 +38,7 @@
 
 		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="soundef">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="Mute Sound Effects"/>
+               <Text fx:id="soundText" text="Mute Sound Effects"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
                <CheckBox  fx:id="EffectsBox" onMouseReleased="#onEffectsClicked"></CheckBox>
@@ -47,7 +47,7 @@
 
 		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="music">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="Mute Music"/>
+               <Text fx:id="musicText" text="Mute Music"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
                <CheckBox fx:id="MusicBox" onMouseReleased="#onMusicClicked"></CheckBox>

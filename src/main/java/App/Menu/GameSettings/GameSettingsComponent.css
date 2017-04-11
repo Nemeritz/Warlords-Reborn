@@ -4,7 +4,9 @@
 }
 
 .menu-title {
+	-fx-focus-color: transparent;
     -fx-alignment: center;
+    -fx-faint-focus-color: transparent;
 }
 
 .settings-center {
