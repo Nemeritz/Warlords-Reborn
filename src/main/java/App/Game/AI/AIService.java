@@ -8,6 +8,7 @@ import App.Game.Loop.LooperChild;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Created by lichk on 9/04/2017.
@@ -18,9 +19,24 @@ public class AIService implements LooperChild {
     BallComponent ball;
     FortComponent fort;
 
-    private Point.Double getIntersect(Line2D line1, Line2D line2) {
-        // TODO: Find intersection between line1 and line2
-//        if (!(line1.getP1().x == line1.getP2().x))
+    private Point.Double getIntersect(Line2D.Double line1, Line2D.Double line2) {
+        // Construct line equations ax + by = c.
+        double a1 = line1.y1 - line1.y2;
+        double a2 = line2.y1 - line2.y2;
+        double b1 = line1.x2 - line1.x1;
+        double b2 = line2.x2 - line2.x1;
+        double c1 = -(line1.x1 * line1.y2 - line1.x2 * line1.y1);
+        double c2 = -(line2.x1 * line2.y2 - line2.x2 * line2.y1);
+
+        // Use line intersection algorithm to determine intersection point.
+        double delta = a1 * b2 - a2 * b1;
+
+        if (!(delta == 0)) {
+            return new Point.Double(
+                    (b2 * c1 - b1 * c2) / delta,
+                    (a1 * c2 - a2 * c1) / delta
+            );
+        }
         return null;
     }
 
@@ -56,6 +72,11 @@ public class AIService implements LooperChild {
             WarlordComponent warlord = this.fort.getWarlord();
 
             if (!this.fort.isDestroyed() || warlord.isGhost()) {
+                ShieldComponent shield = this.fort.getShield();
+
+                // Start off with rail speed 0
+                shield.setRailSpeed(0);
+
                 // Check if the ball is getting closer
                 double currentDistance = warlord.getPosition().distance(this.ball.getPosition());
                 double nextDistance = warlord.getPosition().distance(
@@ -107,8 +128,6 @@ public class AIService implements LooperChild {
                         }
                     }
 
-                    ShieldComponent shield = this.fort.getShield();
-
                     // Check if fort is in the way
                     Rectangle.Double fortHitbox = new Rectangle.Double(
                             this.fort.getPosition().x, this.fort.getPosition().y,
@@ -119,24 +138,79 @@ public class AIService implements LooperChild {
                             shield.getPosition().x, shield.getPosition().y,
                             shield.getSize().height, shield.getSize().width
                     );
-                    boolean intersectsFort = fortHitbox.intersectsLine(ballTrajectory);
-                    boolean intersectsShield = shieldHitbox.intersectsLine((ballTrajectory));
 
-                    if (intersectsShield) {
-                        shield.setRailSpeed(0);
-                    }
-                    else if (intersectsFort) {
-                        int outcode = shieldHitbox.outcode(this.ball.getPosition());
-                        if (outcode <= Rectangle.OUT_TOP) {
-                            shield.setRailSpeed(-400);
+                    boolean intersectsFort = fortHitbox.intersectsLine(ballTrajectory);
+
+                    if (intersectsFort) {
+                        Point.Double intersection = null;
+                        Point.Double intersectionX;
+                        Point.Double intersectionY;
+
+                        if (this.fort.getMirrorX()) {
+                            // Check left wall
+                            intersectionX = this.getIntersect(new Line2D.Double(
+                                    fortHitbox.x, fortHitbox.y,
+                                    fortHitbox.x, fortHitbox.height
+                            ), ballTrajectory);
                         }
                         else {
-                            shield.setRailSpeed(400);
+                            // Check right wall
+                            intersectionX = this.getIntersect(new Line2D.Double(
+                                    fortHitbox.width, fortHitbox.y,
+                                    fortHitbox.width, fortHitbox.height
+                            ), ballTrajectory);
+                        }
+
+                        if (this.fort.getMirrorY()) {
+                            // Check top wall
+                            intersectionY = this.getIntersect(new Line2D.Double(
+                                    fortHitbox.x, fortHitbox.y,
+                                    fortHitbox.width, fortHitbox.y
+                            ), ballTrajectory);
+                        }
+                        else {
+                            // Check bottom wall
+                            intersectionY = this.getIntersect(new Line2D.Double(
+                                    fortHitbox.x, fortHitbox.y,
+                                    fortHitbox.width, fortHitbox.y
+                            ), ballTrajectory);
+                        }
+
+                        if (intersectionX == null) {
+                            intersection = intersectionY;
+                        }
+                        else if (intersectionY == null) {
+                            intersection = intersectionX;
+                        }
+                        else {
+                            if (intersectionX.distance(this.ball.getPosition()) <
+                                    intersectionY.distance(this.ball.getPosition())) {
+                                intersection = intersectionX;
+                            }
+                            else {
+                                intersection = intersectionY;
+                            }
+                        }
+
+                        if (intersection != null) {
+                            Point.Double shieldCenter = new Point.Double(
+                                    shieldHitbox.getCenterX(),
+                                    shieldHitbox.getCenterY()
+                            );
+
+                            if (shieldCenter.distance(intersection) > shieldHitbox.width / 4) {
+                                // TODO: Determine where the intersection point is relative to paddle.
+                                if (shieldHitbox.outcode(intersection) < Rectangle2D.OUT_RIGHT) {
+                                    shield.setRailSpeed(-400);
+                                }
+                                else {
+                                    shield.setRailSpeed(400);
+                                }
+                            }
                         }
                     }
+
                 }
-
-
             }
             else {
                 this.disabled = true;
