@@ -2,6 +2,7 @@ package App.Game.AI;
 
 import App.Game.Ball.BallComponent;
 import App.Game.Fort.FortComponent;
+import App.Game.Fort.Shield.ShieldComponent;
 import App.Game.Fort.Warlord.WarlordComponent;
 import App.Game.Loop.LooperChild;
 
@@ -16,6 +17,12 @@ public class AIService implements LooperChild {
     Rectangle.Double bounds;
     BallComponent ball;
     FortComponent fort;
+
+    private Point.Double getIntersect(Line2D line1, Line2D line2) {
+        // TODO: Find intersection between line1 and line2
+//        if (!(line1.getP1().x == line1.getP2().x))
+        return null;
+    }
 
     private void checkReady() {
         if (this.ball != null && this.fort != null && this.bounds != null) {
@@ -34,6 +41,7 @@ public class AIService implements LooperChild {
 
     public void giveFort(FortComponent fort) {
         this.fort = fort;
+        this.fort.setAIControl(true);
         this.checkReady();
     }
 
@@ -44,7 +52,7 @@ public class AIService implements LooperChild {
 
     @Override
     public void onGameLoop(Double intervalS) {
-        if (!this.disabled) {
+        if (!this.disabled && this.fort.isAIControlled()) {
             WarlordComponent warlord = this.fort.getWarlord();
 
             if (!this.fort.isDestroyed() || warlord.isGhost()) {
@@ -99,8 +107,33 @@ public class AIService implements LooperChild {
                         }
                     }
 
-                    // Move shield to block
+                    ShieldComponent shield = this.fort.getShield();
 
+                    // Check if fort is in the way
+                    Rectangle.Double fortHitbox = new Rectangle.Double(
+                            this.fort.getPosition().x, this.fort.getPosition().y,
+                            this.fort.getSize().width, this.fort.getSize().height
+                    );
+
+                    Rectangle.Double shieldHitbox = new Rectangle.Double(
+                            shield.getPosition().x, shield.getPosition().y,
+                            shield.getSize().height, shield.getSize().width
+                    );
+                    boolean intersectsFort = fortHitbox.intersectsLine(ballTrajectory);
+                    boolean intersectsShield = shieldHitbox.intersectsLine((ballTrajectory));
+
+                    if (intersectsShield) {
+                        shield.setRailSpeed(0);
+                    }
+                    else if (intersectsFort) {
+                        int outcode = shieldHitbox.outcode(this.ball.getPosition());
+                        if (outcode <= Rectangle.OUT_TOP) {
+                            shield.setRailSpeed(-400);
+                        }
+                        else {
+                            shield.setRailSpeed(400);
+                        }
+                    }
                 }
 
 

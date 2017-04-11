@@ -1,18 +1,18 @@
 package App.Menu.Title;
 
-import App.Game.GameComponent;
 import App.Menu.MenuComponent;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
 
 /**
  * Created by Jerry Fan on 21/03/2017.
  */
 public class TitleComponent extends BorderPane {
     private SharedModule shared;
+    private MenuComponent menu;
     private MediaPlayer buttonSound;
 
     @FXML
@@ -36,17 +36,12 @@ public class TitleComponent extends BorderPane {
 
     /**
      * Default Constructor for the title component
+     * @param shared
+     * @param menu
      */
-    public TitleComponent() {
-        this.construct();
-    }
-
-    /**
-     * Constructor
-     * @param shared access to the JFX scenes and stages
-     */
-    public TitleComponent(SharedModule shared) {
+    public TitleComponent(SharedModule shared, MenuComponent menu) {
         this.shared = shared;
+        this.menu = menu;
         this.construct();
     }
 
@@ -61,7 +56,7 @@ public class TitleComponent extends BorderPane {
      */
     @FXML
     void onPlayClicked() {
-        this.shared.getJFX().getMenu().transitionOptions();
+        this.menu.transitionOptions();
         this.playButtonSound();
     }
 
@@ -79,7 +74,7 @@ public class TitleComponent extends BorderPane {
      */
     @FXML
     void onSettingsClicked() {
-        this.shared.getJFX().getMenu().transitionSettings();
+        this.menu.transitionSettings();
         this.playButtonSound();
     }
 }

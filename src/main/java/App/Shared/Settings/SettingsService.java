@@ -20,9 +20,9 @@ public class SettingsService {
 		this.musicVolume = 1.0;
 		this.soundEffectsVolume = 1.0;
 		this.ghosting = false;
-		this.maxGameTime = 180;
+		this.maxGameTime = 120;
 		this.scoreWin = true;
-		this.ballSpeed = 20;
+		this.ballSpeed = 200;
 		this.powerups = false;
 		this.topLeftAI = false;
 		this.topRightAI = false;

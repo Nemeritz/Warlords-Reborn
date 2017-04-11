@@ -14,7 +14,7 @@ public class BallService {
     private Point.Double position;
     private Vec2d velocity;
     private Dimension size;
-    public int lastDeflectedBy; // Last player to hit the ball
+    public Integer lastDeflectedBy; // Last player to hit the ball
     public boolean invisible;
     public boolean unstoppable;
     private List<Power> powers;
@@ -27,6 +27,7 @@ public class BallService {
         this.powers = new ArrayList<>();
         this.invisible = false;
         this.unstoppable = false;
+        this.lastDeflectedBy = null;
     }
 
     /**

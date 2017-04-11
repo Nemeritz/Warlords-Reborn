@@ -35,6 +35,7 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable,
         this.shared = shared;
         this.game = game;
         this.model = new BallService();
+
         this.image = this.shared.getJFX().loadImage(
                 this.getClass(), "assets/ball.png"
         );

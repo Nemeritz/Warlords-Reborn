@@ -22,6 +22,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Game component contains the implementation for the game, along with associated components required for playing the
@@ -75,10 +76,6 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         if (this.canvas.hasJFXCanvas()) {
             this.game.getCanvas().setContext(this.canvas.getGraphicsContext());
         }
-
-        this.ball = new BallComponent(this.shared, this.game);
-        this.ball.setXVelocity(this.shared.getSettings().ballSpeed);
-        this.ball.setYVelocity(this.shared.getSettings().ballSpeed);
 
         this.forts = new TreeMap<>();
         this.ai = new TreeMap<>();
@@ -202,11 +199,41 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
      * game start (like manually testing the object rendering).
      */
     public void load() {
+        this.startGameMusic();
+
+        this.ball = new BallComponent(this.shared, this.game);
         this.ball.getPosition().setLocation(
                 this.game.getPhysics().getWorldBounds().width / 2 - (double) this.ball.getSize().width / 2,
                 this.game.getPhysics().getWorldBounds().height / 2 - (double) this.ball.getSize().height / 2
         );
-        this.ball.getVelocity().set(0, 0);
+        int direction = ThreadLocalRandom.current().nextInt(1, 5);
+
+        switch(direction) {
+            case 1:
+                this.ball.getVelocity().set(
+                        this.shared.getSettings().ballSpeed,
+                        -this.shared.getSettings().ballSpeed
+                );
+                break;
+            case 2:
+                this.ball.getVelocity().set(
+                        this.shared.getSettings().ballSpeed,
+                        this.shared.getSettings().ballSpeed
+                );
+                break;
+            case 3:
+                this.ball.getVelocity().set(
+                        -this.shared.getSettings().ballSpeed,
+                        this.shared.getSettings().ballSpeed
+                );
+                break;
+            case 4:
+                this.ball.getVelocity().set(
+                        -this.shared.getSettings().ballSpeed,
+                        -this.shared.getSettings().ballSpeed
+                );
+                break;
+        }
 
         FortComponent player1 = this.addPlayer(1, 1, new Point.Double(0, 0));
         FortComponent player2 = this.addPlayer(2, 2, new Point.Double(736, 0));
@@ -230,6 +257,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.model.gameState = GameState.UNLOAD;
         this.ai.clear();
         this.ball.dispose();
+        this.ball = null;
         this.forts.values().forEach(FortComponent::dispose);
         this.forts.clear();
         this.powerups.forEach(PowerupComponent::dispose);

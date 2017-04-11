@@ -1,29 +1,21 @@
 package App.Menu.MatchOptions;
 
 import App.Game.GameComponent;
+import App.Menu.MenuComponent;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.control.Slider;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextInputControl;
-import javafx.event.ActionEvent;
-
-import java.io.IOException;
-import java.util.AbstractMap.SimpleImmutableEntry;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
 
 /**
  * Created by Hanliang Ding on 09/04/2017.
  */
 public class MatchOptionsComponent extends BorderPane {
+    private MenuComponent menu;
     private SharedModule shared;
     private MediaPlayer buttonSound;
 
@@ -61,28 +53,32 @@ public class MatchOptionsComponent extends BorderPane {
         this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "Button.mp3");
         this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
 
-        this.timeCombo.getItems().addAll("3 minutes", "6 minutes", "9 minutes");
+        this.timeCombo.getItems().addAll("2 minutes", "4 minutes", "6 minutes");
 
         //adds a listener for combo box selection change and detect them
         this.timeCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         	this.playButtonSound();
         	if (this.timeCombo.getSelectionModel().getSelectedItem().toString().equals("3 minutes")) {
-        		this.shared.getSettings().maxGameTime = 180;
+        		this.shared.getSettings().maxGameTime = 120;
         	}
         	else if (this.timeCombo.getSelectionModel().getSelectedItem().toString().equals("6 minutes")) {
-        		this.shared.getSettings().maxGameTime = 360;
+        		this.shared.getSettings().maxGameTime = 240;
         	}
         	else if (this.timeCombo.getSelectionModel().getSelectedItem().toString().equals("9 minutes")) {
-        		this.shared.getSettings().maxGameTime = 540;
+        		this.shared.getSettings().maxGameTime = 360;
         	}
         });
     }
 
     /**
      * Default Constructor for the title component
+     * @param shared
+     * @param menu
      */
-    public MatchOptionsComponent() {
-        this.construct();
+    public MatchOptionsComponent(SharedModule shared, MenuComponent menu) {
+		this.shared = shared;
+		this.menu = menu;
+		this.construct();
     }
 
     /**
@@ -108,7 +104,7 @@ public class MatchOptionsComponent extends BorderPane {
      */
     @FXML
     void onBackClicked() {
-    	this.shared.getJFX().getMenu().transitionTitle();
+    	this.menu.transitionTitle();
 		this.playButtonSound();
     }
 
@@ -121,11 +117,8 @@ public class MatchOptionsComponent extends BorderPane {
         ((GameComponent) this.shared.getJFX().getScene("game").getKey())
         .startGameCountdown();
 
-        ((GameComponent) this.shared.getJFX().getScene("game").getKey())
-        .startGameMusic();
-
 		this.playButtonSound();
-        this.shared.getJFX().getMenu().menuMusic.stop();
+        this.menu.getMusic().stop();
     }
 
 	/**
@@ -238,7 +231,7 @@ public class MatchOptionsComponent extends BorderPane {
 	@FXML
 		void onSlowClicked(){
 			this.playButtonSound();
-    		this.shared.getSettings().ballSpeed = 10;
+    		this.shared.getSettings().ballSpeed = 100;
     }
 
 	/**
@@ -247,7 +240,7 @@ public class MatchOptionsComponent extends BorderPane {
 	@FXML
 		void onMediumClicked(){
 			this.playButtonSound();
-			this.shared.getSettings().ballSpeed = 20;
+			this.shared.getSettings().ballSpeed = 200;
     }
 
 	/**
@@ -256,7 +249,7 @@ public class MatchOptionsComponent extends BorderPane {
 	@FXML
 		void onFastClicked(){
     		this.playButtonSound();
-			this.shared.getSettings().ballSpeed = 30;
+			this.shared.getSettings().ballSpeed = 300;
     }
 
 }

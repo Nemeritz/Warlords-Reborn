@@ -9,7 +9,6 @@ import App.Game.Physics.Physical;
 import App.Shared.Interfaces.Disposable;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
-import com.sun.javafx.geom.Vec2d;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -118,11 +117,11 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         if (BallComponent.class.isInstance(object)) {
             BallComponent ball = (BallComponent) object;
 
-            if (ball.getLastDeflectedBy() != null) {
-                this.game.getScore().getScoreKeeper(ball.getLastDeflectedBy()).increaseScore(10);
-            }
-
             ball.setLastDeflectedBy(fort.player);
+
+            if (this.fort.destroyed && !this.shared.getSettings().ghosting) {
+                this.game.getPhysics().getStatics().remove(this);
+            }
         }
     }
 
@@ -131,83 +130,81 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
      */
     @Override
     public void onKeyEvent(KeyEvent event) {
-        switch(this.fort.player) {
-            case 1:
-                if (event.getCode() == KeyCode.Q) {
-                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-                        this.leftPressed = true;
-                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-                        this.leftPressed = false;
+        if (!this.fort.aiControlled) {
+            switch (this.fort.player) {
+                case 1:
+                    if (event.getCode() == KeyCode.Q) {
+                        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                            this.leftPressed = true;
+                        } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                            this.leftPressed = false;
+                        }
+                    } else if (event.getCode() == KeyCode.W) {
+                        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                            this.rightPressed = true;
+                        } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                            this.rightPressed = false;
+                        }
                     }
-                }
-                else if (event.getCode() == KeyCode.W) {
-                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-                        this.rightPressed = true;
-                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-                        this.rightPressed = false;
+                    break;
+                case 2:
+                    if (event.getCode() == KeyCode.V) {
+                        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                            this.leftPressed = true;
+                        } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                            this.leftPressed = false;
+                        }
+                    } else if (event.getCode() == KeyCode.B) {
+                        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                            this.rightPressed = true;
+                        } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                            this.rightPressed = false;
+                        }
                     }
-                }
-                break;
-            case 2:
-                if (event.getCode() == KeyCode.V) {
-                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-                        this.leftPressed = true;
-                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-                        this.leftPressed = false;
+                    break;
+                case 3:
+                    if (event.getCode() == KeyCode.O) {
+                        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                            this.leftPressed = true;
+                        } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                            this.leftPressed = false;
+                        }
+                    } else if (event.getCode() == KeyCode.P) {
+                        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                            this.rightPressed = true;
+                        } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                            this.rightPressed = false;
+                        }
                     }
-                }
-                else if (event.getCode() == KeyCode.B) {
-                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-                        this.rightPressed = true;
-                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-                        this.rightPressed = false;
+                    break;
+                case 4:
+                    if (event.getCode() == KeyCode.LEFT) {
+                        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                            this.leftPressed = true;
+                        } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                            this.leftPressed = false;
+                        }
+                    } else if (event.getCode() == KeyCode.RIGHT) {
+                        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                            this.rightPressed = true;
+                        } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                            this.rightPressed = false;
+                        }
                     }
-                }
-                break;
-            case 3:
-                if (event.getCode() == KeyCode.O) {
-                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-                        this.leftPressed = true;
-                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-                        this.leftPressed = false;
-                    }
-                }
-                else if (event.getCode() == KeyCode.P) {
-                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-                        this.rightPressed = true;
-                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-                        this.rightPressed = false;
-                    }
-                }
-                break;
-            case 4:
-                if (event.getCode() == KeyCode.LEFT) {
-                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-                        this.leftPressed = true;
-                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-                        this.leftPressed = false;
-                    }
-                }
-                else if (event.getCode() == KeyCode.RIGHT) {
-                    if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-                        this.rightPressed = true;
-                    } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-                        this.rightPressed = false;
-                    }
-                }
-                break;
-        }
+                    break;
+            }
 
-        int newRailSpeed = 0;
+            int newRailSpeed = 0;
 
-        if (leftPressed) {
-            newRailSpeed += -400;
-        }
-        if (rightPressed) {
-            newRailSpeed += 400;
-        }
+            if (leftPressed) {
+                newRailSpeed += -400;
+            }
+            if (rightPressed) {
+                newRailSpeed += 400;
+            }
 
-        this.model.railSpeed = newRailSpeed;
+            this.model.railSpeed = newRailSpeed;
+        }
     }
 
     /**
@@ -218,11 +215,12 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         return this.model.getPosition();
     }
 
-    /**
-     * @return velocity of the shield containing x velocity and y velocity
-     */
-    public Vec2d getVelocity() {
-        return this.model.getVelocity();
+    public double getRailSpeed() {
+        return this.model.railSpeed;
+    }
+
+    public void setRailSpeed(double value) {
+        this.model.railSpeed = value;
     }
 
     /**

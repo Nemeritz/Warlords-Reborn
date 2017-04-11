@@ -1,16 +1,15 @@
 package App.Shared.JFX;
 
 import App.Shared.Observables.ObservableScene;
-import App.Menu.MenuComponent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.AbstractMap.SimpleImmutableEntry;
@@ -31,7 +30,6 @@ public class JFXService {
     private EventHandler<KeyEvent> keyEventHandler;
     private MediaPlayer mediaPlayer;
     private Media sound;
-    public MenuComponent mainMenu;
     public boolean active; // Must currently be manually set to true.
 
 
@@ -151,18 +149,10 @@ public class JFXService {
      * @return the new mediaplayer created
      */
     public MediaPlayer loadMedia( Class<?> classType, String fileName) {
-    	 this.sound = new Media(classType.getResource("Media/"+fileName).toString());
-    	 this.mediaPlayer = new MediaPlayer(this.sound);
-    	 return this.mediaPlayer;
+        this.sound = new Media(classType.getResource("Media/" + fileName).toString());
+        this.mediaPlayer = new MediaPlayer(this.sound);
+        return this.mediaPlayer;
     }
-
-    /**
-     * @return main menu scene
-     */
-    public MenuComponent getMenu() {
-    	return this.mainMenu;
-    }
-
     /**
      * Closes and exits the game
      */

@@ -218,6 +218,30 @@ public class FortComponent implements Disposable, ScoreKeeper, LooperChild {
         this.warlord.setWinner(value);
     }
 
+    public Point.Double getPosition() {
+        return this.fort.getPosition();
+    }
+
+    public Dimension getSize() {
+        return this.fort.getSize();
+    }
+
+    public boolean isAIControlled() {
+        return this.fort.aiControlled;
+    }
+
+    public void setAIControl(Boolean value) {
+        this.fort.aiControlled = value;
+    }
+
+    public boolean getMirrorX() {
+        return this.fort.mirrorX;
+    }
+
+    public boolean getMirrorY() {
+        return this.fort.mirrorY;
+    }
+
     @Override
     public void dispose() {
         this.warlord.dispose();

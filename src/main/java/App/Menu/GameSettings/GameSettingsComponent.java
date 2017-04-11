@@ -1,16 +1,18 @@
 package App.Menu.GameSettings;
 
+import App.Menu.MenuComponent;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
 
 
 public class GameSettingsComponent extends BorderPane {
     private SharedModule shared;
+    private MenuComponent menu;
     private MediaPlayer buttonSound;
 
     @FXML
@@ -39,24 +41,19 @@ public class GameSettingsComponent extends BorderPane {
         this.VolumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
         	this.shared.getSettings().musicVolume = (((double)newValue)/100);
         	this.shared.getSettings().soundEffectsVolume = (((double)newValue)/100);
-        	this.shared.getJFX().getMenu().menuMusic.setVolume(this.shared.getSettings().musicVolume);
+        	menu.getMusic().setVolume(this.shared.getSettings().musicVolume);
         	this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         });
     }
 
     /**
      * default constructor
+     * @param shared
+     * @param menu
      */
-    public GameSettingsComponent() {
-        this.construct();
-    }
-
-    /**
-     * Constructor
-     * @param shared allows access to JFX service
-     */
-    public GameSettingsComponent(SharedModule shared) {
+    public GameSettingsComponent(SharedModule shared, MenuComponent menu) {
         this.shared = shared;
+        this.menu = menu;
         this.construct();
     }
 
@@ -74,7 +71,7 @@ public class GameSettingsComponent extends BorderPane {
      */
     @FXML
     	void onBackClicked() {
-    	this.shared.getJFX().getMenu().transitionTitle();
+    	this.menu.transitionTitle();
     	this.playButtonSound();
     }
 
@@ -99,10 +96,10 @@ public class GameSettingsComponent extends BorderPane {
 		void onMusicClicked(){
     	this.playButtonSound();
     	if (this.MusicBox.isSelected()) {
-    		this.shared.getJFX().getMenu().menuMusic.setMute(true);
+    		this.menu.getMusic().setMute(true);
     	}
     	else {
-    		this.shared.getJFX().getMenu().menuMusic.setMute(false);
+    		this.menu.getMusic().setMute(false);
     	}
     }
 }

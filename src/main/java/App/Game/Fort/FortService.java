@@ -14,6 +14,7 @@ public class FortService {
     public boolean mirrorX;
     public boolean mirrorY;
     public int score;
+    public boolean aiControlled;
     private Point.Double position;
     private Dimension size;
 
@@ -29,6 +30,7 @@ public class FortService {
         this.mirrorX = false;
         this.mirrorY = false;
         this.destroyed = false;
+        this.aiControlled = false;
     }
 
     /**
