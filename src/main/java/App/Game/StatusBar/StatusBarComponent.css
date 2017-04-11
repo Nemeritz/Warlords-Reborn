@@ -1,0 +1,5 @@
+.status-bar {
+    -fx-background-color: #000;
+    -fx-padding: 0.5em;
+    -fx-min-width: 1024px;
+}

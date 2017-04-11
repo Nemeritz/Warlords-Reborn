@@ -7,6 +7,7 @@ import App.Game.Fort.FortComponent;
 import App.Game.Loop.Looper;
 import App.Game.Overlay.OverlayComponent;
 import App.Game.Powerup.PowerupComponent;
+import App.Game.StatusBar.StatusBarComponent;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
@@ -14,9 +15,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
-import warlordstest.IGame;
 import javafx.scene.media.MediaPlayer;
+import warlordstest.IGame;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -39,11 +39,9 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     private GameService model;
 
     @FXML
-    private Text statusText;
-
-    @FXML
     private StackPane gameStack;
 
+    private StatusBarComponent statusBar;
     private CanvasComponent canvas;
     private BallComponent ball;
     private ArrayList<PowerupComponent> powerups;
@@ -70,6 +68,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.model = new GameService();
         this.overlay = new OverlayComponent(this.shared, this.game);
         this.canvas = new CanvasComponent(this.shared, this.game);
+        this.statusBar = new StatusBarComponent(this.shared, this.game);
         this.powerups = new ArrayList<>();
         this.gameMusic = this.shared.getJFX().loadMedia(this.getClass(), "assets/GameMusic.mp3");
 
@@ -82,6 +81,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.shared.getJFX().loadFXML(this, GameComponent.class,
                 "GameComponent.fxml");
 
+        this.setTop(statusBar);
         if (this.gameStack != null) {
             this.gameStack.getChildren().add(canvas);
             this.gameStack.getChildren().add(overlay);
@@ -96,7 +96,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     @Override
     public void onGameLoop(Double intervalS) {
         if (this.model.gameState.equals(GameState.PREGAME)) {
-            this.statusText.setText("PREGAME");
+            this.statusBar.setStatusText("PREGAME");
             if (this.game.getTimer().currentTimeMs() >= 1000) {
                 long countdownTime = this.model.lastCountdownStartMs / 1000 + 4 -
                         this.game.getTimer().currentTimeMs() / 1000;
@@ -110,9 +110,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         else if (this.model.gameState.equals(GameState.GAME)) {
             this.model.gameTime += intervalS;
 
-            if (this.statusText != null) {
-                this.statusText.setText(Integer.toString((int) this.model.gameTime));
-            }
+            this.statusBar.setStatusText(Integer.toString((int) this.model.gameTime));
 
             this.game.getPhysics().check();
 
@@ -157,10 +155,10 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             }
         }
         else if (this.model.gameState.equals(GameState.PAUSE)) {
-            this.statusText.setText("PAUSE");
+            this.statusBar.setStatusText("PAUSE");
         }
         else if (this.model.gameState.equals(GameState.UNPAUSE)) {
-            this.statusText.setText("UNPAUSE");
+            this.statusBar.setStatusText("UNPAUSE");
             long countdownTime = (this.model.lastCountdownStartMs + 4000 - this.game.getTimer().currentTimeMs()) / 1000;
             this.overlay.setCountdown(countdownTime);
             if (countdownTime == 0) {
@@ -169,9 +167,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             }
         }
         else if (this.model.gameState.equals(GameState.END)) {
-            if (this.statusText != null) {
-                this.statusText.setText("END");
-            }
+            this.statusBar.setStatusText("END");
         }
     }
 
@@ -246,7 +242,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         FortComponent player3 = this.addPlayer(3, 3, new Point.Double(0, 480));
         FortComponent player4 = this.addPlayer(4, 4, new Point.Double(736, 480));
 
-        this.addAI(3, player3);
+        this.game.getCanvas().getCanvasObjects().add(this.addAI(3, player3));
 
         this.game.getLoop().getLoopers().add(this);
         this.shared.getJFX().getEventReceivers().add(this);

@@ -1,10 +1,13 @@
 package App.Game.AI;
 
 import App.Game.Ball.BallComponent;
+import App.Game.Canvas.CanvasObject;
 import App.Game.Fort.FortComponent;
 import App.Game.Fort.Shield.ShieldComponent;
 import App.Game.Fort.Warlord.WarlordComponent;
 import App.Game.Loop.LooperChild;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -12,11 +15,16 @@ import java.awt.geom.Line2D;
 /**
  * Created by lichk on 9/04/2017.
  */
-public class AIService implements LooperChild {
+public class AIService implements LooperChild, CanvasObject {
     boolean disabled;
     Rectangle.Double bounds;
     BallComponent ball;
     FortComponent fort;
+
+    Point.Double intersection;
+    Line2D.Double ballTrajectory;
+    private double distanceToIntersection;
+    private boolean lastDirection;
 
     private Point.Double getIntersect(Line2D.Double line1, Line2D.Double line2) {
         // Construct line equations ax + by = c.
@@ -47,6 +55,10 @@ public class AIService implements LooperChild {
 
     public AIService() {
         this.disabled = true;
+        this.intersection = null;
+        this.ballTrajectory = null;
+        this.distanceToIntersection = Double.MAX_VALUE;
+        this.lastDirection = true;
     }
 
     public void trackBall(BallComponent ball) {
@@ -84,14 +96,18 @@ public class AIService implements LooperChild {
                 );
 
                 if (currentDistance > nextDistance) {
-                    double dXToBounds = (this.bounds.width * (this.ball.getVelocity().x < 0 ? 0 : 1) -
-                            this.ball.getPosition().x) / this.ball.getVelocity().x;
-                    double dYToBounds = (this.bounds.height * (this.ball.getVelocity().y < 0 ? 0 : 1) -
-                            this.ball.getPosition().y) / this.ball.getVelocity().y;
+                    double dXToBounds = Math.abs(this.ball.getPosition().x - this.bounds.width * (this.ball
+                            .getVelocity().x <
+                            0 ? 0 : 1)) / this.ball.getVelocity().x;
+                    double dYToBounds = Math.abs(this.ball.getPosition().y - this.bounds.height * (this.ball
+                            .getVelocity().y <
+                            0 ? 0 : 1)) / this.ball.getVelocity().y;
 
                     Line2D.Double ballTrajectory;
-                    if (Math.abs(dXToBounds) < Math.abs(dYToBounds)) {
-                        double posY2 = this.ball.getPosition().y + dXToBounds * this.ball.getVelocity().y;
+                    double absDXToBounds = Math.abs(dXToBounds);
+                    double absDYToBounds = Math.abs(dYToBounds);
+                    if (absDXToBounds < absDYToBounds) {
+                        double posY2 = this.ball.getPosition().y + absDXToBounds * this.ball.getVelocity().y;
                         // Hits X bounds first
                         if (dXToBounds < 0) {
                             // Hits left bound
@@ -110,7 +126,7 @@ public class AIService implements LooperChild {
                     }
                     else {
                         // Hits Y bounds first
-                        double posX2 = this.ball.getPosition().x + dYToBounds * this.ball.getVelocity().x;
+                        double posX2 = this.ball.getPosition().x + absDYToBounds * this.ball.getVelocity().x;
                         if (dYToBounds < 0) {
                             // Hits top bound
                             ballTrajectory = new Line2D.Double(
@@ -138,41 +154,53 @@ public class AIService implements LooperChild {
                             shield.getSize().height, shield.getSize().width
                     );
 
+                    this.ballTrajectory = ballTrajectory;
                     boolean intersectsFort = fortHitbox.intersectsLine(ballTrajectory);
 
                     if (intersectsFort) {
-                        Point.Double intersection = null;
-                        Point.Double intersectionX;
-                        Point.Double intersectionY;
-
+                        Point.Double intersection;
+                        Point.Double intersectionX = null;
+                        Point.Double intersectionY = null;
                         if (this.fort.getMirrorX()) {
                             // Check left wall
-                            intersectionX = this.getIntersect(new Line2D.Double(
+                            Line2D.Double leftWall = new Line2D.Double(
                                     fortHitbox.x, fortHitbox.y,
-                                    fortHitbox.x, fortHitbox.height
-                            ), ballTrajectory);
+                                    fortHitbox.x , fortHitbox.y + fortHitbox.height
+                            );
+                            if (leftWall.intersectsLine(ballTrajectory)) {
+                                intersectionX = this.getIntersect(leftWall, ballTrajectory);
+                            }
                         }
                         else {
                             // Check right wall
-                            intersectionX = this.getIntersect(new Line2D.Double(
-                                    fortHitbox.width, fortHitbox.y,
-                                    fortHitbox.width, fortHitbox.height
-                            ), ballTrajectory);
+                            Line2D.Double rightWall = new Line2D.Double(
+                                    fortHitbox.x + fortHitbox.width, fortHitbox.y,
+                                    fortHitbox.x + fortHitbox.width, fortHitbox.y + fortHitbox.height
+                            );
+                            if (rightWall.intersectsLine(ballTrajectory)) {
+                                intersectionX = this.getIntersect(rightWall, ballTrajectory);
+                            }
                         }
 
                         if (this.fort.getMirrorY()) {
                             // Check top wall
-                            intersectionY = this.getIntersect(new Line2D.Double(
+                            Line2D.Double topWall = new Line2D.Double(
                                     fortHitbox.x, fortHitbox.y,
-                                    fortHitbox.width, fortHitbox.y
-                            ), ballTrajectory);
+                                    fortHitbox.x + fortHitbox.width, fortHitbox.y
+                            );
+                            if (topWall.intersectsLine(ballTrajectory)) {
+                                intersectionY = this.getIntersect(topWall, ballTrajectory);
+                            }
                         }
                         else {
                             // Check bottom wall
-                            intersectionY = this.getIntersect(new Line2D.Double(
-                                    fortHitbox.x, fortHitbox.y,
-                                    fortHitbox.width, fortHitbox.y
-                            ), ballTrajectory);
+                            Line2D.Double bottomWall = new Line2D.Double(
+                                    fortHitbox.x, fortHitbox.y + fortHitbox.height,
+                                    fortHitbox.y + fortHitbox.width, fortHitbox.y + fortHitbox.height
+                            );
+                            if (bottomWall.intersectsLine(ballTrajectory)) {
+                                intersectionY = this.getIntersect(bottomWall, ballTrajectory);
+                            }
                         }
 
                         if (intersectionX == null) {
@@ -192,20 +220,26 @@ public class AIService implements LooperChild {
                         }
 
                         if (intersection != null) {
+                            this.intersection = intersection;
                             Point.Double shieldCenter = new Point.Double(
                                     shieldHitbox.getCenterX(),
                                     shieldHitbox.getCenterY()
                             );
 
-                            if (shieldCenter.distance(intersection) > shieldHitbox.width / 4) {
-                                // TODO: Determine where the intersection point is relative to paddle.
-                                if (intersection.y < shieldCenter.y || intersection.x < shieldCenter.x) {
+                            double distToIntersect = shieldCenter.distance(intersection);
+                            if (distToIntersect > shieldHitbox.width / 2 + 0.5) {
+                                if (this.distanceToIntersection < distToIntersect) {
+                                    this.lastDirection = !this.lastDirection;
+                                }
+
+                                if (this.lastDirection) {
                                     shield.setRailSpeed(-400);
                                 }
                                 else {
                                     shield.setRailSpeed(400);
                                 }
                             }
+                            this.distanceToIntersection = distToIntersect;
                         }
                     }
 
@@ -213,6 +247,23 @@ public class AIService implements LooperChild {
             }
             else {
                 this.disabled = true;
+            }
+        }
+    }
+
+    @Override
+    public void renderOnContext(GraphicsContext context) {
+        if (!this.disabled) {
+            if (this.intersection != null) {
+                context.setFill(Color.BLUE);
+                context.fillOval(this.intersection.x - 2, this.intersection.y - 2, 2, 2);
+
+            }
+
+            if (this.ballTrajectory != null) {
+                context.setFill(Color.BLUE);
+                context.strokeLine(this.ballTrajectory.x1, this.ballTrajectory.y1,
+                        this.ballTrajectory.x2, this.ballTrajectory.y2);
             }
         }
     }

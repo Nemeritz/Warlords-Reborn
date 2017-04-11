@@ -7,8 +7,3 @@
     -fx-min-width: 1024px;
     -fx-min-height: 728px;
 }
-
-.status-bar {
-    -fx-background-color: #000;
-    -fx-padding: 0.5em;
-}

@@ -12,14 +12,7 @@
         <URL value="@GameComponent.css" />
     </stylesheets>
     <top>
-        <HBox styleClass="status-bar" HBox.hgrow="ALWAYS">
-            <HBox style="-fx-alignment:center-left" HBox.hgrow="ALWAYS">
-                <Text text="---Status Bar Placeholder---"/>
-            </HBox>
-            <HBox style="-fx-alignment:center-right" HBox.hgrow="ALWAYS">
-                <Text fx:id="statusText"/>
-            </HBox>
-        </HBox>
+
     </top>
    <center>
        <StackPane fx:id="gameStack">

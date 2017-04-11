@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<fx:root fx:id="statusBar" styleClass="status-bar" type="HBox" HBox.hgrow="ALWAYS"
+            xmlns:fx="http://javafx.com/fxml">
+    <stylesheets>
+        <URL value="@StatusBarComponent.css" />
+    </stylesheets>
+    <HBox style="-fx-alignment:center">
+        <HBox>
+            <Text text="Fire: "/>
+        </HBox>
+        <HBox>
+            <Text text="Water: "/>
+        </HBox>
+        <HBox>
+            <Text text="Earth: "/>
+        </HBox>
+        <HBox>
+            <Text text="Air: "/>
+        </HBox>
+    </HBox>
+    <HBox style="-fx-alignment:center-right">
+        <Text fx:id="statusText"/>
+    </HBox>
+</fx:root>
