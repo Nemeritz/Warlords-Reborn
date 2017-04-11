@@ -24,6 +24,9 @@ public class OverlayComponent extends VBox {
     @FXML
     private VBox pauseMenu;
 
+    @FXML
+    private VBox gameEnd;
+
     public OverlayComponent(SharedModule shared, GameModule game) {
         this.shared = shared;
         this.game = game;
@@ -52,5 +55,9 @@ public class OverlayComponent extends VBox {
 
     public void hidePauseMenu() {
         this.pauseMenu.getStyleClass().add("hidden");
+    }
+
+    public void showGameEnd(String message) {
+
     }
 }

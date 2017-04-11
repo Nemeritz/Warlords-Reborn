@@ -7,7 +7,7 @@
     visibility: hidden;
 }
 
-.pause-menu {
+.overlay-wrapper {
     -fx-background-color: rgba(0,0,0,0.7);
     -fx-padding: 2em;
     -fx-max-width: 25em;
@@ -17,12 +17,10 @@
     -fx-font-size: 2em;
 }
 
-.countdown-wrapper {
-    -fx-background-color: rgba(0,0,0,0.7);
-    -fx-padding: 2em;
-    -fx-max-width: 25em;
-}
-
 .countdown {
     -fx-font-size: 4em;
+}
+
+.game-end {
+    -fx-font-size: 2em;
 }

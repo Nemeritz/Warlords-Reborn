@@ -8,7 +8,6 @@ import App.Game.Loop.LooperChild;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Created by lichk on 9/04/2017.
@@ -200,7 +199,7 @@ public class AIService implements LooperChild {
 
                             if (shieldCenter.distance(intersection) > shieldHitbox.width / 4) {
                                 // TODO: Determine where the intersection point is relative to paddle.
-                                if (shieldHitbox.outcode(intersection) < Rectangle2D.OUT_RIGHT) {
+                                if (intersection.y < shieldCenter.y || intersection.x < shieldCenter.x) {
                                     shield.setRailSpeed(-400);
                                 }
                                 else {

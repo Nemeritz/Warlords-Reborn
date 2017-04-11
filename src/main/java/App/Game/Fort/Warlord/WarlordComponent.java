@@ -14,6 +14,7 @@ import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 import warlordstest.IWarlord;
 
 import java.awt.*;
@@ -29,6 +30,7 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
     private GameModule game;
     private FortService fort;
     private WarlordService model;
+    private MediaPlayer deathSound;
 
     private void setStyle() {
         if (this.fort.player > 0 && this.fort.player <= 4) {
@@ -47,6 +49,8 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
         this.game = game;
         this.fort = fort;
         this.setStyle();
+        this.deathSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/death.flac");
+        this.deathSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.model = new WarlordService();
         this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getStatics().add(this);
@@ -89,6 +93,8 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
             this.fort.destroyed = true;
+            this.deathSound.stop();
+            this.deathSound.play();
 
             if (this.shared.getSettings().ghosting) {
                 this.model.ghost = true;

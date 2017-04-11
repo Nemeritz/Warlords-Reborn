@@ -1,8 +1,10 @@
 package App.Menu.Title;
 
 import App.Menu.MenuComponent;
+import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -15,7 +17,7 @@ import java.awt.*;
 /**
  * Created by Jerry Fan on 21/03/2017.
  */
-public class TitleComponent extends BorderPane implements EventReceiver{
+public class TitleComponent extends BorderPane implements EventReceiver {
     private SharedModule shared;
     private MenuComponent menu;
     private MediaPlayer buttonSound;
