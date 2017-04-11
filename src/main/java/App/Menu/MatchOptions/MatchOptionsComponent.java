@@ -10,14 +10,19 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import App.Shared.JFX.EventReceiver;
+import java.awt.*;
 
 /**
  * Created by Hanliang Ding on 09/04/2017.
  */
-public class MatchOptionsComponent extends BorderPane {
+public class MatchOptionsComponent extends BorderPane implements EventReceiver{
     private MenuComponent menu;
     private SharedModule shared;
     private MediaPlayer buttonSound;
+    private int currentButton;
 
     @FXML
     private CheckBox GhostingBox;
@@ -52,6 +57,9 @@ public class MatchOptionsComponent extends BorderPane {
 
         this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "Button.mp3");
         this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+        
+        this.currentButton = 0;
+        this.shared.getJFX().getEventReceivers().add(this);
 
         this.timeCombo.getItems().addAll("2 minutes", "4 minutes", "6 minutes");
 
@@ -250,6 +258,41 @@ public class MatchOptionsComponent extends BorderPane {
 		void onFastClicked(){
     		this.playButtonSound();
 			this.shared.getSettings().ballSpeed = 300;
+    }
+	
+    @Override
+    public void onKeyEvent(KeyEvent event){
+    	
+    	if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+    		if (event.getCode() == KeyCode.TAB) {
+    			if (currentButton < 2) {
+    				currentButton++;
+    			}
+    			else if (currentButton == 2) {
+    				currentButton = 0;
+    			}
+    		}
+
+    		else if (event.getCode() == KeyCode.ENTER) {
+    			switch (currentButton) {
+    			case 0:	  this.shared.getJFX().setScene("game");
+    	                  ((GameComponent) this.shared.getJFX().getScene("game").getKey())
+    	                  .startGameCountdown();
+
+    			this.playButtonSound();
+    	        this.menu.getMusic().stop();
+    			break;
+
+    			case 1: this.menu.transitionSettings();
+    					this.playButtonSound();
+    			break;
+
+    			case 2: this.playButtonSound();
+    					this.shared.getJFX().closeStage();
+    			break;
+    			}
+    		}
+    	}
     }
 
 }
