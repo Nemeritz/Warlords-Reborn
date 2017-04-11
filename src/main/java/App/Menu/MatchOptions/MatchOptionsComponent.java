@@ -2,18 +2,17 @@ package App.Menu.MatchOptions;
 
 import App.Game.GameComponent;
 import App.Menu.MenuComponent;
+import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import App.Shared.JFX.EventReceiver;
-import java.awt.*;
 
 /**
  * Created by Hanliang Ding on 09/04/2017.
@@ -31,7 +30,7 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
     private CheckBox PowerupsBox;
 
     @FXML
-    private ComboBox timeCombo;
+    private ComboBox<String> timeCombo;
 
     @FXML
     private RadioButton timeRadio;
@@ -55,7 +54,7 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
         this.shared.getJFX().loadFXML(this, MatchOptionsComponent.class,
                 "MatchOptionsComponent.fxml");
 
-        this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "Button.mp3");
+        this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "assets/Button.mp3");
         this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         
         this.currentButton = 0;
@@ -64,15 +63,16 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver{
         this.timeCombo.getItems().addAll("2 minutes", "4 minutes", "6 minutes");
 
         //adds a listener for combo box selection change and detect them
-        this.timeCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        this.timeCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue,
+																						 newValue) -> {
         	this.playButtonSound();
-        	if (this.timeCombo.getSelectionModel().getSelectedItem().toString().equals("3 minutes")) {
+        	if (this.timeCombo.getSelectionModel().getSelectedItem().equals("2 minutes")) {
         		this.shared.getSettings().maxGameTime = 120;
         	}
-        	else if (this.timeCombo.getSelectionModel().getSelectedItem().toString().equals("6 minutes")) {
+        	else if (this.timeCombo.getSelectionModel().getSelectedItem().equals("4 minutes")) {
         		this.shared.getSettings().maxGameTime = 240;
         	}
-        	else if (this.timeCombo.getSelectionModel().getSelectedItem().toString().equals("9 minutes")) {
+        	else if (this.timeCombo.getSelectionModel().getSelectedItem().equals("6 minutes")) {
         		this.shared.getSettings().maxGameTime = 360;
         	}
         });

@@ -47,7 +47,7 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
         this.game = game; // allows access to other services
         this.fort = fort;
         this.model = new WallService(); // creates a new wall service when a wall is created
-        this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.ogg");
+        this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.mp3");
         this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.setStyle(wallStyle);
         this.game.getCanvas().getCanvasObjects().add(this);

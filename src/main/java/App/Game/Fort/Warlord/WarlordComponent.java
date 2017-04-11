@@ -49,7 +49,7 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
         this.game = game;
         this.fort = fort;
         this.setStyle();
-        this.deathSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/death.flac");
+        this.deathSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/death.mp3");
         this.deathSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.model = new WarlordService();
         this.game.getCanvas().getCanvasObjects().add(this);
@@ -123,10 +123,6 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
     @Override
     public Dimension getSize() {
         return this.model.getSize();
-    }
-
-    public void setWinner(Boolean value) {
-        this.fort.winner = true;
     }
 
     /**

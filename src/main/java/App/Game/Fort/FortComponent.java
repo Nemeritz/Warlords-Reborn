@@ -215,7 +215,6 @@ public class FortComponent implements Disposable, ScoreKeeper, LooperChild {
      */
     public void setWinner(Boolean value) {
         this.fort.winner = value;
-        this.warlord.setWinner(value);
     }
 
     public Point.Double getPosition() {

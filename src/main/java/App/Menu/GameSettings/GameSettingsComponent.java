@@ -34,7 +34,7 @@ public class GameSettingsComponent extends BorderPane {
         this.shared.getJFX().loadFXML(this, GameSettingsComponent.class,
                 "GameSettingsComponent.fxml");
 
-        this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "Button.mp3");
+        this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "assets/Button.mp3");
         this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
 
         //adds a listener for slider value change and detect them, change volume proportional to slider

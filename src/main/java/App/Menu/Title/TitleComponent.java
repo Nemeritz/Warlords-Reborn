@@ -4,14 +4,11 @@ import App.Menu.MenuComponent;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import App.Shared.JFX.EventReceiver;
-import java.awt.*;
 
 
 /**
@@ -38,7 +35,7 @@ public class TitleComponent extends BorderPane implements EventReceiver {
     private void construct() {
         this.shared.getJFX().loadFXML(this, TitleComponent.class,
                 "TitleComponent.fxml");
-        this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "Button.mp3");
+        this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "assets/Button.mp3");
         this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.currentButton = 0;
         this.shared.getJFX().getEventReceivers().add(this);

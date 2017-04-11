@@ -71,7 +71,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.overlay = new OverlayComponent(this.shared, this.game);
         this.canvas = new CanvasComponent(this.shared, this.game);
         this.powerups = new ArrayList<>();
-        this.gameMusic = this.shared.getJFX().loadMedia(this.shared.getClass(), "MenuMusicBackup.mp3");
+        this.gameMusic = this.shared.getJFX().loadMedia(this.getClass(), "assets/GameMusic.mp3");
 
         if (this.canvas.hasJFXCanvas()) {
             this.game.getCanvas().setContext(this.canvas.getGraphicsContext());

@@ -32,7 +32,7 @@ public class MenuComponent extends Pane {
      */
     private void construct() {
         // Initial Menu music
-        this.music = this.shared.getJFX().loadMedia(this.shared.getClass(), "MenuMusic.mp3");
+        this.music = this.shared.getJFX().loadMedia(this.getClass(), "assets/MenuMusic.mp3");
         this.music.setVolume(this.shared.getSettings().musicVolume);
         this.music.setCycleCount(MediaPlayer.INDEFINITE);
         this.music.play();

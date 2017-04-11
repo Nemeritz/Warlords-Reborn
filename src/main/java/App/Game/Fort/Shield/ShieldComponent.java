@@ -50,7 +50,7 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         this.shared = shared; // allows access to JFX current scene for adding event handlers
         this.game = game; // allows access to other services in the game
         this.fort = fort; // Allows access to fort services.
-        this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.flac");
+        this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.mp3");
         this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.setStyle();
         this.model = new ShieldService(); // accessing velocity, dimensions and locations of shield
@@ -94,6 +94,9 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
                             this.fort.getPosition().y + (railMaxMod - railPositionModY) :
                             this.fort.getPosition().y + railMaxMod
             );
+        }
+        else {
+            this.game.getPhysics().getStatics().remove(this);
         }
     }
 
