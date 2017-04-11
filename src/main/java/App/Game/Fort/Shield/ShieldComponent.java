@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.MediaPlayer;
 import warlordstest.IPaddle;
 
 import java.awt.*;
@@ -28,6 +29,7 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     private ShieldService model;
     private boolean leftPressed; // indicates if left arrow is pressed
     private boolean rightPressed; // indicates if right arrow is pressed
+    private MediaPlayer hitSound;
 
     private void setStyle() {
         if (this.fort.player > 0 && this.fort.player <= 4) {
@@ -48,6 +50,8 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         this.shared = shared; // allows access to JFX current scene for adding event handlers
         this.game = game; // allows access to other services in the game
         this.fort = fort; // Allows access to fort services.
+        this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.flac");
+        this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.setStyle();
         this.model = new ShieldService(); // accessing velocity, dimensions and locations of shield
         this.game.getCanvas().getCanvasObjects().add(this);
@@ -116,7 +120,8 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
             BallComponent ball = (BallComponent) object;
-
+            this.hitSound.stop();
+            this.hitSound.play();
             ball.setLastDeflectedBy(fort.player);
 
             if (this.fort.destroyed && !this.shared.getSettings().ghosting) {

@@ -10,6 +10,7 @@ import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 import warlordstest.IWall;
 
 import java.awt.*;
@@ -24,6 +25,7 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
     private GameModule game;
     private FortService fort;
     private WallService model;
+    private MediaPlayer hitSound;
 
 
     private void setStyle(Integer style) {
@@ -45,6 +47,8 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
         this.game = game; // allows access to other services
         this.fort = fort;
         this.model = new WallService(); // creates a new wall service when a wall is created
+        this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.ogg");
+        this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.setStyle(wallStyle);
         this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getStatics().add(this);
@@ -81,6 +85,8 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
             this.model.destroyed = true;
+            this.hitSound.stop();
+            this.hitSound.play();
             this.game.getPhysics().getStatics().remove(this);
 
             BallComponent ball = (BallComponent) object;

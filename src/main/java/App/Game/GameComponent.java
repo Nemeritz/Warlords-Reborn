@@ -177,7 +177,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
     @Override
     public void onKeyEvent(KeyEvent event) {
-        if (event.getCode() == KeyCode.F9) {
+        if (event.getCode() == KeyCode.P) {
             if (event.getEventType() == KeyEvent.KEY_RELEASED) {
                 if (this.model.gameState.equals(GameState.GAME)) {
                     this.model.gameState = GameState.PAUSE;
@@ -189,6 +189,12 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                     this.model.lastCountdownStartMs = this.game.getTimer().currentTimeMs();
                     this.model.gameState = GameState.UNPAUSE;
                 }
+            }
+        }
+
+        if (event.getCode() == KeyCode.ESCAPE) {
+            if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                this.exitToMenu();
             }
         }
     }
