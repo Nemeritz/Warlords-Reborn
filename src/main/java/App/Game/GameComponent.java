@@ -100,11 +100,14 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             if (this.game.getTimer().currentTimeMs() >= 1000) {
                 long countdownTime = this.model.lastCountdownStartMs / 1000 + 4 -
                         this.game.getTimer().currentTimeMs() / 1000;
-                this.overlay.setCountdown(countdownTime);
+                this.overlay.setLargeText(Long.toString(countdownTime));
                 if (countdownTime == 0) {
                     this.model.gameState = GameState.GAME;
-                    this.overlay.hideCountdown();
+                    this.overlay.hideLargeText();
                 }
+            }
+            else {
+                this.overlay.setLargeText("GET READY!");
             }
         }
         else if (this.model.gameState.equals(GameState.GAME)) {
@@ -160,10 +163,10 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         else if (this.model.gameState.equals(GameState.UNPAUSE)) {
             this.statusBar.setStatusText("UNPAUSE");
             long countdownTime = (this.model.lastCountdownStartMs + 4000 - this.game.getTimer().currentTimeMs()) / 1000;
-            this.overlay.setCountdown(countdownTime);
+            this.overlay.setLargeText(Long.toString(countdownTime));
             if (countdownTime == 0) {
                 this.model.gameState = GameState.GAME;
-                this.overlay.hideCountdown();
+                this.overlay.hideLargeText();
             }
         }
         else if (this.model.gameState.equals(GameState.END)) {
@@ -181,7 +184,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 }
                 else if (this.model.gameState.equals(GameState.PAUSE)) {
                     this.overlay.hidePauseMenu();
-                    this.overlay.showCountdown();
+                    this.overlay.showLargeText();
                     this.model.lastCountdownStartMs = this.game.getTimer().currentTimeMs();
                     this.model.gameState = GameState.UNPAUSE;
                 }
@@ -201,6 +204,9 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
      * game start (like manually testing the object rendering).
      */
     public void load() {
+        this.statusBar.setStatusText("LOAD");
+        this.overlay.setLargeText("LOADING GAME");
+        this.overlay.showLargeText();
         this.startGameMusic();
 
         this.ball = new BallComponent(this.shared, this.game);
@@ -237,17 +243,35 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 break;
         }
 
-        FortComponent player1 = this.addPlayer(1, 1, new Point.Double(0, 0));
-        FortComponent player2 = this.addPlayer(2, 2, new Point.Double(736, 0));
-        FortComponent player3 = this.addPlayer(3, 3, new Point.Double(0, 480));
-        FortComponent player4 = this.addPlayer(4, 4, new Point.Double(736, 480));
-
-        this.game.getCanvas().getCanvasObjects().add(this.addAI(3, player3));
+        if (this.shared.getSettings().topLeft < 2) {
+            FortComponent player1 = this.addPlayer(1, 1, new Point.Double(0, 0));
+            if (this.shared.getSettings().topLeft == 1) {
+                this.addAI(1, player1);
+            }
+        }
+        if (this.shared.getSettings().topRight < 2) {
+            FortComponent player2 = this.addPlayer(2, 2, new Point.Double(736, 0));
+            if (this.shared.getSettings().topRight == 1) {
+                this.game.getCanvas().getCanvasObjects().add(this.addAI(2, player2));
+            }
+        }
+        if (this.shared.getSettings().botLeft < 2) {
+            FortComponent player3 = this.addPlayer(3, 3, new Point.Double(0, 480));
+            if (this.shared.getSettings().botLeft == 1) {
+                this.addAI(3, player3);
+            }
+        }
+        if (this.shared.getSettings().botRight <2) {
+            FortComponent player4 = this.addPlayer(4, 4, new Point.Double(736, 480));
+            if (this.shared.getSettings().botRight == 1) {
+                this.addAI(4, player4);
+            }
+        }
 
         this.game.getLoop().getLoopers().add(this);
         this.shared.getJFX().getEventReceivers().add(this);
 
-        this.overlay.showCountdown();
+
         this.model.lastCountdownStartMs = this.game.getTimer().currentTimeMs();
 
         this.model.gameState = GameState.PREGAME;

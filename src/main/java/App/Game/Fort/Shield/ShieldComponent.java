@@ -156,13 +156,13 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
                     }
                     break;
                 case 2:
-                    if (event.getCode() == KeyCode.V) {
+                    if (event.getCode() == KeyCode.C) {
                         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
                             this.leftPressed = true;
                         } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
                             this.leftPressed = false;
                         }
-                    } else if (event.getCode() == KeyCode.B) {
+                    } else if (event.getCode() == KeyCode.V) {
                         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
                             this.rightPressed = true;
                         } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
@@ -171,13 +171,13 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
                     }
                     break;
                 case 3:
-                    if (event.getCode() == KeyCode.O) {
+                    if (event.getCode() == KeyCode.U) {
                         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
                             this.leftPressed = true;
                         } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
                             this.leftPressed = false;
                         }
-                    } else if (event.getCode() == KeyCode.P) {
+                    } else if (event.getCode() == KeyCode.I) {
                         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
                             this.rightPressed = true;
                         } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {

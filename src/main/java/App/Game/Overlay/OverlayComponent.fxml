@@ -10,13 +10,13 @@
         <URL value="@OverlayComponent.css" />
     </stylesheets>
     <StackPane>
-        <VBox fx:id="countdownWrapper" styleClass="overlay-wrapper, hidden">
-            <Text fx:id="countdown" text="GET READY" styleClass="countdown"/>
+        <VBox fx:id="largeTextWrapper" styleClass="wrapper, hidden">
+            <Text fx:id="largeText" styleClass="large-text"/>
         </VBox>
-        <VBox fx:id="pauseMenu" styleClass="overlay-wrapper, hidden">
+        <VBox fx:id="pauseMenu" styleClass="wrapper, hidden">
             <Text fx:id="pause" text="GAME IS PAUSED" styleClass="pause" />
         </VBox>
-        <VBox fx:id="gameEndWrapper" styleClass="overlay-wrapper, hidden">
+        <VBox fx:id="gameEndWrapper" styleClass="wrapper, hidden">
             <!--<Text fx:id="gameEnd" styleClass="game-end"/>-->
             <!--<Text text="(ESC to exit)"/>-->
         </VBox>

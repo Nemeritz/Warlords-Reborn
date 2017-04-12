@@ -16,10 +16,10 @@ public class OverlayComponent extends VBox {
     private OverlayService model;
 
     @FXML
-    private Text countdown;
+    private Text largeText;
 
     @FXML
-    private VBox countdownWrapper;
+    private VBox largeTextWrapper;
 
     @FXML
     private VBox pauseMenu;
@@ -31,22 +31,22 @@ public class OverlayComponent extends VBox {
         this.shared = shared;
         this.game = game;
 
-        this.shared.getJFX().loadFXML(this, OverlayComponent.class,
+        this.shared.getJFX().loadFXML(this, this.getClass(),
                 "OverlayComponent.fxml");
     }
 
-    public void showCountdown() {
-        this.countdownWrapper.getStyleClass().remove(1);
+    public void showLargeText() {
+        this.largeTextWrapper.getStyleClass().removeIf((s) -> s.equals("hidden"));
     }
 
-    public void setCountdown(long timeS) {
-        if (!Long.toString(timeS).equals(this.countdown.getText())) {
-            this.countdown.setText(Long.toString(timeS));
+    public void setLargeText(String text) {
+        this.largeText.setText(text);
+    }
+
+    public void hideLargeText() {
+        if (this.largeTextWrapper.getStyleClass().filtered((s) -> s.equals("hidden")).size() == 0) {
+            this.largeTextWrapper.getStyleClass().add("hidden");
         }
-    }
-
-    public void hideCountdown() {
-        this.countdownWrapper.getStyleClass().add("hidden");
     }
 
     public void showPauseMenu() {

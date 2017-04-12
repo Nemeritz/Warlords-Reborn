@@ -23,7 +23,7 @@ public class BallService {
     public BallService() {
         this.position = new Point.Double(0, 0);
         this.velocity = new Vec2d(0, 0);
-        this.size = new Dimension(20, 20);
+        this.size = new Dimension(18, 18);
         this.powers = new ArrayList<>();
         this.invisible = false;
         this.unstoppable = false;
