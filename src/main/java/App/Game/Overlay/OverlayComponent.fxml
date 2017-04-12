@@ -10,8 +10,8 @@
         <URL value="@OverlayComponent.css" />
     </stylesheets>
     <StackPane>
-        <VBox fx:id="largeTextWrapper" styleClass="wrapper, hidden">
-            <Text fx:id="largeText" styleClass="large-text"/>
+        <VBox fx:id="largeTextWrapper" styleClass="wrapper">
+            <Text fx:id="largeText" text="LOADING GAME" styleClass="large-text"/>
         </VBox>
         <VBox fx:id="pauseMenu" styleClass="wrapper, hidden">
             <Text fx:id="pause" text="GAME IS PAUSED" styleClass="pause" />

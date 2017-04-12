@@ -13,9 +13,13 @@ public class SettingsService {
 	public boolean powerups;
 	//0 is player, 1 is AI, 2 is empty
 	public int topLeft;
+	public String topLeftName;
 	public int topRight;
+	public String topRightName;
 	public int botLeft;
+	public String botLeftName;
 	public int botRight;
+	public String botRightName;
 
 	public SettingsService() {
 		this.musicVolume = 1.0;
@@ -29,5 +33,9 @@ public class SettingsService {
 		this.topRight = 0;
 		this.botLeft = 0;
 		this.botRight = 0;
+		this.topLeftName = "";
+		this.topRightName = "";
+		this.botLeftName = "";
+		this.botRightName = "";
 	}
 }

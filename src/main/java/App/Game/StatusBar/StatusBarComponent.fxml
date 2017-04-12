@@ -10,16 +10,20 @@
     </stylesheets>
     <HBox style="-fx-alignment:center">
         <HBox>
-            <Text text="Fire: "/>
+            <Text fx:id="player1Name" text="Fire"/>
+            <Text fx:id="player1Score"/>
         </HBox>
         <HBox>
-            <Text text="Water: "/>
+            <Text fx:id="player2Name" text="Water"/>
+            <Text fx:id="player2Score"/>
         </HBox>
         <HBox>
-            <Text text="Earth: "/>
+            <Text fx:id="player3Name" text="Earth"/>
+            <Text fx:id="player3Score"/>
         </HBox>
         <HBox>
-            <Text text="Air: "/>
+            <Text fx:id="player4Name" text="Air"/>
+            <Text fx:id="player4Score"/>
         </HBox>
     </HBox>
     <HBox style="-fx-alignment:center-right">

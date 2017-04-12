@@ -206,8 +206,16 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     public void load() {
         this.statusBar.setStatusText("LOAD");
         this.overlay.setLargeText("LOADING GAME");
-        this.overlay.showLargeText();
-        this.startGameMusic();
+
+        this.statusBar.setPlayerName(1,
+                (this.shared.getSettings().topLeftName.isEmpty() ? "Fire" : this.shared.getSettings().topLeftName));
+        this.statusBar.setPlayerName(2,
+                (this.shared.getSettings().topRightName.isEmpty() ? "Water" : this.shared.getSettings().topRightName));
+        this.statusBar.setPlayerName(3,
+                (this.shared.getSettings().botLeftName.isEmpty() ? "Earth" : this.shared.getSettings().botLeftName));
+        this.statusBar.setPlayerName(4,
+                (this.shared.getSettings().botRightName.isEmpty() ? "Air" : this.shared.getSettings().botRightName));
+
 
         this.ball = new BallComponent(this.shared, this.game);
         this.ball.getPosition().setLocation(
@@ -277,6 +285,8 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.model.gameState = GameState.PREGAME;
 
         this.game.getTimer().start();
+
+        this.startGameMusic();
     }
 
     public void unload() {
@@ -292,6 +302,8 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.shared.getJFX().getEventReceivers().remove(this);
         this.game.getCanvas().clear();
         this.model = new GameService();
+        this.overlay.setLargeText("LOADING GAME");
+        this.overlay.showLargeText();
     }
 
     /**
