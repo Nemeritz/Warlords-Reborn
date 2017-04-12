@@ -21,8 +21,9 @@ public class AIService implements LooperChild, CanvasObject {
     Rectangle.Double bounds;
     BallComponent ball;
     FortComponent fort;
+    boolean cheese;
 
-    private double distanceToIntersection;
+    private double distanceToTarget;
     private boolean lastDirection;
     private Point.Double intersection;
     private Line2D.Double ballTrajectory;
@@ -56,8 +57,9 @@ public class AIService implements LooperChild, CanvasObject {
 
     public AIService() {
         this.disabled = true;
-        this.distanceToIntersection = Double.MAX_VALUE;
+        this.distanceToTarget = Double.MAX_VALUE;
         this.lastDirection = true;
+        this.cheese = false;
     }
 
     public void trackBall(BallComponent ball) {
@@ -76,12 +78,16 @@ public class AIService implements LooperChild, CanvasObject {
         this.checkReady();
     }
 
+    public void setCheese(Boolean value) {
+        this.cheese = value;
+    }
+
     @Override
     public void onGameLoop(Double intervalS) {
         if (!this.disabled && this.fort.isAIControlled()) {
             WarlordComponent warlord = this.fort.getWarlord();
 
-            if (!this.fort.isDestroyed() || warlord.isGhost()) {
+            if (!this.fort.isDestroyed() || warlord.isGhost() || !this.ball.isInvisible()) {
                 ShieldComponent shield = this.fort.getShield();
 
                 // Start off with rail speed 0
@@ -97,6 +103,21 @@ public class AIService implements LooperChild, CanvasObject {
                 double nextDistance = warlord.getPosition().distance(
                         ballCenter.x + this.ball.getVelocity().x,
                         ballCenter.y + this.ball.getVelocity().y
+                );
+
+                Rectangle.Double shieldHitbox = new Rectangle.Double(
+                        shield.getPosition().x, shield.getPosition().y,
+                        shield.getSize().height, shield.getSize().width
+                );
+
+                Point.Double shieldCenter = new Point.Double(
+                        shieldHitbox.getCenterX(),
+                        shieldHitbox.getCenterY()
+                );
+
+                Rectangle.Double fortHitbox = new Rectangle.Double(
+                        this.fort.getPosition().x, this.fort.getPosition().y,
+                        this.fort.getSize().width, this.fort.getSize().height
                 );
 
                 if (currentDistance > nextDistance) {
@@ -151,16 +172,6 @@ public class AIService implements LooperChild, CanvasObject {
                     this.ballTrajectory = ballTrajectory;
 
                     // Check if fort is in the way
-                    Rectangle.Double fortHitbox = new Rectangle.Double(
-                            this.fort.getPosition().x, this.fort.getPosition().y,
-                            this.fort.getSize().width, this.fort.getSize().height
-                    );
-
-                    Rectangle.Double shieldHitbox = new Rectangle.Double(
-                            shield.getPosition().x, shield.getPosition().y,
-                            shield.getSize().height, shield.getSize().width
-                    );
-
                     boolean intersectsFort = fortHitbox.intersectsLine(ballTrajectory);
 
                     if (intersectsFort) {
@@ -227,14 +238,10 @@ public class AIService implements LooperChild, CanvasObject {
 
                         if (intersection != null) {
                             this.intersection = intersection;
-                            Point.Double shieldCenter = new Point.Double(
-                                    shieldHitbox.getCenterX(),
-                                    shieldHitbox.getCenterY()
-                            );
 
                             double distToIntersect = shieldCenter.distance(intersection);
                             if (distToIntersect > shieldHitbox.width / 2 + 2) {
-                                if (this.distanceToIntersection < distToIntersect) {
+                                if (this.distanceToTarget < distToIntersect) {
                                     this.lastDirection = !this.lastDirection;
                                 }
 
@@ -245,10 +252,31 @@ public class AIService implements LooperChild, CanvasObject {
                                     shield.setRailSpeed(400);
                                 }
                             }
-                            this.distanceToIntersection = distToIntersect;
+                            this.distanceToTarget = distToIntersect;
                         }
                     }
 
+                }
+                else {
+                    // This is a dumb version of the above algorithm to get the AI to move the paddle closer to the ball
+                    // if there is no collision path between the ball and the AI fort. Surprisingly cheesy / effective.
+                    if (this.cheese) {
+                        if (!fortHitbox.contains(ballCenter)) {
+                            double distToBall = shieldCenter.distance(ballCenter);
+                            if (distToBall > this.ball.getSize().width / 2 + 2) {
+                                if (this.distanceToTarget < distToBall) {
+                                    this.lastDirection = !this.lastDirection;
+                                }
+
+                                if (this.lastDirection) {
+                                    shield.setRailSpeed(-400);
+                                } else {
+                                    shield.setRailSpeed(400);
+                                }
+                            }
+                            this.distanceToTarget = distToBall;
+                        }
+                    }
                 }
             }
             else {

@@ -66,7 +66,7 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable,
                     modVY += 100;
                     break;
                 case BOUNTY:
-                    this.game.getScore().getScoreKeeper(this.model.lastDeflectedBy).increaseScore(200);
+                    this.game.getScore().getScoreKeeper(this.model.lastDeflectedBy).increaseScore(500);
                     break;
                 case INVISIBLITY:
                     this.model.invisible = true;
@@ -240,5 +240,9 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable,
     @Override
     public int getYVelocity() {
         return ((int) this.model.getVelocity().y);
+    }
+
+    public boolean isInvisible() {
+        return this.model.invisible;
     }
 }

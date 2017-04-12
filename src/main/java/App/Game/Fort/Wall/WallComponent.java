@@ -90,7 +90,7 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
             this.game.getPhysics().getStatics().remove(this);
 
             BallComponent ball = (BallComponent) object;
-            if (ball.getLastDeflectedBy() != null) {
+            if (ball.getLastDeflectedBy() != null && ball.getLastDeflectedBy() != this.fort.player) {
                 this.game.getScore().getScoreKeeper(ball.getLastDeflectedBy()).increaseScore(100);
             }
         }

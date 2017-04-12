@@ -24,3 +24,7 @@
 .game-end {
     -fx-font-size: 2em;
 }
+
+.game-end-helper {
+    -fx-font-size: 1em;
+}

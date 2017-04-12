@@ -22,10 +22,13 @@ public class OverlayComponent extends VBox {
     private VBox largeTextWrapper;
 
     @FXML
-    private VBox pauseMenu;
+    private VBox pauseWrapper;
 
     @FXML
-    private VBox gameEnd;
+    private Text gameEnd;
+
+    @FXML
+    private VBox gameEndWrapper;
 
     public OverlayComponent(SharedModule shared, GameModule game) {
         this.shared = shared;
@@ -50,14 +53,26 @@ public class OverlayComponent extends VBox {
     }
 
     public void showPauseMenu() {
-        this.pauseMenu.getStyleClass().remove(1);
+        this.pauseWrapper.getStyleClass().removeIf((s) -> s.equals("hidden"));
     }
 
     public void hidePauseMenu() {
-        this.pauseMenu.getStyleClass().add("hidden");
+        if (this.pauseWrapper.getStyleClass().filtered((s) -> s.equals("hidden")).size() == 0) {
+            this.pauseWrapper.getStyleClass().add("hidden");
+        }
     }
 
-    public void showGameEnd(String message) {
+    public void showGameEnd() {
+        this.gameEndWrapper.getStyleClass().removeIf((s) -> s.equals("hidden"));
+    }
 
+    public void setGameEnd(String message) {
+        this.gameEnd.setText(message);
+    }
+
+    public void hideGameEnd() {
+        if (this.gameEndWrapper.getStyleClass().filtered((s) -> s.equals("hidden")).size() == 0) {
+            this.gameEndWrapper.getStyleClass().add("hidden");
+        }
     }
 }

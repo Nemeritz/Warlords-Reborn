@@ -29,6 +29,7 @@ public class JFXService {
     private Set<EventReceiver> eventReceivers;
     private EventHandler<KeyEvent> keyEventHandler;
     private MediaPlayer mediaPlayer;
+    private Media sound;
     public boolean active; // Must currently be manually set to true.
 
 
@@ -148,12 +149,10 @@ public class JFXService {
      * @return the new mediaplayer created
      */
     public MediaPlayer loadMedia( Class<?> classType, String fileName) {
-        this.mediaPlayer = new MediaPlayer(
-                new Media(classType.getResource(fileName).toString())
-        );
+        this.sound = new Media(classType.getResource(fileName).toString());
+        this.mediaPlayer = new MediaPlayer(this.sound);
         return this.mediaPlayer;
     }
-    
     /**
      * Closes and exits the game
      */

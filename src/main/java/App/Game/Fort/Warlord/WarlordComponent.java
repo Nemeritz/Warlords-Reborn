@@ -104,7 +104,12 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
 
             BallComponent ball = (BallComponent) object;
             if (ball.getLastDeflectedBy() != null) {
-                this.game.getScore().getScoreKeeper(ball.getLastDeflectedBy()).increaseScore(100);
+                if (ball.getLastDeflectedBy() != this.fort.player) {
+                    this.game.getScore().getScoreKeeper(ball.getLastDeflectedBy()).increaseScore(1000);
+                }
+                else if (!this.model.ghost) {
+                    ball.setLastDeflectedBy(null);
+                }
             }
         }
     }

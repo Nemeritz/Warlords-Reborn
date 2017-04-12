@@ -7,7 +7,7 @@ public class SettingsService {
 	public double musicVolume;
 	public double soundEffectsVolume;
 	public boolean ghosting;
-	public double maxGameTime;
+	public int maxGameTime;
 	public boolean scoreWin;
 	public int ballSpeed;
 	public boolean powerups;

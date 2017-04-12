@@ -5,7 +5,7 @@ package App.Game.Powerup;
  */
 public enum Power {
     HASTE(0, 5.0),
-    INVISIBLITY(1, 3.0),
+    INVISIBLITY(1, 2.0),
     BOUNTY(2, 0.0),
     DOUBLE_DAMAGE(3, 10.0);
 

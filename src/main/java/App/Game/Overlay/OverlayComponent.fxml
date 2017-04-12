@@ -13,12 +13,12 @@
         <VBox fx:id="largeTextWrapper" styleClass="wrapper">
             <Text fx:id="largeText" text="LOADING GAME" styleClass="large-text"/>
         </VBox>
-        <VBox fx:id="pauseMenu" styleClass="wrapper, hidden">
+        <VBox fx:id="pauseWrapper" styleClass="wrapper, hidden">
             <Text fx:id="pause" text="GAME IS PAUSED" styleClass="pause" />
         </VBox>
         <VBox fx:id="gameEndWrapper" styleClass="wrapper, hidden">
-            <!--<Text fx:id="gameEnd" styleClass="game-end"/>-->
-            <!--<Text text="(ESC to exit)"/>-->
+            <Text fx:id="gameEnd" styleClass="game-end"/>
+            <Text text="(ESC to exit)" styleClass="game-end-helper"/>
         </VBox>
     </StackPane>
 </fx:root>
