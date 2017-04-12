@@ -13,7 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-
+import javafx.scene.control.ToggleGroup;
 /**
  * Created by Hanliang Ding on 09/04/2017.
  */
@@ -56,10 +56,13 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
     @FXML
     private BorderPane pane;
 
+    @FXML
+    private ToggleGroup timeoptions;
     /**
      * Constructs the Match options component
      */
     private void construct() {
+
         this.shared.getJFX().loadFXML(this, MatchOptionsComponent.class,
                 "MatchOptionsComponent.fxml");
 
@@ -70,6 +73,7 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
         this.shared.getJFX().getEventReceivers().add(this);
 
         this.timeCombo.getItems().addAll("2 minutes", "4 minutes", "6 minutes");
+        this.timeCombo.getSelectionModel().selectFirst();
 
         //adds a listener for combo box selection change and detect them
         this.timeCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue,
@@ -107,6 +111,39 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
         this.construct();
     }
 
+    public void changeData() {
+    	if (this.GhostingBox.isSelected()) {
+    		this.shared.getSettings().ghosting = true;
+    	}
+    	else {
+    		this.shared.getSettings().ghosting = false;
+    	}
+
+    	if (this.PowerupsBox.isSelected()) {
+    		this.shared.getSettings().powerups = true;
+    	}
+    	else {
+    		this.shared.getSettings().powerups = false;
+    	}
+
+    	if (this.slowRadio.isSelected()) {
+    		this.shared.getSettings().ballSpeed = 100;
+    	}
+    	else if (this.mediumRadio.isSelected()) {
+    		this.shared.getSettings().ballSpeed = 200;
+    	}
+    	else if (this.fastRadio.isSelected()) {
+    		this.shared.getSettings().ballSpeed = 300;
+    	}
+
+    	if (this.timeRadio.isSelected()) {
+    		this.shared.getSettings().scoreWin = true;
+    	}
+    	else if (this.deathRadio.isSelected()) {
+    		this.shared.getSettings().scoreWin = false;
+    	}
+    }
+
 	/**
 	 * plays the button press sound effect
 	 */
@@ -132,6 +169,7 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
     void onContinueClicked() {
     	this.menu.transitionMode();
 		this.playButtonSound();
+		changeData();
     }
 
 	/**
@@ -217,67 +255,19 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
     public void onKeyEvent(KeyEvent event){
 
     	if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-    		if (event.getCode() == KeyCode.TAB) {
-    			if (currentButton < 11) {
-    				currentButton++;
-    			}
-    			else if (currentButton == 11) {
-    				currentButton = 0;
-    			}
+    		if ((event.getCode() == KeyCode.SPACE) && (this.menu.getCurrentMenu() == 2)) {
+    				this.playButtonSound();
     		}
-
-    		else if ((event.getCode() == KeyCode.ENTER) && (this.menu.getCurrentMenu() == 2)) {
-    			switch (currentButton) {
-    			case 0:	this.GhostingBox.fire();
-        				this.playButtonSound();
-    			break;
-
-    			case 1: this.PowerupsBox.fire();
-						this.playButtonSound();
-    			break;
-
-    			case 2: this.slowRadio.setSelected(true);
-						this.playButtonSound();
-    			break;
-
-    			case 3: this.mediumRadio.setSelected(true);
-						this.playButtonSound();
-				break;
-
-    			case 4: this.fastRadio.setSelected(true);
-    					this.playButtonSound();
-				break;
-
-    			case 5: this.playButtonSound();
-						this.shared.getJFX().closeStage();
-				break;
-
-    			case 6: this.playButtonSound();
-				this.shared.getJFX().closeStage();
-				break;
-
-    			case 7: this.playButtonSound();
-				this.shared.getJFX().closeStage();
-				break;
-
-    			case 8: this.playButtonSound();
-				this.shared.getJFX().closeStage();
-				break;
-
-    			case 9: this.playButtonSound();
-				this.shared.getJFX().closeStage();
-				break;
-
-    			case 10: this.playButtonSound();
-				this.shared.getJFX().closeStage();
-				break;
-
-    			case 11: this.playButtonSound();
-				this.shared.getJFX().closeStage();
-				break;
+    		else if (((event.getCode() == KeyCode.LEFT)||(event.getCode() == KeyCode.RIGHT)) && (this.menu.getCurrentMenu() == 2)) {
+    			if(this.deathRadio.isSelected()) {
+    				this.timeCombo.setDisable(true);
+    				this.playButtonSound();
+    			}
+    			else if(this.timeRadio.isSelected()) {
+    				this.timeCombo.setDisable(false);
+    				this.playButtonSound();
     			}
     		}
     	}
     }
-
 }

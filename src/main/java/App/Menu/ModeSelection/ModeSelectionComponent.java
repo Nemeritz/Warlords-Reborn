@@ -189,6 +189,11 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 		else {
 			this.shared.getSettings().botRight = 2;
 		}
+
+		this.shared.getSettings().topLeftName = this.tlcombo.getSelectionModel().getSelectedItem();
+		this.shared.getSettings().topRightName = this.trcombo.getSelectionModel().getSelectedItem();
+		this.shared.getSettings().botLeftName = this.blcombo.getSelectionModel().getSelectedItem();
+		this.shared.getSettings().botRightName = this.brcombo.getSelectionModel().getSelectedItem();
 	}
 
 	/**
@@ -208,6 +213,8 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 		this.back.setEffect(glow);
 		changeData();
 
+		this.menu.transitionTitle();
+
 		this.shared.getJFX().setScene("game");
 		((GameComponent) this.shared.getJFX().getScene("game").getKey())
 		.startGameCountdown();
@@ -224,10 +231,10 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 	public void onKeyEvent(KeyEvent event){
 		if ((event.getEventType() == KeyEvent.KEY_RELEASED) && (this.menu.getCurrentMenu() == 3)) {
 			if (event.getCode() == KeyCode.TAB) {
-				if (currentButton < 1) {
+				if (currentButton < 7) {
 					currentButton++;
 				}
-				else if (currentButton == 1) {
+				else if (currentButton == 7) {
 					currentButton = 0;
 				}
 

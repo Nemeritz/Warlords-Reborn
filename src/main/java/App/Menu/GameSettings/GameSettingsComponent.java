@@ -12,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import App.Shared.JFX.EventReceiver;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.effect.Glow;
+import javafx.scene.paint.Color;
 
 
 public class GameSettingsComponent extends BorderPane implements EventReceiver{
@@ -58,6 +59,7 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 		//adds a listener for slider value change and detect them, change volume proportional to slider
 		this.VolumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			this.resetEffects();
+			this.volumeText.setFill(Color.RED);
 			this.volumeText.setEffect(glow);
 			this.currentButton = 0;
 			this.shared.getSettings().musicVolume = (((double)newValue)/100);
@@ -68,6 +70,7 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 
 		this.glow = new Glow(10.0);
 		this.resetEffects();
+		this.volumeText.setFill(Color.RED);
 		this.volumeText.setEffect(glow);
 	}
 
@@ -99,6 +102,10 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 		this.musicText.setEffect(null);
 		this.volumeText.setEffect(null);
 		this.back.setEffect(null);
+		this.volumeText.setFill(Color.WHITE);
+		this.back.setFill(Color.WHITE);
+		this.soundText.setFill(Color.WHITE);
+		this.musicText.setFill(Color.WHITE);
 	}
 
 	/**
@@ -119,6 +126,7 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 	void onEffectsClicked(){
 		this.currentButton = 1;
 		this.resetEffects();
+		this.soundText.setFill(Color.RED);
 		this.soundText.setEffect(glow);
 		this.playButtonSound();
 		if (this.EffectsBox.isSelected()) {
@@ -136,6 +144,7 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 	void onMusicClicked(){
 		this.currentButton = 2;
 		this.resetEffects();
+		this.musicText.setFill(Color.RED);
 		this.musicText.setEffect(glow);
 		this.playButtonSound();
 		if (this.MusicBox.isSelected()) {
@@ -165,23 +174,27 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 				case 0:
 					this.resetEffects();
 					this.volumeText.setEffect(glow);
+					this.volumeText.setFill(Color.RED);
 					break;
 				case 1:
 					this.resetEffects();
 					this.soundText.setEffect(glow);
+					this.soundText.setFill(Color.RED);
 					break;
 				case 2:
 					this.resetEffects();
 					this.musicText.setEffect(glow);
+					this.musicText.setFill(Color.RED);
 					break;
 				case 3:
 					this.resetEffects();
 					this.back.setEffect(glow);
+					this.back.setFill(Color.RED);
 					break;
 				}
 			}
 
-			else if (event.getCode() == KeyCode.ENTER) {
+			else if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.SPACE) {
 				switch (currentButton) {
 
 				case 1: this.EffectsBox.fire();

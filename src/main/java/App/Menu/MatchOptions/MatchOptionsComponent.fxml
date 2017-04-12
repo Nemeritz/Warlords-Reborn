@@ -16,7 +16,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 
 
-<fx:root fx:id="pane" prefHeight="728" minHeight="728" maxHeight="728" minWidth="1024" maxWidth="1024" prefWidth="1024"  styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.114" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="pane" prefHeight="768" minHeight="768" maxHeight="768" minWidth="1024" maxWidth="1024" prefWidth="1024"  styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.114" xmlns:fx="http://javafx.com/fxml/1">
    <stylesheets>
       <URL value="@MatchOptionsComponent.css" />
    </stylesheets>
@@ -89,11 +89,11 @@
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
             	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-            		<RadioButton fx:id="timeRadio" toggleGroup="$timeoptions" onMouseReleased="#onTimeClicked">
+            		<RadioButton fx:id="timeRadio" selected="true" toggleGroup="$timeoptions" onMouseReleased="#onTimeClicked">
             		</RadioButton>
             	</HBox>
             	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-            		<ComboBox fx:id="timeCombo" minWidth="150" disable="true">
+            		<ComboBox fx:id="timeCombo" minWidth="150">
             		</ComboBox>
             	</HBox>
             </HBox>

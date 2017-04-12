@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.effect.Glow;
+import javafx.scene.paint.Color;
 
 
 /**
@@ -42,6 +43,7 @@ public class TitleComponent extends BorderPane implements EventReceiver {
         this.currentButton = 0;
 		this.glow = new Glow(10.0);
 		this.play.setEffect(glow);
+		this.play.setFill(Color.RED);
         this.shared.getJFX().getEventReceivers().add(this);
     }
 
@@ -66,6 +68,9 @@ public class TitleComponent extends BorderPane implements EventReceiver {
 		this.play.setEffect(null);
 		this.settings.setEffect(null);
 		this.exit.setEffect(null);
+		this.play.setFill(Color.WHITE);
+		this.settings.setFill(Color.WHITE);
+		this.exit.setFill(Color.WHITE);
 	}
 
     /**
@@ -75,6 +80,7 @@ public class TitleComponent extends BorderPane implements EventReceiver {
     void onPlayClicked() {
 		this.resetEffects();
 		this.play.setEffect(glow);
+		this.play.setFill(Color.RED);
         this.menu.transitionOptions();
         this.playButtonSound();
     }
@@ -94,7 +100,8 @@ public class TitleComponent extends BorderPane implements EventReceiver {
     @FXML
     void onSettingsClicked() {
 		this.resetEffects();
-		this.settings.setEffect(glow);
+		this.play.setEffect(glow);
+		this.play.setFill(Color.RED);
         this.menu.transitionSettings();
         this.playButtonSound();
     }
@@ -117,14 +124,17 @@ public class TitleComponent extends BorderPane implements EventReceiver {
 				switch(currentButton) {
 				case 0:
 					this.resetEffects();
+					this.play.setFill(Color.RED);
 					this.play.setEffect(glow);
 					break;
 				case 1:
 					this.resetEffects();
+					this.settings.setFill(Color.RED);
 					this.settings.setEffect(glow);
 					break;
 				case 2:
 					this.resetEffects();
+					this.exit.setFill(Color.RED);
 					this.exit.setEffect(glow);
 					break;
 				}
@@ -135,12 +145,14 @@ public class TitleComponent extends BorderPane implements EventReceiver {
     			case 0:	this.menu.transitionOptions();
 						this.resetEffects();
 						this.play.setEffect(glow);
+						this.play.setFill(Color.RED);
     					this.playButtonSound();
     			break;
 
     			case 1: this.menu.transitionSettings();
     					this.resetEffects();
     					this.play.setEffect(glow);
+    					this.play.setFill(Color.RED);
     					this.playButtonSound();
     			break;
 
