@@ -3,7 +3,6 @@ package App.Shared.JFX;
 import App.Shared.Observables.ObservableScene;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -12,7 +11,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +23,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class JFXService {
     private Stage stage; // stage for the game
     private ObservableScene sceneChange; // notices all observers that scene has changed
-    private Map<String,SimpleImmutableEntry<Parent, Scene>> scenes;
+    private Map<String,Scene> scenes;
     private Set<EventReceiver> eventReceivers;
     private EventHandler<KeyEvent> keyEventHandler;
     private MediaPlayer mediaPlayer;
@@ -109,13 +107,8 @@ public class JFXService {
         }
     }
 
-    /**
-     * Gets a registered scene entry from the JFX service.
-     * @param sceneName The name of the scene that was registered in the JFX service.
-     * @return An entry set created from a JFX node (component) and a scene containing that node.
-     */
-    public SimpleImmutableEntry<Parent, Scene> getScene(String sceneName) {
-        return this.scenes.get(sceneName);
+    public ObservableScene getScene() {
+        return this.sceneChange;
     }
 
     /**
@@ -124,7 +117,7 @@ public class JFXService {
      * @param sceneName The name of the new scene to put on the stage
      * @param value An entry set created from a JFX node (component) and a scene containing that node.
      */
-    public void putScene(String sceneName, SimpleImmutableEntry<Parent, Scene> value) {
+    public void putScene(String sceneName, Scene value) {
         if (!value.equals(this.scenes.get(sceneName))) {
             this.scenes.put(sceneName, value);
         }
@@ -135,10 +128,10 @@ public class JFXService {
      * @param sceneName The name of the scene that was registered in the JFX service.
      */
     public void setScene(String sceneName) {
-        Scene scene = this.scenes.get(sceneName).getValue();
+        Scene scene = this.scenes.get(sceneName);
         if (scene != null) {
             this.stage.setScene(scene);
-            this.sceneChange.setScene(scene);
+            this.sceneChange.setScene(sceneName, scene);
         }
     }
 

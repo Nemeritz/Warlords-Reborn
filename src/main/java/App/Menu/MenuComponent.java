@@ -9,10 +9,13 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Created by Jerry Fan on 25/03/2017.
  */
-public class MenuComponent extends Pane {
+public class MenuComponent extends Pane implements Observer {
     private SharedModule shared;//allows access to JFX scenes and stage
 
     private MediaPlayer music;
@@ -38,9 +41,7 @@ public class MenuComponent extends Pane {
     private void construct() {
         // Initial Menu music
         this.music = this.shared.getJFX().loadMedia(this.getClass(), "assets/MenuMusic.mp3");
-        this.music.setVolume(this.shared.getSettings().musicVolume);
-        this.music.setCycleCount(MediaPlayer.INDEFINITE);
-        this.music.play();
+        this.shared.getJFX().getScene().addObserver(this);
 
         this.title = new TitleComponent(shared, this);
         this.settings = new GameSettingsComponent(shared, this);
@@ -70,6 +71,15 @@ public class MenuComponent extends Pane {
     public MenuComponent(SharedModule shared) {
         this.shared = shared;
         this.construct();
+    }
+
+    public void load() {
+        this.music.stop();
+        this.music.setVolume(this.shared.getSettings().musicVolume);
+        this.music.setCycleCount(MediaPlayer.INDEFINITE);
+        this.music.play();
+        this.currentMenu = 0;
+        this.transitionTitle();
     }
 
     /**
@@ -122,5 +132,13 @@ public class MenuComponent extends Pane {
 
     public MediaPlayer getMusic() {
         return this.music;
+    }
+
+    @Override
+    public void update(Observable obs, Object arg) {
+        if (this.shared.getJFX().getScene().equals(obs) &&
+                this.shared.getJFX().getScene().current().getKey().equals("menu")) {
+            this.load();
+        }
     }
 }

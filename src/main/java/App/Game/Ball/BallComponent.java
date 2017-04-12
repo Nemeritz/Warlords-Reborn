@@ -62,8 +62,8 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable,
         for (Power power : this.model.getPowers()) {
             switch(power) {
                 case HASTE:
-                    modVX += 100;
-                    modVY += 100;
+                    modVX += 100 * Math.signum(velocity.x);
+                    modVY += 100 * Math.signum(velocity.y);
                     break;
                 case BOUNTY:
                     this.game.getScore().getScoreKeeper(this.model.lastDeflectedBy).increaseScore(500);
@@ -124,7 +124,7 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable,
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         boolean isShield = ShieldComponent.class.isInstance(object);
 
-        if (!this.model.unstoppable || isShield) {
+        if (!this.model.unstoppable || isShield || object == null) {
             Vec2d velocity = this.getVelocity();
 
             double reactionX = hitBoxCenter.x - intersectionCenter.x;

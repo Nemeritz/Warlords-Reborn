@@ -1,6 +1,5 @@
 package App.Menu.MatchOptions;
 
-import App.Game.GameComponent;
 import App.Menu.MenuComponent;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
@@ -8,12 +7,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-import javafx.scene.control.ToggleGroup;
 /**
  * Created by Hanliang Ding on 09/04/2017.
  */
@@ -127,13 +126,13 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
     	}
 
     	if (this.slowRadio.isSelected()) {
-    		this.shared.getSettings().ballSpeed = 100;
-    	}
-    	else if (this.mediumRadio.isSelected()) {
     		this.shared.getSettings().ballSpeed = 200;
     	}
-    	else if (this.fastRadio.isSelected()) {
+    	else if (this.mediumRadio.isSelected()) {
     		this.shared.getSettings().ballSpeed = 300;
+    	}
+    	else if (this.fastRadio.isSelected()) {
+    		this.shared.getSettings().ballSpeed = 400;
     	}
 
     	if (this.timeRadio.isSelected()) {

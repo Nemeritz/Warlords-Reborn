@@ -9,6 +9,7 @@ import App.Shared.Interfaces.Disposable;
 import App.Shared.SharedModule;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 
 import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,6 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class PowerupComponent implements Physical, CanvasObject, Disposable, LooperChild {
 
+    private MediaPlayer hitSound;
     private SharedModule shared;
     private GameModule game;
     private PowerupService model;
@@ -27,6 +29,8 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
         this.shared = shared;
         this.game = game;
         this.model = new PowerupService();
+
+        this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.mp3");
 
         Power[] powerList = Power.values();
         this.model.setPower(
@@ -98,10 +102,12 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
-            this.dispose();
+            this.hitSound.stop();
+            this.hitSound.play();
 
             BallComponent ball = (BallComponent) object;
             ball.addPower(this.getPower());
+            this.dispose();
         }
     }
 

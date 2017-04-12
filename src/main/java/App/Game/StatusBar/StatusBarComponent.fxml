@@ -16,25 +16,25 @@
     <center>
         <HBox>
             <HBox styleClass="text-wrapper">
-                <Text fx:id="player1Name" text="Fire"/>
+                <Text fx:id="player1Name" text="Empty"/>
             </HBox>
             <HBox styleClass="text-wrapper">
                 <Text fx:id="player1Score" text="0"/>
             </HBox>
             <HBox styleClass="text-wrapper">
-                <Text fx:id="player2Name" text="Water"/>
+                <Text fx:id="player2Name" text="Empty"/>
             </HBox>
             <HBox styleClass="text-wrapper">
                 <Text fx:id="player2Score" text="0"/>
             </HBox>
             <HBox styleClass="text-wrapper">
-                <Text fx:id="player3Name" text="Earth"/>
+                <Text fx:id="player3Name" text="Empty"/>
             </HBox>
             <HBox styleClass="text-wrapper">
                 <Text fx:id="player3Score" text="0"/>
             </HBox>
             <HBox styleClass="text-wrapper">
-                <Text fx:id="player4Name" text="Air"/>
+                <Text fx:id="player4Name" text="Empty"/>
             </HBox>
             <HBox styleClass="text-wrapper">
                 <Text fx:id="player4Score" text="0"/>

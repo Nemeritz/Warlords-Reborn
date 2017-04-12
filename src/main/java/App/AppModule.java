@@ -10,8 +10,6 @@ import App.Shared.SharedModule;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-
 public class AppModule {
     private SharedModule shared;
 
@@ -28,12 +26,12 @@ public class AppModule {
         MenuComponent menu = new MenuComponent(this.shared);
         Scene menuScene = new Scene(menu);
         this.shared.getJFX().putScene("menu",
-                new SimpleImmutableEntry<>(menu, menuScene));
+                 menuScene);
 
         GameComponent game = new GameComponent(this.shared);
         Scene gameScene = new Scene(game);
         this.shared.getJFX().putScene("game",
-                new SimpleImmutableEntry<>(game, gameScene));
+                gameScene);
     }
 
     /**

@@ -1,16 +1,15 @@
 package App.Shared.Observables;
 
-import javafx.beans.NamedArg;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+import java.util.AbstractMap;
 import java.util.Observable;
 
 /**
  * Created by Jerry Fan on 27/03/2017.
  */
 public class ObservableScene extends Observable {
-    Scene scene;
+    AbstractMap.SimpleImmutableEntry<String, Scene> sceneTuple;
 
     /**
      * Constructor for the observable scene
@@ -21,16 +20,18 @@ public class ObservableScene extends Observable {
     /**
      * @return the scene
      */
-    public Scene getScene() {
-        return this.scene;
+    public AbstractMap.SimpleImmutableEntry<String, Scene> current() {
+        return this.sceneTuple;
     }
 
     /**
+     * @param sceneName
      * @param value if not equal to current scene then notify observers that the scene has changed
      */
-    public void setScene(Scene value)  {
-        if (!value.equals(scene)) {
-            this.scene = value;
+    public void setScene(String sceneName, Scene value)  {
+        if (this.sceneTuple == null || !sceneName.equals(this.sceneTuple.getKey()) || !value.equals(this.sceneTuple
+                .getValue())) {
+            this.sceneTuple = new AbstractMap.SimpleImmutableEntry<>(sceneName, value);
             this.setChanged();
             this.notifyObservers();
         }
