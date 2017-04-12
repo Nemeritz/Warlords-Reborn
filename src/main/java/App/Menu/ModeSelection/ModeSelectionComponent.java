@@ -21,7 +21,6 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 	private SharedModule shared;
 	private MenuComponent menu;
 	private MediaPlayer buttonSound;
-	private int currentButton;
 	private Glow glow;
 
 	@FXML
@@ -86,16 +85,17 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 		this.shared.getJFX().loadFXML(this, ModeSelectionComponent.class,
 				"ModeSelectionComponent.fxml");
 
+		//media player for the button sound
 		this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "assets/Button.mp3");
 		this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
 
-		this.currentButton = 0;
 		this.shared.getJFX().getEventReceivers().add(this);
 
 		this.glow = new Glow(10.0);
 		this.resetEffects();
 		this.back.setEffect(glow);
 
+		//initializes the combo boxes
 		this.tlcombo.getItems().addAll("Empty", "Bot (Normal)", "Bot (Unfair)", "Player");
 		this.trcombo.getItems().addAll("Empty", "Bot (Normal)", "Bot (Unfair)", "Player");
 		this.blcombo.getItems().addAll("Empty", "Bot (Normal)", "Bot (Unfair)", "Player");
@@ -105,6 +105,8 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 		this.blcombo.getSelectionModel().selectLast();
 		this.brcombo.getSelectionModel().selectLast();
 
+		//listeners for all the combo boxes and text fields so they can disable
+		//and highlight components when they are in focus
 		this.tlcombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue,
 				newValue) -> {
 					if (this.tlcombo.getSelectionModel().getSelectedItem().equals("Player")) {
@@ -264,6 +266,7 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 		this.brname.setFill(Color.WHITE);
 	}
 
+	//Changes data in the settings services according to the choices
 	public void changeData() {
 		this.shared.getSettings().topLeft = this.tlcombo.getSelectionModel().getSelectedIndex();
 		this.shared.getSettings().topRight = this.trcombo.getSelectionModel().getSelectedIndex();
@@ -287,6 +290,9 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 		this.playButtonSound();
 	}
 
+	/**
+	 * starts the game
+	 */
 	@FXML
 	void onContinueClicked() {
 		this.resetEffects();
@@ -301,19 +307,18 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 		this.menu.getMusic().stop();
 	}
 
-	public void resetCurrentButton() {
-		this.currentButton = 0;
-	}
-
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void onKeyEvent(KeyEvent event){
+	public void onKeyEvent (KeyEvent event) {
+		//Go to options menu
 		if (event.getEventType() == KeyEvent.KEY_PRESSED && (this.menu.getCurrentMenu() == 3)) {
 			this.playButtonSound();
 			if (event.getCode() == KeyCode.B) {
 				this.menu.transitionOptions();
 			}
-
+			//start game
 			else if ((event.getCode() == KeyCode.N) && (this.menu.getCurrentMenu() == 3)) {
 				changeData();
 				this.menu.transitionTitle();

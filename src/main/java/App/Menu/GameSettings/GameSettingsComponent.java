@@ -68,6 +68,7 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 			this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
 		});
 
+		//glow effect for buttons
 		this.glow = new Glow(10.0);
 		this.resetEffects();
 		this.volumeText.setFill(Color.RED);
@@ -156,12 +157,19 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 		}
 	}
 
+	/**
+	 * resets the current component index for controls
+	 */
 	public void resetCurrentButton() {
 		this.currentButton = 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onKeyEvent(KeyEvent event){
+		//iterates through components if tab is pressed
 		if ((event.getEventType() == KeyEvent.KEY_RELEASED) && (this.menu.getCurrentMenu() == 1)) {
 			if (event.getCode() == KeyCode.TAB) {
 				if (currentButton < 3) {
@@ -195,6 +203,7 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 				}
 			}
 
+			//toggles boxes if enter or space is pressed
 			else if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.SPACE) {
 				switch (currentButton) {
 

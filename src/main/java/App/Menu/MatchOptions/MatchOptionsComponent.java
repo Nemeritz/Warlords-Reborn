@@ -7,15 +7,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
-import javafx.scene.Node;
 import javafx.scene.effect.Glow;
 /**
  * Created by Hanliang Ding on 09/04/2017.
@@ -24,7 +21,6 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
 	private MenuComponent menu;
 	private SharedModule shared;
 	private MediaPlayer buttonSound;
-	private int currentButton;
 	private Glow glow;
 
 	@FXML
@@ -74,9 +70,6 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
 
 	@FXML
 	private BorderPane pane;
-
-	@FXML
-	private ToggleGroup timeoptions;
 	/**
 	 * Constructs the Match options component
 	 */
@@ -88,7 +81,6 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
 		 this.buttonSound = this.shared.getJFX().loadMedia(this.shared.getClass(), "assets/Button.mp3");
 		 this.buttonSound.setVolume(this.shared.getSettings().soundEffectsVolume);
 
-		 this.currentButton = 0;
 		 this.shared.getJFX().getEventReceivers().add(this);
 
 		 this.glow = new Glow(10.0);
@@ -111,6 +103,7 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
 					 }
 				 });
 
+		 //Below are listeners to components so controller can do things when they are focused
 		 this.fastRadio.focusedProperty().addListener((observable, oldValue,
 				 newValue) -> {
 					 if (this.shared.getJFX().getSceneValue("menu").getFocusOwner()==this.fastRadio) {
@@ -128,6 +121,7 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
 						 this.speedtext.setFill(Color.RED);
 					 }
 				 });
+
 		 this.slowRadio.focusedProperty().addListener((observable, oldValue,
 				 newValue) -> {
 					 if (this.shared.getJFX().getSceneValue("menu").getFocusOwner()==this.slowRadio) {
@@ -369,10 +363,6 @@ public class MatchOptionsComponent extends BorderPane implements EventReceiver {
 	 void onFastClicked(){
 		 this.playButtonSound();
 		 this.shared.getSettings().ballSpeed = 300;
-	 }
-
-	 public void resetCurrentButton() {
-		 this.currentButton = 0;
 	 }
 
 	 @Override

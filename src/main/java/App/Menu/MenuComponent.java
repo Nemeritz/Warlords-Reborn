@@ -33,8 +33,6 @@ public class MenuComponent extends Pane implements Observer {
 
     private int currentMenu;
 
-//    private HighscoresComponent highscores;
-
     /**
      * Constructs the menu component with title components as default overlaying it
      */
@@ -47,7 +45,6 @@ public class MenuComponent extends Pane implements Observer {
         this.settings = new GameSettingsComponent(shared, this);
         this.options = new MatchOptionsComponent(shared, this);
         this.mode = new ModeSelectionComponent(shared, this);
- //      this.highscores = new HighscoresComponent(shared);
 
         this.shared.getJFX().loadFXML(this, MenuComponent.class,
                 "MenuComponent.fxml");
@@ -73,6 +70,9 @@ public class MenuComponent extends Pane implements Observer {
         this.construct();
     }
 
+    /**
+     * loads the music for the menu
+     */
     public void load() {
         this.music.stop();
         this.music.setVolume(this.shared.getSettings().musicVolume);
@@ -111,7 +111,6 @@ public class MenuComponent extends Pane implements Observer {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();
         this.menuWrapper.getChildren().add(this.options);
-        this.options.resetCurrentButton();
         this.currentMenu = 2;
     }
 
@@ -122,18 +121,26 @@ public class MenuComponent extends Pane implements Observer {
         this.menuWrapper.getChildren().clear();
         this.menuWrapper.getChildren().removeAll();
         this.menuWrapper.getChildren().add(this.mode);
-        this.mode.resetCurrentButton();
         this.currentMenu = 3;
     }
 
+    /**
+     * @return the current menu wrapper
+     */
     public int getCurrentMenu() {
     	return this.currentMenu;
     }
 
+    /**
+     * @return the menu music
+     */
     public MediaPlayer getMusic() {
         return this.music;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Observable obs, Object arg) {
         if (this.shared.getJFX().getScene().equals(obs) &&
