@@ -10,6 +10,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
@@ -109,6 +110,14 @@ public class JFXService {
 
     public ObservableScene getScene() {
         return this.sceneChange;
+    }
+
+    /**
+     * @param fileName name of the file
+     * @return the scene currently in use
+     */
+    public Scene getSceneValue(String sceneName) {
+    	return this.sceneChange.current().getValue();
     }
 
     /**

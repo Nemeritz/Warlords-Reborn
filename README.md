@@ -55,6 +55,13 @@ If gradle doesn't automatically pick up Java 8 (it did when tested), set the fol
 PATH=$JAVA_HOME/jre/bin:$PATH
 export PATH
 ```
+## Menu Controls ##
+__Left/Right Arrow Keys__ - slide slider or change radio button.
+__Space/Enter__ - Check Boxes, select buttons.
+__Tab__ - Move to next control.
+__N Key__ - Continue/Next.
+__B Key__ - Back.
+
 
 ## Game Controls ##
 

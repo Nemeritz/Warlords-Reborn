@@ -11,7 +11,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.effect.Glow;
 import javafx.scene.paint.Color;
-
+import java.io.BufferedReader;
 
 /**
  * Created by Jerry Fan on 21/03/2017.
@@ -140,7 +140,7 @@ public class TitleComponent extends BorderPane implements EventReceiver {
 				}
     		}
 
-    		else if (event.getCode() == KeyCode.ENTER) {
+    		else if (event.getCode() == KeyCode.ENTER && this.menu.getCurrentMenu() == 0) {
     			switch (currentButton) {
     			case 0:	this.menu.transitionOptions();
 						this.resetEffects();

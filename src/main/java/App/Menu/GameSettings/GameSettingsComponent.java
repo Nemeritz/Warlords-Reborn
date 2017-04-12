@@ -226,6 +226,22 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 				break;
 				}
 			}
+
+			else if (event.getCode() == KeyCode.B) {
+				this.menu.transitionTitle();
+				this.playButtonSound();
+			}
+		}
+
+		if ((event.getEventType() == KeyEvent.KEY_PRESSED) && (this.menu.getCurrentMenu() == 1)) {
+
+			if (event.getCode() == KeyCode.LEFT) {
+				this.VolumeSlider.setValue(this.VolumeSlider.getValue() - 1);
+			}
+
+			else if (event.getCode() == KeyCode.RIGHT) {
+				this.VolumeSlider.setValue(this.VolumeSlider.getValue() + 1);
+			}
 		}
 	}
 }

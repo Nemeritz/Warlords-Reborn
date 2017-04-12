@@ -14,8 +14,6 @@ public class ObservableScene extends Observable {
     /**
      * Constructor for the observable scene
      */
-    public ObservableScene() {
-    }
 
     /**
      * @return the scene

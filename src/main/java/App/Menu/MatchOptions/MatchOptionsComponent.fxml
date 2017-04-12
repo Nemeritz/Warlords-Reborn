@@ -16,7 +16,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 
 
-<fx:root fx:id="pane" prefHeight="768" minHeight="768" maxHeight="768" minWidth="1024" maxWidth="1024" prefWidth="1024"  styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.114" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="pane" prefHeight="720" minHeight="720" maxHeight="720" minWidth="1024" maxWidth="1024" prefWidth="1024"  styleClass="menu-title" type="javafx.scene.layout.BorderPane" xmlns="http://javafx.com/javafx/8.0.114" xmlns:fx="http://javafx.com/fxml/1">
    <stylesheets>
       <URL value="@MatchOptionsComponent.css" />
    </stylesheets>
@@ -31,7 +31,7 @@
       <VBox styleClass="settings-center" alignment="TOP_CENTER">
          <HBox alignment="CENTER" styleClass="ghost">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="Ghosting"/>
+               <Text fx:id="ghosttext" text="Ghosting"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
                <CheckBox  fx:id="GhostingBox" onMouseReleased="#onGhostClicked"></CheckBox>
@@ -40,7 +40,7 @@
 
 		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="soundef">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="Powerups"/>
+               <Text  fx:id="powertext" text="Powerups"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
                <CheckBox  fx:id="PowerupsBox" onMouseReleased="#onPowerClicked"></CheckBox>
@@ -49,7 +49,7 @@
 
 		 <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="speed">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="Ball Speed"/>
+               <Text fx:id="speedtext" text="Ball Speed"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
             	<HBox HBox.hgrow="ALWAYS" alignment="CENTER">
@@ -72,10 +72,10 @@
 
          <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="wincond">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="DEATHMATCH"/>
+               <Text fx:id="killtext" text="DEATHMATCH"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               <Text text="DOMINATION"/>
+               <Text fx:id="scoretext" text="DOMINATION"/>
             </HBox>
          </HBox>
 
