@@ -3,7 +3,7 @@ package App.Game.StatusBar;
 import App.Game.GameModule;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.TreeMap;
 /**
  * Created by lichk on 12/04/2017.
  */
-public class StatusBarComponent extends HBox {
+public class StatusBarComponent extends BorderPane {
 
     SharedModule shared;
     GameModule game;

@@ -172,6 +172,10 @@ public class FortComponent implements Disposable, ScoreKeeper, LooperChild {
         return components;
     }
 
+    public int getScore() {
+        return this.fort.score;
+    }
+
     @Override
     public void increaseScore(int value) {
         this.fort.score += Math.abs(value);

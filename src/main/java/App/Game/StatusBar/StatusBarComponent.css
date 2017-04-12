@@ -2,4 +2,9 @@
     -fx-background-color: #000;
     -fx-padding: 0.5em;
     -fx-min-width: 1024px;
+    -fx-max-height: 35px;
+}
+
+.text-wrapper {
+    -fx-padding: 0 0.5em;
 }

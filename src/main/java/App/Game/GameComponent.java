@@ -27,7 +27,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Game component contains the implementation for the game, along with associated components required for playing the
  * game. All distance measurements in the game are measured in virtual game grid 'units' where there is a 1:1 ratio
- * between units and pixels at 1024x768. All time measurements in the game are measured in seconds, unless specified.
+ * between units and pixels at 1024x733. All time measurements in the game are measured in seconds, unless specified.
  * Typical unit used in calculation is units/second.
  *
  * Created by Jerry Fan on 21/03/2017.
@@ -125,6 +125,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
             for (FortComponent fort : this.forts.values()) {
                 fort.onGameLoop(intervalS);
+                this.statusBar.setPlayerScore(fort.getPlayer(), Integer.toString(fort.getScore()));
 
                 if (fort.isDestroyed()) {
                     destroyedForts++;
@@ -198,11 +199,6 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         }
     }
 
-    /**
-     * Eventually this method will use the settings service from the shared module to generate the game layout at the
-     * start of each game. For now, it's just a convenient way to load in anything that needs to be done prior to
-     * game start (like manually testing the object rendering).
-     */
     public void load() {
         this.statusBar.setStatusText("LOAD");
         this.overlay.setLargeText("LOADING GAME");
@@ -254,26 +250,30 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         if (this.shared.getSettings().topLeft < 2) {
             FortComponent player1 = this.addPlayer(1, 1, new Point.Double(0, 0));
             if (this.shared.getSettings().topLeft == 1) {
-                this.addAI(1, player1);
+                AIService ai1 = this.addAI(1, player1);
             }
         }
         if (this.shared.getSettings().topRight < 2) {
             FortComponent player2 = this.addPlayer(2, 2, new Point.Double(736, 0));
             if (this.shared.getSettings().topRight == 1) {
-                this.game.getCanvas().getCanvasObjects().add(this.addAI(2, player2));
+                AIService ai2 = this.addAI(2, player2);
             }
         }
         if (this.shared.getSettings().botLeft < 2) {
-            FortComponent player3 = this.addPlayer(3, 3, new Point.Double(0, 480));
+            FortComponent player3 = this.addPlayer(3, 3, new Point.Double(0, 445));
             if (this.shared.getSettings().botLeft == 1) {
-                this.addAI(3, player3);
+                AIService ai3 = this.addAI(3, player3);
             }
         }
-        if (this.shared.getSettings().botRight <2) {
-            FortComponent player4 = this.addPlayer(4, 4, new Point.Double(736, 480));
+        if (this.shared.getSettings().botRight < 2) {
+            FortComponent player4 = this.addPlayer(4, 4, new Point.Double(736, 445));
             if (this.shared.getSettings().botRight == 1) {
-                this.addAI(4, player4);
+                AIService ai4 = this.addAI(4, player4);
             }
+        }
+
+        if (AIService.AI_DEBUG) {
+            this.ai.values().forEach(a -> this.game.getCanvas().getCanvasObjects().add(a));
         }
 
         this.game.getLoop().getLoopers().add(this);

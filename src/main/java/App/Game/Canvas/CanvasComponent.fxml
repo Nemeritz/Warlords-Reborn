@@ -4,11 +4,11 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.Pane?>
 
-<fx:root type="Pane" fx:id="canvasWrapper" prefHeight="768" prefWidth="1024" styleClass="canvas-wrapper"
+<fx:root type="Pane" fx:id="canvasWrapper" prefHeight="733" prefWidth="1024" styleClass="canvas-wrapper"
          xmlns="http://javafx.com/javafx/8.0.112"
       xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@CanvasComponent.css"/>
     </stylesheets>
-    <Canvas styleClass="canvas" fx:id="canvas" height="768" width="1024"/>
+    <Canvas styleClass="canvas" fx:id="canvas" height="733" width="1024"/>
 </fx:root>

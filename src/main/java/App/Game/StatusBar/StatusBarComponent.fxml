@@ -3,30 +3,53 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<fx:root fx:id="statusBar" styleClass="status-bar" type="HBox" HBox.hgrow="ALWAYS"
+<fx:root fx:id="statusBar" styleClass="status-bar" type="BorderPane"
             xmlns:fx="http://javafx.com/fxml">
     <stylesheets>
         <URL value="@StatusBarComponent.css" />
     </stylesheets>
-    <HBox style="-fx-alignment:center">
-        <HBox>
-            <Text fx:id="player1Name" text="Fire"/>
-            <Text fx:id="player1Score"/>
+    <left>
+        <HBox styleClass="text-wrapper" style="-fx-pref-width:12.5em">
+            <Text text="Game Scores:"/>
         </HBox>
+    </left>
+    <center>
         <HBox>
-            <Text fx:id="player2Name" text="Water"/>
-            <Text fx:id="player2Score"/>
+            <HBox styleClass="text-wrapper">
+                <Text fx:id="player1Name" text="Fire"/>
+            </HBox>
+            <HBox styleClass="text-wrapper">
+                <Text fx:id="player1Score" text="0"/>
+            </HBox>
+            <HBox styleClass="text-wrapper">
+                <Text fx:id="player2Name" text="Water"/>
+            </HBox>
+            <HBox styleClass="text-wrapper">
+                <Text fx:id="player2Score" text="0"/>
+            </HBox>
+            <HBox styleClass="text-wrapper">
+                <Text fx:id="player3Name" text="Earth"/>
+            </HBox>
+            <HBox styleClass="text-wrapper">
+                <Text fx:id="player3Score" text="0"/>
+            </HBox>
+            <HBox styleClass="text-wrapper">
+                <Text fx:id="player4Name" text="Air"/>
+            </HBox>
+            <HBox styleClass="text-wrapper">
+                <Text fx:id="player4Score" text="0"/>
+            </HBox>
         </HBox>
-        <HBox>
-            <Text fx:id="player3Name" text="Earth"/>
-            <Text fx:id="player3Score"/>
+    </center>
+    <right>
+        <HBox styleClass="text-wrapper" style="-fx-pref-width:12.5em">
+            <HBox styleClass="text-wrapper">
+                <Text text="Time:" />
+            </HBox>
+            <HBox styleClass="text-wrapper">
+                <Text fx:id="statusText" />
+            </HBox>
         </HBox>
-        <HBox>
-            <Text fx:id="player4Name" text="Air"/>
-            <Text fx:id="player4Score"/>
-        </HBox>
-    </HBox>
-    <HBox style="-fx-alignment:center-right">
-        <Text fx:id="statusText"/>
-    </HBox>
+    </right>
+
 </fx:root>

@@ -5,16 +5,14 @@ import App.Menu.MenuComponent;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Glow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-import javafx.scene.effect.Glow;
 
 
 public class ModeSelectionComponent extends BorderPane implements EventReceiver{
@@ -190,10 +188,10 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 			this.shared.getSettings().botRight = 2;
 		}
 
-		this.shared.getSettings().topLeftName = this.tlcombo.getSelectionModel().getSelectedItem();
-		this.shared.getSettings().topRightName = this.trcombo.getSelectionModel().getSelectedItem();
-		this.shared.getSettings().botLeftName = this.blcombo.getSelectionModel().getSelectedItem();
-		this.shared.getSettings().botRightName = this.brcombo.getSelectionModel().getSelectedItem();
+		this.shared.getSettings().topLeftName = this.tltext.getText();
+		this.shared.getSettings().topRightName = this.trtext.getText();
+		this.shared.getSettings().botLeftName = this.bltext.getText();
+		this.shared.getSettings().botRightName = this.brtext.getText();
 	}
 
 	/**

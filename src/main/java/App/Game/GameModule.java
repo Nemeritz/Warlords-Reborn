@@ -32,7 +32,7 @@ public class GameModule {
         this.loop = new LoopService();
 
         this.loop.setMasterTimer(this.timer);
-        this.physics.setWorldBounds(new Dimension(1024, 768));
+        this.physics.setWorldBounds(new Dimension(1024, 733));
     }
 
     public ScoreService getScore() {
