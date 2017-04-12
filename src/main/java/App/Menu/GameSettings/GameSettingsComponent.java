@@ -78,7 +78,8 @@ public class GameSettingsComponent extends BorderPane implements EventReceiver{
 	 * default constructor
 	 * @param shared
 	 * @param menu
-	 */
+	 *
+     */
 	public GameSettingsComponent(SharedModule shared, MenuComponent menu) {
 		this.shared = shared;
 		this.menu = menu;

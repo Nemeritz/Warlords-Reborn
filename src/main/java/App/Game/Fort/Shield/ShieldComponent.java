@@ -65,35 +65,42 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
      */
     public void onGameLoop(Double intervalS) {
         if (!this.fort.destroyed || this.shared.getSettings().ghosting) {
-            Point.Double position = this.model.getPosition();
+            if (this.model.stunned) {
+                if (this.game.gameTime - this.model.lastStunned > 0.5) {
+                    this.model.stunned = false;
+                }
+            } else {
 
-            // Figure out the positioning of the shield on the virtual 'rail' that runs along the center of the fort walls.
-            double railMin = -(this.fort.getSize().width - (double) this.model.getSize().width);
-            double railMax = this.fort.getSize().height - (double) this.model.getSize().height;
+                Point.Double position = this.model.getPosition();
 
-            this.model.railPosition += this.model.railSpeed * (this.fort.mirrorX ? -1 : 1) * intervalS;
+                // Figure out the positioning of the shield on the virtual 'rail' that runs along the center of the fort walls.
+                double railMin = -(this.fort.getSize().width - (double) this.model.getSize().width);
+                double railMax = this.fort.getSize().height - (double) this.model.getSize().height;
 
-            if (this.model.railPosition < railMin) {
-                this.model.railPosition = railMin;
-                this.model.railSpeed = 0;
-            } else if (this.model.railPosition > railMax) {
-                this.model.railPosition = railMax;
-                this.model.railSpeed = 0;
+                this.model.railPosition += this.model.railSpeed * (this.fort.mirrorX ? -1 : 1) * intervalS;
+
+                if (this.model.railPosition < railMin) {
+                    this.model.railPosition = railMin;
+                    this.model.railSpeed = 0;
+                } else if (this.model.railPosition > railMax) {
+                    this.model.railPosition = railMax;
+                    this.model.railSpeed = 0;
+                }
+
+                double railMinMod = railMin * (this.fort.mirrorX ? 0 : 1);
+                double railMaxMod = railMax * (this.fort.mirrorY ? 0 : 1);
+                double railPositionModX = this.model.railPosition * (this.fort.mirrorX ? -1 : 1);
+                double railPositionModY = this.model.railPosition * (this.fort.mirrorY ? -1 : 1);
+
+                position.setLocation(
+                        this.model.railPosition < 0 ?
+                                this.fort.getPosition().x - (railMinMod - railPositionModX) :
+                                this.fort.getPosition().x - railMinMod,
+                        this.model.railPosition > 0 ?
+                                this.fort.getPosition().y + (railMaxMod - railPositionModY) :
+                                this.fort.getPosition().y + railMaxMod
+                );
             }
-
-            double railMinMod = railMin * (this.fort.mirrorX ? 0 : 1);
-            double railMaxMod = railMax * (this.fort.mirrorY ? 0 : 1);
-            double railPositionModX = this.model.railPosition * (this.fort.mirrorX ? -1 : 1);
-            double railPositionModY = this.model.railPosition * (this.fort.mirrorY ? -1 : 1);
-
-            position.setLocation(
-                    this.model.railPosition < 0 ?
-                            this.fort.getPosition().x - (railMinMod - railPositionModX) :
-                            this.fort.getPosition().x - railMinMod,
-                    this.model.railPosition > 0 ?
-                            this.fort.getPosition().y + (railMaxMod - railPositionModY) :
-                            this.fort.getPosition().y + railMaxMod
-            );
         }
         else {
             this.game.getPhysics().getStatics().remove(this);
@@ -121,14 +128,14 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
      */
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
-        if (BallComponent.class.isInstance(object)) {
-            BallComponent ball = (BallComponent) object;
-            this.hitSound.stop();
-            this.hitSound.play();
-            ball.setLastDeflectedBy(fort.player);
-
-            if (this.fort.destroyed && !this.shared.getSettings().ghosting) {
-                this.game.getPhysics().getStatics().remove(this);
+        if (!this.fort.destroyed) {
+            if (BallComponent.class.isInstance(object)) {
+                BallComponent ball = (BallComponent) object;
+                this.hitSound.stop();
+                this.hitSound.play();
+                ball.setLastDeflectedBy(fort.player);
+                this.model.stunned = true;
+                this.model.lastStunned = this.game.gameTime;
             }
         }
     }

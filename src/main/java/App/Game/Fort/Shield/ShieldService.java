@@ -13,11 +13,15 @@ public class ShieldService {
     private Point.Double position;
     private Vec2d velocity;
     private Dimension size;
+    public boolean stunned;
+    public double lastStunned;
+
     /**
      * Constructor for ShieldService, initializes size, dimension and destroyed boolean to false
      */
     public ShieldService() {
         this.railPosition = 0;
+        this.lastStunned = 0;
         this.railSpeed = 0;
         this.position = new Point.Double(0, 0);
         this.velocity = new Vec2d(0, 0);

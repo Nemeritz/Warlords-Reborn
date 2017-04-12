@@ -1,6 +1,5 @@
 package App.Menu.ModeSelection;
 
-import App.Game.GameComponent;
 import App.Menu.MenuComponent;
 import App.Shared.JFX.EventReceiver;
 import App.Shared.SharedModule;
@@ -69,14 +68,14 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 		this.resetEffects();
 		this.back.setEffect(glow);
 
-		this.tlcombo.getItems().addAll("Player", "Computer", "Empty");
-		this.trcombo.getItems().addAll("Player", "Computer", "Empty");
-		this.blcombo.getItems().addAll("Player", "Computer", "Empty");
-		this.brcombo.getItems().addAll("Player", "Computer", "Empty");
-		this.tlcombo.getSelectionModel().selectFirst();
-		this.trcombo.getSelectionModel().selectFirst();
-		this.blcombo.getSelectionModel().selectFirst();
-		this.brcombo.getSelectionModel().selectFirst();
+		this.tlcombo.getItems().addAll("Empty", "Bot (Normal)", "Bot (Unfair)", "Player");
+		this.trcombo.getItems().addAll("Empty", "Bot (Normal)", "Bot (Unfair)", "Player");
+		this.blcombo.getItems().addAll("Empty", "Bot (Normal)", "Bot (Unfair)", "Player");
+		this.brcombo.getItems().addAll("Empty", "Bot (Normal)", "Bot (Unfair)", "Player");
+		this.tlcombo.getSelectionModel().selectLast();
+		this.trcombo.getSelectionModel().selectLast();
+		this.blcombo.getSelectionModel().selectLast();
+		this.brcombo.getSelectionModel().selectLast();
 
 		this.tlcombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue,
 				newValue) -> {
@@ -148,45 +147,10 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 	}
 
 	public void changeData() {
-		if (this.tlcombo.getSelectionModel().getSelectedItem().equals("Player")) {
-			this.shared.getSettings().topLeft = 0;
-		}
-		else if(this.tlcombo.getSelectionModel().getSelectedItem().equals("Computer")){
-			this.shared.getSettings().topLeft = 1;
-		}
-		else {
-			this.shared.getSettings().topLeft = 2;
-		}
-
-		if (this.trcombo.getSelectionModel().getSelectedItem().equals("Player")) {
-			this.shared.getSettings().topRight = 0;
-		}
-		else if(this.trcombo.getSelectionModel().getSelectedItem().equals("Computer")){
-			this.shared.getSettings().topRight = 1;
-		}
-		else {
-			this.shared.getSettings().topRight = 2;
-		}
-
-		if (this.blcombo.getSelectionModel().getSelectedItem().equals("Player")) {
-			this.shared.getSettings().botLeft = 0;
-		}
-		else if(this.blcombo.getSelectionModel().getSelectedItem().equals("Computer")){
-			this.shared.getSettings().botLeft = 1;
-		}
-		else {
-			this.shared.getSettings().botLeft = 2;
-		}
-
-		if (this.brcombo.getSelectionModel().getSelectedItem().equals("Player")) {
-			this.shared.getSettings().botRight = 0;
-		}
-		else if(this.brcombo.getSelectionModel().getSelectedItem().equals("Computer")){
-			this.shared.getSettings().botRight = 1;
-		}
-		else {
-			this.shared.getSettings().botRight = 2;
-		}
+		this.shared.getSettings().topLeft = this.tlcombo.getSelectionModel().getSelectedIndex();
+		this.shared.getSettings().topRight = this.trcombo.getSelectionModel().getSelectedIndex();
+        this.shared.getSettings().botLeft = this.blcombo.getSelectionModel().getSelectedIndex();
+        this.shared.getSettings().botRight = this.brcombo.getSelectionModel().getSelectedIndex();
 
 		this.shared.getSettings().topLeftName = this.tltext.getText();
 		this.shared.getSettings().topRightName = this.trtext.getText();
@@ -214,8 +178,6 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 		this.menu.transitionTitle();
 
 		this.shared.getJFX().setScene("game");
-		((GameComponent) this.shared.getJFX().getScene("game").getKey())
-		.startGameCountdown();
 
 		this.playButtonSound();
 		this.menu.getMusic().stop();
@@ -262,8 +224,6 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 					this.resetEffects();
 					this.back.setEffect(glow);
 					this.shared.getJFX().setScene("game");
-					((GameComponent) this.shared.getJFX().getScene("game").getKey())
-					.startGameCountdown();
 
 					this.playButtonSound();
 					this.menu.getMusic().stop();

@@ -15,6 +15,7 @@ import java.awt.*;
  * Created by Jerry Fan on 27/03/2017.
  */
 public class GameModule {
+    public double gameTime;
     private ScoreService score;
     private TimerService timer;
     private PhysicsService physics;
@@ -30,7 +31,7 @@ public class GameModule {
         this.canvas = new CanvasService();
         this.score = new ScoreService();
         this.loop = new LoopService();
-
+        this.gameTime = 0;
         this.loop.setMasterTimer(this.timer);
         this.physics.setWorldBounds(new Dimension(1024, 733));
     }

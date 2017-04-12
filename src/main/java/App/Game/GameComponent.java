@@ -19,9 +19,7 @@ import javafx.scene.media.MediaPlayer;
 import warlordstest.IGame;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -32,7 +30,7 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * Created by Jerry Fan on 21/03/2017.
  */
-public class GameComponent extends BorderPane implements IGame, EventReceiver, Looper {
+public class GameComponent extends BorderPane implements IGame, EventReceiver, Looper, Observer {
     private SharedModule shared;
     private GameModule game;
 
@@ -64,6 +62,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
     public GameComponent(SharedModule shared) {
         this.shared = shared;
+        this.shared.getJFX().getScene().addObserver(this);
         this.game = new GameModule();
         this.model = new GameService();
         this.overlay = new OverlayComponent(this.shared, this.game);
@@ -112,6 +111,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         }
         else if (this.model.gameState.equals(GameState.GAME)) {
             this.model.gameTime += intervalS;
+            this.game.gameTime = this.model.gameTime;
 
             this.statusBar.setStatusText(Integer.toString((int) this.model.gameTime));
 
@@ -138,45 +138,57 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             if (destroyedForts >= (this.forts.size() - this.model.fortSurvivalThreshold)) {
                 gameEnd = true;
                 for (FortComponent fort : this.forts.values()) {
-                    fort.setWinner(true);
+                    if (!fort.isDestroyed()) {
+                        fort.setWinner(true);
+                    }
                 }
             }
-
-            if (this.model.gameTime >= this.model.gameTimeout) {
+            else if (this.model.gameTime >= this.model.gameTimeout) {
                 gameEnd = true;
 
                 TreeMap<Integer, Integer> playerScores = new TreeMap<>();
 
                 for (FortComponent fort : this.forts.values()) {
-                    boolean hasHigherScore = false;
-                    boolean scoreIsEqual = playerScores.isEmpty();
-                    for (Integer score : playerScores.values()) {
-                        if (fort.getScore() > score) {
-                            hasHigherScore = true;
-                            break;
+                    if (!fort.isDestroyed()) {
+                        boolean hasHigherScore = false;
+                        boolean scoreIsEqual = playerScores.isEmpty();
+                        for (Integer score : playerScores.values()) {
+                            if (fort.getScore() > score) {
+                                hasHigherScore = true;
+                                break;
+                            } else if (fort.getScore() == score) {
+                                scoreIsEqual = true;
+                                break;
+                            }
                         }
-                        else if (fort.getScore() == score) {
-                            scoreIsEqual = true;
-                            break;
-                        }
-                    }
 
-                    if (hasHigherScore) {
-                        playerScores.clear();
-                        playerScores.put(fort.getPlayer(), fort.getScore());
-                    }
-                    else if (scoreIsEqual) {
-                        playerScores.put(fort.getPlayer(), fort.getScore());
+                        if (hasHigherScore) {
+                            playerScores.clear();
+                            playerScores.put(fort.getPlayer(), fort.getScore());
+                        } else if (scoreIsEqual) {
+                            playerScores.put(fort.getPlayer(), fort.getScore());
+                        }
                     }
                 }
 
-                if (playerScores.size() > 1) {
-                    this.overlay.setGameEnd("DRAW");
-                }
-                else if (playerScores.size() == 1) {
+                playerScores.keySet().forEach(p -> this.forts.get(p).setWinner(true));
+            }
+
+            if (gameEnd) {
+                this.model.gameState = GameState.END;
+
+                ArrayList<FortComponent> winningForts = new ArrayList<>();
+
+                this.forts.values().forEach(f -> {
+                    if (f.hasWon()) {
+                        winningForts.add(f);
+                    }
+                });
+
+                if (winningForts.size() == 1) {
                     String playerName;
 
-                    switch(playerScores.firstKey()) {
+                    switch(winningForts.get(0).getPlayer()) {
                         case 1:
                             playerName = this.shared.getSettings().topLeftName;
                             break;
@@ -193,13 +205,12 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                             playerName = "Unknown";
                             break;
                     }
-                    this.overlay.setGameEnd(playerName + " VICTORY");
+                    this.overlay.setGameEnd(playerName.toUpperCase() + " VICTORY");
+                }
+                else {
+                    this.overlay.setGameEnd("DRAW");
                 }
                 this.overlay.showGameEnd();
-            }
-
-            if (gameEnd) {
-                this.model.gameState = GameState.END;
             }
             else {
                 this.ai.values().forEach(a -> a.onGameLoop(intervalS));
@@ -257,26 +268,30 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.statusBar.setStatusText("LOAD");
         this.overlay.setLargeText("LOADING GAME");
 
-        if (this.shared.getSettings().topLeftName.isEmpty()) {
+        if (this.shared.getSettings().topLeft != 0 && this.shared.getSettings().topLeftName.isEmpty()) {
             this.shared.getSettings().topLeftName = "Zuko";
         }
 
-        if (this.shared.getSettings().topRightName.isEmpty()) {
-            this.shared.getSettings().topLeftName = "Katara";
+        if (this.shared.getSettings().topRight != 0 && this.shared.getSettings().topRightName.isEmpty()) {
+            this.shared.getSettings().topRightName = "Katara";
         }
 
-        if (this.shared.getSettings().botLeftName.isEmpty()) {
+        if (this.shared.getSettings().botLeft != 0 && this.shared.getSettings().botLeftName.isEmpty()) {
             this.shared.getSettings().botLeftName = "Toph";
         }
 
-        if (this.shared.getSettings().botRightName.isEmpty()) {
+        if (this.shared.getSettings().botRight != 0 && this.shared.getSettings().botRightName.isEmpty()) {
             this.shared.getSettings().botRightName = "Aang";
         }
 
-        this.statusBar.setPlayerName(1, this.shared.getSettings().topLeftName);
-        this.statusBar.setPlayerName(2, this.shared.getSettings().topRightName);
-        this.statusBar.setPlayerName(3, this.shared.getSettings().botLeftName);
-        this.statusBar.setPlayerName(4, this.shared.getSettings().botRightName);
+        this.statusBar.setPlayerName(1,
+                (this.shared.getSettings().topLeft != 0) ? this.shared.getSettings().topLeftName : "Empty");
+        this.statusBar.setPlayerName(2,
+                (this.shared.getSettings().topRight != 0) ? this.shared.getSettings().topRightName : "Empty");
+        this.statusBar.setPlayerName(3,
+                (this.shared.getSettings().botLeft != 0) ? this.shared.getSettings().botLeftName : "Empty");
+        this.statusBar.setPlayerName(4,
+                (this.shared.getSettings().botRight != 0) ? this.shared.getSettings().botRightName : "Empty");
 
         this.ball = new BallComponent(this.shared, this.game);
         this.ball.getPosition().setLocation(
@@ -312,28 +327,40 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 break;
         }
 
-        if (this.shared.getSettings().topLeft < 2) {
+        if (this.shared.getSettings().topLeft > 0) {
             FortComponent player1 = this.addPlayer(1, 1, new Point.Double(0, 0));
-            if (this.shared.getSettings().topLeft == 1) {
+            if (this.shared.getSettings().topLeft < 3) {
                 AIService ai1 = this.addAI(1, player1);
+                if (this.shared.getSettings().topLeft == 2) {
+                    ai1.setCheese(true);
+                }
             }
         }
-        if (this.shared.getSettings().topRight < 2) {
+        if (this.shared.getSettings().topRight > 0) {
             FortComponent player2 = this.addPlayer(2, 2, new Point.Double(736, 0));
-            if (this.shared.getSettings().topRight == 1) {
+            if (this.shared.getSettings().topRight < 3) {
                 AIService ai2 = this.addAI(2, player2);
+                if (this.shared.getSettings().topRight == 2) {
+                    ai2.setCheese(true);
+                }
             }
         }
-        if (this.shared.getSettings().botLeft < 2) {
+        if (this.shared.getSettings().botLeft > 0) {
             FortComponent player3 = this.addPlayer(3, 3, new Point.Double(0, 445));
-            if (this.shared.getSettings().botLeft == 1) {
+            if (this.shared.getSettings().botLeft < 3) {
                 AIService ai3 = this.addAI(3, player3);
+                if (this.shared.getSettings().botLeft == 2) {
+                    ai3.setCheese(true);
+                }
             }
         }
-        if (this.shared.getSettings().botRight < 2) {
+        if (this.shared.getSettings().botRight > 0) {
             FortComponent player4 = this.addPlayer(4, 4, new Point.Double(736, 445));
-            if (this.shared.getSettings().botRight == 1) {
+            if (this.shared.getSettings().botRight < 3) {
                 AIService ai4 = this.addAI(4, player4);
+                if (this.shared.getSettings().botRight == 2) {
+                    ai4.setCheese(true);
+                }
             }
         }
 
@@ -341,7 +368,8 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             this.ai.values().forEach(a -> this.game.getCanvas().getCanvasObjects().add(a));
         }
 
-        this.setTimeRemaining(this.shared.getSettings().maxGameTime);
+        this.setTimeRemaining(this.shared.getSettings().scoreWin ?
+                this.shared.getSettings().maxGameTime : Integer.MAX_VALUE);
 
         this.game.getLoop().getLoopers().add(this);
         this.shared.getJFX().getEventReceivers().add(this);
@@ -358,11 +386,16 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
     public void unload() {
         this.model.gameState = GameState.UNLOAD;
+        this.gameMusic.stop();
         this.overlay.hidePauseMenu();
         this.overlay.hideGameEnd();
         this.ai.clear();
         this.ball.dispose();
         this.ball = null;
+        this.forts.keySet().forEach(k -> {
+            this.statusBar.setPlayerName(k, "Empty");
+            this.statusBar.setPlayerScore(k, "0");
+        });
         this.forts.values().forEach(FortComponent::dispose);
         this.forts.clear();
         this.powerups.forEach(PowerupComponent::dispose);
@@ -459,5 +492,13 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
      */
     public BallComponent getBall() {
         return this.ball;
+    }
+
+    @Override
+    public void update(Observable obs, Object arg) {
+        if (this.shared.getJFX().getScene().equals(obs) &&
+                this.shared.getJFX().getScene().current().getKey().equals("game")) {
+            this.startGameCountdown();
+        }
     }
 }

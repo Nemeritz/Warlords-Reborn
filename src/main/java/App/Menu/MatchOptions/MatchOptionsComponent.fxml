@@ -72,10 +72,10 @@
 
          <HBox HBox.hgrow="NEVER" alignment="CENTER" styleClass="wincond">
             <HBox HBox.hgrow="ALWAYS" minWidth="410" maxWidth="410" alignment="CENTER">
-               <Text text="KILL TO WIN"/>
+               <Text text="DEATHMATCH"/>
             </HBox>
             <HBox HBox.hgrow="ALWAYS" alignment="CENTER">
-               <Text text="SCORE TO WIN"/>
+               <Text text="DOMINATION"/>
             </HBox>
          </HBox>
 
