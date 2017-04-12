@@ -12,10 +12,11 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 /**
- * Created by lichk on 9/04/2017.
+ * AI intelligence service to inherit player forts.
+ * Created by Jerry Fan on 9/04/2017.
  */
 public class AIService implements LooperChild, CanvasObject {
-    public static boolean AI_DEBUG = false;
+    public static boolean AI_DEBUG = false; // Enable for debug trace.
 
     boolean disabled;
     Rectangle.Double bounds;
@@ -28,6 +29,12 @@ public class AIService implements LooperChild, CanvasObject {
     private Point.Double intersection;
     private Line2D.Double ballTrajectory;
 
+    /**
+     * Returns the intersection point between two lines. Does not check if they really intersect.
+     * @param line1 First line to check.
+     * @param line2 Second line to check.
+     * @return
+     */
     private Point.Double getIntersect(Line2D.Double line1, Line2D.Double line2) {
         // Construct line equations ax + by = c.
         double a1 = line1.y1 - line1.y2;
@@ -49,6 +56,9 @@ public class AIService implements LooperChild, CanvasObject {
         return null;
     }
 
+    /**
+     * See if the AI service has all the needed objects to start working.
+     */
     private void checkReady() {
         if (this.ball != null && this.fort != null && this.bounds != null) {
             this.disabled = false;
@@ -62,32 +72,48 @@ public class AIService implements LooperChild, CanvasObject {
         this.cheese = false;
     }
 
+    /**
+     * @param ball The ball to be tracked by the AI.
+     */
     public void trackBall(BallComponent ball) {
         this.ball = ball;
         this.checkReady();
     }
 
+    /**
+     * @param fort The fort to be inherited by the AI.
+     */
     public void giveFort(FortComponent fort) {
         this.fort = fort;
         this.fort.setAIControl(true);
         this.checkReady();
     }
 
+    /**
+     * @param bounds AI needs to know where the edges of the game are.
+     */
     public void setBounds(Rectangle.Double bounds) {
         this.bounds = bounds;
         this.checkReady();
     }
 
+    /**
+     * @param value Enable at your own risk.
+     */
     public void setCheese(Boolean value) {
         this.cheese = value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onGameLoop(Double intervalS) {
         if (!this.disabled && this.fort.isAIControlled()) {
             WarlordComponent warlord = this.fort.getWarlord();
 
             if (!this.fort.isDestroyed() || warlord.isGhost() || !this.ball.isInvisible()) {
+                // AI is not cheating if this condition is true, so proceed with the processing.
                 ShieldComponent shield = this.fort.getShield();
 
                 // Start off with rail speed 0
@@ -121,6 +147,7 @@ public class AIService implements LooperChild, CanvasObject {
                 );
 
                 if (currentDistance > nextDistance) {
+                    // Ball is getting closer.
                     double dXToBounds = Math.abs(ballCenter.x - this.bounds.width * (this.ball
                             .getVelocity().x <
                             0 ? 0 : 1)) / this.ball.getVelocity().x;
@@ -129,6 +156,7 @@ public class AIService implements LooperChild, CanvasObject {
                             0 ? 0 : 1)) / this.ball.getVelocity().y;
 
 
+                    // Check the amount of steps until the ball collides with a bound.
                     Line2D.Double ballTrajectory;
                     double absDXToBounds = Math.abs(dXToBounds);
                     double absDYToBounds = Math.abs(dYToBounds);
@@ -220,6 +248,7 @@ public class AIService implements LooperChild, CanvasObject {
                             }
                         }
 
+                        // If one intersection doesn't exist, take the other one.
                         if (intersectionX == null) {
                             intersection = intersectionY;
                         }
@@ -227,6 +256,7 @@ public class AIService implements LooperChild, CanvasObject {
                             intersection = intersectionX;
                         }
                         else {
+                            // If both exist, check which one is closer to the ball.
                             if (intersectionX.distance(this.ball.getPosition()) <
                                     intersectionY.distance(this.ball.getPosition())) {
                                 intersection = intersectionX;
@@ -237,10 +267,13 @@ public class AIService implements LooperChild, CanvasObject {
                         }
 
                         if (intersection != null) {
+                            // Intersection exists, use this slightly stupid way to move the shield so that it blocks
+                            // the path.
                             this.intersection = intersection;
 
                             double distToIntersect = shieldCenter.distance(intersection);
                             if (distToIntersect > shieldHitbox.width / 2 + 2) {
+                                // Tolerance of 2 units.
                                 if (this.distanceToTarget < distToIntersect) {
                                     this.lastDirection = !this.lastDirection;
                                 }
@@ -258,8 +291,9 @@ public class AIService implements LooperChild, CanvasObject {
 
                 }
                 else {
-                    // This is a dumb version of the above algorithm to get the AI to move the paddle closer to the ball
-                    // if there is no collision path between the ball and the AI fort. Surprisingly cheesy / effective.
+                    // This is a dumb(er) version of the above algorithm to get the AI to move the paddle closer to the
+                    // ball if there is no collision path between the ball and the AI fort. Surprisingly cheesy /
+                    // effective.
                     if (this.cheese) {
                         if (!fortHitbox.contains(ballCenter)) {
                             double distToBall = shieldCenter.distance(ballCenter);
@@ -285,6 +319,10 @@ public class AIService implements LooperChild, CanvasObject {
         }
     }
 
+    /**
+     * Used for debug only.
+     * {@inheritDoc}
+     */
     @Override
     public void renderOnContext(GraphicsContext context) {
         if (!this.disabled) {

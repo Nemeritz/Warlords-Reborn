@@ -9,9 +9,7 @@ import App.Game.Timer.TimerService;
 import java.awt.*;
 
 /**
- * This class provides a model and game services to game components. Will eventually be split into a module and
- * service to separate the model and service containers.
- *
+ * This class provides game services to game components.
  * Created by Jerry Fan on 27/03/2017.
  */
 public class GameModule {
@@ -23,7 +21,7 @@ public class GameModule {
     private LoopService loop;
 
     /**
-     * Game service default constructor, initializes all the services
+     * Game service default constructor, initializes all the services.
      */
     public GameModule() {
         this.timer = new TimerService();
@@ -33,15 +31,18 @@ public class GameModule {
         this.loop = new LoopService();
         this.gameTime = 0;
         this.loop.setMasterTimer(this.timer);
-        this.physics.setWorldBounds(new Dimension(1024, 733));
+        this.physics.setWorldBounds(new Dimension(1024, 733)); // Set bounds to fit with the status bar.
     }
 
+    /**
+     * @return A service to manage scorekeepers.
+     */
     public ScoreService getScore() {
         return this.score;
     }
 
     /**
-     * @return the game timer
+     * @return the game timer.
      */
     public TimerService getTimer() {
         return this.timer;
@@ -54,10 +55,16 @@ public class GameModule {
         return this.physics;
     }
 
+    /**
+     * @return The canvas service.
+     */
     public CanvasService getCanvas() {
         return this.canvas;
     }
 
+    /**
+     * @return The game loop service.
+     */
     public LoopService getLoop() {
         return this.loop;
     }

@@ -5,6 +5,7 @@ import com.sun.javafx.geom.Vec2d;
 import java.awt.*;
 
 /**
+ * Model for the shield.
  * Created by Jerry Fan on 30/03/2017.
  */
 public class ShieldService {

@@ -38,9 +38,10 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
     }
 
     /**
-     * Contructor for Wall
-     * @param shared shared module controlling all scenes
-     * @param game current game containing all services
+     * @param shared The inherited SharedModule.
+     * @param game The inherited GameModule.
+     * @param fort The fort model of the fort this object belongs to.
+     * @param wallStyle The style of the wall (facing)
      */
     public WallComponent(SharedModule shared, GameModule game, FortService fort, Integer wallStyle) {
         this.shared = shared; // the module shared with all other components, allows access to scenes
@@ -72,7 +73,7 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
 
 
     /**
-     * @param intervalS Time since last update, in seconds.
+     * {@inheritDoc}
      */
     public void onGameLoop(Double intervalS) {
 
@@ -85,12 +86,15 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
             this.model.destroyed = true;
+            // Play the hit sound when the wall is hit.
             this.hitSound.stop();
+            this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
             this.hitSound.play();
             this.game.getPhysics().getStatics().remove(this);
 
             BallComponent ball = (BallComponent) object;
             if (ball.getLastDeflectedBy() != null && ball.getLastDeflectedBy() != this.fort.player) {
+                // Wall gives a score of 100 on destroy
                 this.game.getScore().getScoreKeeper(ball.getLastDeflectedBy()).increaseScore(100);
             }
         }

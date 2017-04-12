@@ -49,6 +49,9 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
     public MediaPlayer gameMusic;
 
+    /**
+     * Conditionally spawn powerups if powerups are enabled and the spawn interval has elapsed.
+     */
     private void spawnPowerupMaybe() {
         if (this.shared.getSettings().powerups) {
             if (this.model.gameTime - this.model.lastPowerupSpawn > this.model.powerupSpawnInterval) {
@@ -60,6 +63,9 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         }
     }
 
+    /**
+     * @param shared A reference to the shared module.
+     */
     public GameComponent(SharedModule shared) {
         this.shared = shared;
         this.shared.getJFX().getScene().addObserver(this);
@@ -72,11 +78,14 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.gameMusic = this.shared.getJFX().loadMedia(this.getClass(), "assets/GameMusic.mp3");
 
         if (this.canvas.hasJFXCanvas()) {
+            // Set the canvas context in the canvas service so that render functions will work.
             this.game.getCanvas().setContext(this.canvas.getGraphicsContext());
         }
 
+        // Using treemaps for efficient self sorting maps
         this.forts = new TreeMap<>();
         this.ai = new TreeMap<>();
+
         this.shared.getJFX().loadFXML(this, GameComponent.class,
                 "GameComponent.fxml");
 
@@ -95,8 +104,11 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     @Override
     public void onGameLoop(Double intervalS) {
         if (this.model.gameState.equals(GameState.PREGAME)) {
+            // PREGAME state processing
             this.statusBar.setStatusText("PREGAME");
+
             if (this.game.getTimer().currentTimeMs() >= 1000) {
+                // If current time is past 1 second.
                 long countdownTime = this.model.lastCountdownStartMs / 1000 + 4 -
                         this.game.getTimer().currentTimeMs() / 1000;
                 this.overlay.setLargeText(Long.toString(countdownTime));
@@ -106,13 +118,16 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 }
             }
             else {
+                // Otherwise tell players to get ready.
                 this.overlay.setLargeText("GET READY!");
             }
         }
         else if (this.model.gameState.equals(GameState.GAME)) {
+            // GAME state processing.
             this.model.gameTime += intervalS;
             this.game.gameTime = this.model.gameTime;
 
+            // Track time with the statusbar.
             this.statusBar.setStatusText(Integer.toString((int) this.model.gameTime));
 
             this.game.getPhysics().check();
@@ -132,10 +147,11 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 }
             }
 
-            // Check for win conditions here
+            // Check for win conditions here.
             boolean gameEnd = false;
 
             if (destroyedForts >= (this.forts.size() - this.model.fortSurvivalThreshold)) {
+                // Win by kills.
                 gameEnd = true;
                 for (FortComponent fort : this.forts.values()) {
                     if (!fort.isDestroyed()) {
@@ -144,6 +160,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 }
             }
             else if (this.model.gameTime >= this.model.gameTimeout) {
+                // Win by timeout.
                 gameEnd = true;
 
                 TreeMap<Integer, Integer> playerScores = new TreeMap<>();
@@ -179,6 +196,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
                 ArrayList<FortComponent> winningForts = new ArrayList<>();
 
+                // Make a list of winning forts.
                 this.forts.values().forEach(f -> {
                     if (f.hasWon()) {
                         winningForts.add(f);
@@ -186,6 +204,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 });
 
                 if (winningForts.size() == 1) {
+                    // Only one fort won.
                     String playerName;
 
                     switch(winningForts.get(0).getPlayer()) {
@@ -208,19 +227,23 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                     this.overlay.setGameEnd(playerName.toUpperCase() + " VICTORY");
                 }
                 else {
+                    // Multiple forts won or no forts won.
                     this.overlay.setGameEnd("DRAW");
                 }
                 this.overlay.showGameEnd();
             }
             else {
+                // If the game hasn't ended, do these things.
                 this.ai.values().forEach(a -> a.onGameLoop(intervalS));
                 this.spawnPowerupMaybe();
             }
         }
         else if (this.model.gameState.equals(GameState.PAUSE)) {
+            // Stuff to do whilst paused.
             this.statusBar.setStatusText("PAUSE");
         }
         else if (this.model.gameState.equals(GameState.UNPAUSE)) {
+            // Set a timer on unpausing so players can prepare.
             this.statusBar.setStatusText("UNPAUSE");
             long countdownTime = (this.model.lastCountdownStartMs + 4000 - this.game.getTimer().currentTimeMs()) / 1000;
             this.overlay.setLargeText(Long.toString(countdownTime));
@@ -230,13 +253,18 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             }
         }
         else if (this.model.gameState.equals(GameState.END)) {
+            // Stuff to do after game ends.
             this.statusBar.setStatusText("END");
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onKeyEvent(KeyEvent event) {
         if (event.getCode() == KeyCode.P) {
+            // Pause
             if (event.getEventType() == KeyEvent.KEY_RELEASED) {
                 if (this.model.gameState.equals(GameState.GAME)) {
                     this.model.gameState = GameState.PAUSE;
@@ -252,22 +280,29 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         }
 
         if (event.getCode() == KeyCode.ESCAPE) {
+            // Exit game
             if (event.getEventType() == KeyEvent.KEY_RELEASED) {
                 this.exitToMenu();
             }
         }
 
         if (event.getCode() == KeyCode.PAGE_DOWN) {
+            // Skip to finish
             if (event.getEventType() == KeyEvent.KEY_RELEASED) {
                 this.setTimeRemaining(0);
             }
         }
     }
 
-    public void load() {
+    /**
+     * Actions to perform to setup the game with the required objects. This reads settings from the shared settings
+     * service.
+     */
+    private void load() {
         this.statusBar.setStatusText("LOAD");
         this.overlay.setLargeText("LOADING GAME");
 
+        // Placeholder names if no names provided.
         if (this.shared.getSettings().topLeft != 0 && this.shared.getSettings().topLeftName.isEmpty()) {
             this.shared.getSettings().topLeftName = "Zuko";
         }
@@ -293,11 +328,14 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.statusBar.setPlayerName(4,
                 (this.shared.getSettings().botRight != 0) ? this.shared.getSettings().botRightName : "Empty");
 
+        // Initialise the ball.
         this.ball = new BallComponent(this.shared, this.game);
         this.ball.getPosition().setLocation(
                 this.game.getPhysics().getWorldBounds().width / 2 - (double) this.ball.getSize().width / 2,
                 this.game.getPhysics().getWorldBounds().height / 2 - (double) this.ball.getSize().height / 2
         );
+
+        // Picking a random direction.
         int direction = ThreadLocalRandom.current().nextInt(1, 5);
 
         switch(direction) {
@@ -327,6 +365,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
                 break;
         }
 
+        // Create player fort and AIs to inherit the fort if needed.
         if (this.shared.getSettings().topLeft > 0) {
             FortComponent player1 = this.addPlayer(1, 1, new Point.Double(0, 0));
             if (this.shared.getSettings().topLeft < 3) {
@@ -364,16 +403,18 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
             }
         }
 
+        // Debug mode
         if (AIService.AI_DEBUG) {
             this.ai.values().forEach(a -> this.game.getCanvas().getCanvasObjects().add(a));
         }
 
+        // Set remaining time according to match options
         this.setTimeRemaining(this.shared.getSettings().scoreWin ?
                 this.shared.getSettings().maxGameTime : Integer.MAX_VALUE);
 
+        // Register the object with broadcasters
         this.game.getLoop().getLoopers().add(this);
         this.shared.getJFX().getEventReceivers().add(this);
-
 
         this.model.lastCountdownStartMs = this.game.getTimer().currentTimeMs();
 
@@ -384,6 +425,9 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
         this.startGameMusic();
     }
 
+    /**
+     * Actions taken after game is finished to clean up and remove the game object from listener lists etc.
+     */
     public void unload() {
         this.model.gameState = GameState.UNLOAD;
         this.gameMusic.stop();
@@ -413,11 +457,16 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
      * evaluated to see if there is specific enough intent to begin the game (should be), and this method will run
      * reactively based on a scene change observable in the JFX service.
      */
+    @Deprecated
     public void startGameCountdown() {
         this.load();
     }
 
+    /**
+     * Start playing music.
+     */
     public void startGameMusic() {
+        this.gameMusic.stop();
         this.gameMusic.setVolume(this.shared.getSettings().musicVolume);
         this.gameMusic.setCycleCount(MediaPlayer.INDEFINITE);
         this.gameMusic.play();
@@ -490,15 +539,19 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     /**
      * @return Gets the ball component from the game. Only used for testing.
      */
+    @Deprecated
     public BallComponent getBall() {
         return this.ball;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Observable obs, Object arg) {
         if (this.shared.getJFX().getScene().equals(obs) &&
                 this.shared.getJFX().getScene().current().getKey().equals("game")) {
-            this.startGameCountdown();
+            this.load();
         }
     }
 }

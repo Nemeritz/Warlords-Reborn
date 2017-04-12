@@ -1,12 +1,13 @@
 package App.Game;
 
 /**
- * Created by lichk on 8/04/2017.
+ * Game model used for the GameComponent.
+ * Created by Jerry Fan on 8/04/2017.
  */
 public class GameService {
-    public int fortSurvivalThreshold;
+    public int fortSurvivalThreshold; // How many forts remaining for win
     public double gameTime;
-    public double gameTimeout;
+    public double gameTimeout; // Time limit for the game
     public GameState gameState;
     public long lastCountdownStartMs;
     public double lastPowerupSpawn;

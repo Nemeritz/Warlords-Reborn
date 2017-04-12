@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Model for the ball.
  * Created by Jerry Fan on 28/03/2017.
  */
 public class BallService {
@@ -49,6 +50,9 @@ public class BallService {
      */
     public Dimension getSize() { return this.size; }
 
+    /**
+     * @return The list of powers the ball has.
+     */
     public List<Power> getPowers() {
         return this.powers;
     }

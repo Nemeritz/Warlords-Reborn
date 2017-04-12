@@ -19,6 +19,7 @@ import warlordstest.IPaddle;
 import java.awt.*;
 
 /**
+ * The shield class used by players to defend their forts.
  * Created by Jerry Fan on 30/03/2017.
  */
 public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventReceiver, Disposable, LooperChild {
@@ -31,6 +32,9 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     private boolean rightPressed; // indicates if right arrow is pressed
     private MediaPlayer hitSound;
 
+    /**
+     * Set shield style to one of the asset images.
+     */
     private void setStyle() {
         if (this.fort.player > 0 && this.fort.player <= 4) {
             this.image = this.shared.getJFX().loadImage(
@@ -60,12 +64,13 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     }
 
     /**
-     * @param intervalS time difference between the frames, so changes in FPS would not affect velocity of shield
-     *                  function changes shield's location based on left or right arrow keys pressed
+     * {@inheritDoc}
      */
+    @Override
     public void onGameLoop(Double intervalS) {
         if (!this.fort.destroyed || this.shared.getSettings().ghosting) {
             if (this.model.stunned) {
+                // If the shield is stunned, it should last 0.5 seconds before it can move again.
                 if (this.game.gameTime - this.model.lastStunned > 0.5) {
                     this.model.stunned = false;
                 }
@@ -73,7 +78,8 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
 
                 Point.Double position = this.model.getPosition();
 
-                // Figure out the positioning of the shield on the virtual 'rail' that runs along the center of the fort walls.
+                // Figure out the positioning of the shield on the virtual 'rail' that runs along the center of the fort
+                // walls. Using this, we can map a 1D line (railPosition) to a 2D plane (the game grid).
                 double railMin = -(this.fort.getSize().width - (double) this.model.getSize().width);
                 double railMax = this.fort.getSize().height - (double) this.model.getSize().height;
 
@@ -103,6 +109,7 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
             }
         }
         else {
+            // Remove if destroyed and not ghosting.
             this.game.getPhysics().getStatics().remove(this);
         }
     }
@@ -131,9 +138,13 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         if (!this.fort.destroyed) {
             if (BallComponent.class.isInstance(object)) {
                 BallComponent ball = (BallComponent) object;
+                // Play hitsound on hit.
                 this.hitSound.stop();
+                this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
                 this.hitSound.play();
                 ball.setLastDeflectedBy(fort.player);
+
+                // Stun shield when ball hits it.
                 this.model.stunned = true;
                 this.model.lastStunned = this.game.gameTime;
             }

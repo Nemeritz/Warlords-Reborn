@@ -18,6 +18,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
+ * The ball used in the game, also known as the fireball.
  * Created by Jerry Fan on 26/03/2017.
  */
 public class BallComponent implements IBall, Physical, CanvasObject, Disposable, LooperChild {
@@ -90,6 +91,9 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable,
         );
     }
 
+    /**
+     * @return The player that last deflected the ball with their shield.
+     */
     public Integer getLastDeflectedBy() {
         return this.model.lastDeflectedBy;
     }
@@ -147,6 +151,10 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable,
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void dispose() {
         this.game.getCanvas().getCanvasObjects().remove(this);
         this.game.getPhysics().getKinetics().remove(this);
@@ -242,6 +250,9 @@ public class BallComponent implements IBall, Physical, CanvasObject, Disposable,
         return ((int) this.model.getVelocity().y);
     }
 
+    /**
+     * @return If the ball is currently invisible as a result of a powerup.
+     */
     public boolean isInvisible() {
         return this.model.invisible;
     }

@@ -3,6 +3,7 @@ package App.Game.Fort.Wall;
 import java.awt.*;
 
 /**
+ * Model for the wall.
  * Created by Hanliang Ding(Chris) on 28/03/17.
  */
 public class WallService {

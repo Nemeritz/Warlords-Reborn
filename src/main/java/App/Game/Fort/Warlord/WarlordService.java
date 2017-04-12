@@ -3,6 +3,7 @@ package App.Game.Fort.Warlord;
 import java.awt.*;
 
 /**
+ * Model for the warlord.
  * Created by Hanliang Ding(Chris) on 30/03/17.
  */
 public class WarlordService {

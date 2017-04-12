@@ -1,6 +1,7 @@
 package App.Game;
 
 /**
+ * Enum created to represent the current game state.
  * Created by Jerry Fan on 7/04/2017.
  */
 public enum GameState {

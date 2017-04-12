@@ -3,6 +3,7 @@ package App.Game.Physics;
 import java.awt.*;
 
 /**
+ * Interface for classes implementing physical interactions.
  * Created by Jerry Fan on 31/03/2017.
  */
 public interface Physical {

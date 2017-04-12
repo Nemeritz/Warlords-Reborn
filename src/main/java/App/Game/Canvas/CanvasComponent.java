@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
+ * Controller for the jfx canvas object
  * Created by Jerry Fan on 24/03/2017.
  */
 public class CanvasComponent extends Pane implements Observer {
@@ -46,14 +47,18 @@ public class CanvasComponent extends Pane implements Observer {
         return canvas.getGraphicsContext2D();
     }
 
+    /**
+     * @return Check if the canvas object exists.
+     */
     public boolean hasJFXCanvas() {
         return this.canvas != null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Observable obs, Object obj) {
-        // Game timer observer function, fires when each animation frame changes, which is about once per nanosecond.
-        // The render loop and game loop methods are hooked here.
         if (obs == this.game.getTimer().getFrame()) {
             this.game.getCanvas().clear();
             this.game.getCanvas().render();

@@ -121,6 +121,9 @@ public class PhysicsService {
         this.kinetics = new CopyOnWriteArraySet<>();
     }
 
+    /**
+     * @return The inferred world bounds for physics collisions.
+     */
     public Rectangle2D.Double getWorldBounds() {
         return this.worldBounds;
     }

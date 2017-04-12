@@ -8,13 +8,14 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * Created by lichk on 9/04/2017.
+ * Controls the game loop, watches the timer to loop on next tick.
+ * Created by Jerry Fan on 9/04/2017.
  */
 public class LoopService implements Observer {
     private TimerService timer;
     private Set<Looper> loopers;
     private long lastGameLoopTimeMs;
-    private double schedulerInterval;
+    private double schedulerInterval; // Target interval for each game loop.
 
 
     public LoopService() {
@@ -25,8 +26,8 @@ public class LoopService implements Observer {
 
     /**
      * Divide the intervals if they are larger than the scheduler intervals, and iteratively progress the game using
-     * game loops of interval size + remainder.
-     * @param intervalS Seconds elapsed since last gameLoop iteration.
+     * game loops of interval size + remainder. Dt must be small for collisions to process correctly.
+     * @param intervalS Seconds to simulate the game loop for.
      */
     private void gameLoopScheduler(Double intervalS) {
         double remainder;
@@ -47,6 +48,9 @@ public class LoopService implements Observer {
         this.loopers.forEach((l) -> l.onGameLoop(remainder));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Observable obs, Object arg) {
         if (obs == this.timer.getFrame()) {
@@ -61,15 +65,25 @@ public class LoopService implements Observer {
         }
     }
 
+
+    /**
+     * @param timer Set the timer service to observe for ticks.
+     */
     public void setMasterTimer(TimerService timer) {
         this.timer = timer;
         timer.getFrame().addObserver(this);
     }
 
+    /**
+     * @return A set of objects implementing the game loop.
+     */
     public Set<Looper> getLoopers() {
         return this.loopers;
     }
 
+    /**
+     * Run game loop scheduler for an interval of 1 second. Used for testing only.
+     */
     public void tick() {
         this.gameLoopScheduler(1.0);
     }

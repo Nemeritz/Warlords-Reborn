@@ -1,7 +1,8 @@
 package App.Game.Powerup;
 
 /**
- * Created by lichk on 9/04/2017.
+ * Enum created to set power properties. Can be modified for game balancing.
+ * Created by Jerry Fan on 9/04/2017.
  */
 public enum Power {
     HASTE(0, 5.0),

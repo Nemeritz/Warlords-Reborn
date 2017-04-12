@@ -18,8 +18,9 @@ public class FortService {
     private Point.Double position;
     private Dimension size;
 
+
     /**
-     * Constructor for FortService
+     * @param player player number 1-4.
      */
     public FortService(int player) {
         this.position = new Point.Double(0, 0);

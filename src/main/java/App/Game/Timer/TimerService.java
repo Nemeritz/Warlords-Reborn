@@ -3,6 +3,7 @@ package App.Game.Timer;
 import javafx.animation.AnimationTimer;
 import App.Shared.Observables.ObservableFrame;
 /**
+ * The main timer for the game. Tracks times based on a timestamp method from the system.
  * Created by Jerry Fan on 27/03/2017.
  */
 public class TimerService extends AnimationTimer {
@@ -30,6 +31,10 @@ public class TimerService extends AnimationTimer {
         this.frame.increment(); //increments the frame count
     }
 
+    /**
+     * Sets the time to a specified second
+     * @param seconds Seconds.
+     */
     public void setTimeS(Long seconds) {
         this.time = seconds * 1000000000;
     }

@@ -6,7 +6,9 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * Created by lichk on 6/04/2017.
+ * Provides functions for drawing on a graphics context of a jfx canvas. Set as a service so that any component can
+ * access this.
+ * Created by Jerry Fan on 6/04/2017.
  */
 public class CanvasService {
     private Set<CanvasObject> canvasObjects;
@@ -16,14 +18,23 @@ public class CanvasService {
         this.canvasObjects = new CopyOnWriteArraySet<>();
     }
 
+    /**
+     * @return List of listeners to the canvas rendering loop.
+     */
     public Set<CanvasObject> getCanvasObjects() {
         return canvasObjects;
     }
 
+    /**
+     * @param context Set the graphical context for rendering.
+     */
     public void setContext(GraphicsContext context) {
         this.context = context;
     }
 
+    /**
+     * Go through each of the listeners and call their render functions.
+     */
     public void render() {
         if (this.context != null) {
             for (CanvasObject canvasObject : this.canvasObjects) {

@@ -21,6 +21,7 @@ import java.awt.*;
 
 
 /**
+ * The class for the warlord of player forts.
  * Created by Hanliang Ding(Chris) on 28/03/17.
  */
 public class WarlordComponent implements IWarlord, Physical, CanvasObject, Disposable, LooperChild {
@@ -30,7 +31,7 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
     private GameModule game;
     private FortService fort;
     private WarlordService model;
-    private MediaPlayer deathSound;
+    private MediaPlayer hitSound;
 
     private void setStyle() {
         if (this.fort.player > 0 && this.fort.player <= 4) {
@@ -44,20 +45,25 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
         }
     }
 
+    /**
+     * @param shared Inherited shared module.
+     * @param game Inherited game module.
+     * @param fort The fort model of the fort the object belongs to.
+     */
     public WarlordComponent(SharedModule shared, GameModule game, FortService fort) {
         this.shared = shared;
         this.game = game;
         this.fort = fort;
         this.setStyle();
-        this.deathSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/death.mp3");
-        this.deathSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+        this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/death.mp3");
+        this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.model = new WarlordService();
         this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getStatics().add(this);
     }
 
     /**
-     * @param intervalS Time since last update, in seconds.
+     * {@inheritDoc}
      */
     public void onGameLoop(Double intervalS) {
     }
@@ -93,21 +99,26 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
             this.fort.destroyed = true;
-            this.deathSound.stop();
-            this.deathSound.play();
+            // Play sound on hit
+            this.hitSound.stop();
+            this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+            this.hitSound.play();
 
             if (this.shared.getSettings().ghosting) {
+                // Set to ghost
                 this.model.ghost = true;
             }
 
-            this.game.getPhysics().getStatics().remove(this);
+            this.game.getPhysics().getStatics().remove(this); // Remove collisions in either case
 
             BallComponent ball = (BallComponent) object;
             if (ball.getLastDeflectedBy() != null) {
                 if (ball.getLastDeflectedBy() != this.fort.player) {
+                    // Hitting the warlord gives 1000 points.
                     this.game.getScore().getScoreKeeper(ball.getLastDeflectedBy()).increaseScore(1000);
                 }
                 else if (!this.model.ghost) {
+                    // Can't score if no ghosting.
                     ball.setLastDeflectedBy(null);
                 }
             }
@@ -166,6 +177,9 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
         return this.model.ghost;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void dispose() {
         this.game.getCanvas().getCanvasObjects().remove(this);

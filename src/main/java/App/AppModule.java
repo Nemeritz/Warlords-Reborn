@@ -1,6 +1,7 @@
 package App;
 
 /**
+ * Initialiser for the Application
  * Created by Jerry Fan on 21/03/2017.
  */
 

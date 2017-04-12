@@ -15,7 +15,8 @@ import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Created by lichk on 9/04/2017.
+ * Powerup controller for the powerups that exist physically on the game as crystals.
+ * Created by Jerry Fan on 9/04/2017.
  */
 public class PowerupComponent implements Physical, CanvasObject, Disposable, LooperChild {
 
@@ -25,6 +26,10 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
     private PowerupService model;
     private Image image;
 
+    /**
+     * @param shared The inherited SharedModule.
+     * @param game The inherited GameModule.
+     */
     public PowerupComponent(SharedModule shared, GameModule game) {
         this.shared = shared;
         this.game = game;
@@ -33,10 +38,12 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
         this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.mp3");
 
         Power[] powerList = Power.values();
+        // Set random power on spawn.
         this.model.setPower(
                 Power.values()[ThreadLocalRandom.current().nextInt(0, powerList.length)]
         );
 
+        // Set random spawn position.
         int spawnPosition = ThreadLocalRandom.current().nextInt(0, 4);
 
         Rectangle.Double bounds = this.game.getPhysics().getWorldBounds();
@@ -95,6 +102,9 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
         return this.model.getSize();
     }
 
+    /**
+     * @return The power that this gives.
+     */
     public Power getPower() {
         return this.model.getPower();
     }
@@ -103,6 +113,7 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
             this.hitSound.stop();
+            this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
             this.hitSound.play();
 
             BallComponent ball = (BallComponent) object;
@@ -126,6 +137,7 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
     public void onGameLoop(Double intervalS) {
         this.model.timeSinceSpawn += intervalS;
 
+        // Expires after 20 seconds
         if (this.model.timeSinceSpawn >= 20) {
             this.dispose();
         }
