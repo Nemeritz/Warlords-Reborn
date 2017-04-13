@@ -1,0 +1,72 @@
+warlord:
+Creator: Balmer
+Title: Bosses and monsters spritesheets (Ars Notoria)
+URL: https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
+Licence: CC-BY 3.0
+
+Ball:
+Creator: Yiannisd
+Title: ENERGY BALL
+URL: https://opengameart.org/content/energy-ball
+Licence: CC-BY 3.0
+
+Death Sound:
+Creator: Independent.nu
+Title: 8 WET SQUISH, SLURP IMPACTS
+URL: https://opengameart.org/content/8-wet-squish-slurp-impacts
+Licence: CC0
+
+Menu Music:
+Creator: Ozzed
+Title: Ferrous Rage
+URL: http://ozzed.net/music/cor-metallicum.shtml#tune01
+Licence: CC BY-SA 3.0
+
+Button Sound:
+Creator: Sound Bible
+Title: Button Clicking
+URL: http://soundbible.com/tags-button.html
+Licence: Personal Use Only
+
+Fire:
+Creator: Michel Baradari
+Title: LAVA SPLASH 
+URL: https://opengameart.org/content/lava-splash
+Licence: CC-BY 3.0
+
+Fire:
+Creator: Michel Baradari
+Title: LAVA SPLASH 
+URL: https://opengameart.org/content/lava-splash
+Licence: CC-BY 3.0
+
+Wall tiles:
+Creator: Nanokan
+Title: Fort and City Tiles
+URL: http://nanokan.deviantart.com/art/Fort-and-City-Tiles-463243923
+Licence: Non-commercial and commercial
+
+Hit sound:
+Creator: qubodup
+Title: PUNCH
+URL: https://opengameart.org/content/punch
+Licence: CC0
+
+Game Music:
+Creator: Ozzed
+Title: The misadventure begins
+URL: http://ozzed.net/music/cor-metallicum.shtml#tune01
+Licence: CC BY-SA 3.0
+
+Crystal:
+Creator: amsa95
+Title: WC:Crystal
+URL: http://amsa95.deviantart.com/art/WC-Crystal-590470225
+Licence: Free Liscence
+
+
+Impact sound:
+Creator: Independent.nu
+Title: Break crunch impact
+URL: https://opengameart.org/content/5-break-crunch-impacts
+Licence: Public Domain
