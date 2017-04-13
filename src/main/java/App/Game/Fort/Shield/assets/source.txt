@@ -1,2 +1,5 @@
-fire from:
-https://opengameart.org/content/lava-splash
+Fire:
+Creator: Michel Baradari
+Title: LAVA SPLASH 
+URL: https://opengameart.org/content/lava-splash
+Liscence: CC-BY 3.0

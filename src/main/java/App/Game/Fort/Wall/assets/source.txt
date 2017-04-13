@@ -1,5 +1,11 @@
-Adapted from:
-http://nanokan.deviantart.com/art/Fort-and-City-Tiles-463243923
+Wall tiles:
+Creator: Nanokan
+Title: Fort and City Tiles
+URL: http://nanokan.deviantart.com/art/Fort-and-City-Tiles-463243923
+Liscence: Non-commercial and commercial
 
 Hit sound:
-https://opengameart.org/content/punch
+Creator: qubodup
+Title: PUNCH
+URL: https://opengameart.org/content/punch
+Liscence: CC0

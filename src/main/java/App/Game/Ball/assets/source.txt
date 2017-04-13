@@ -1,1 +1,5 @@
-https://opengameart.org/content/energy-ball
+Ball:
+Creator: Yiannisd
+Title: ENERGY BALL
+URL: https://opengameart.org/content/energy-ball
+Liscence: CC-BY 3.0

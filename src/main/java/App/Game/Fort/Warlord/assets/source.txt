@@ -1,5 +1,12 @@
-warlord from
-https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
+warlord:
+Creator: Balmer
+Title: Bosses and monsters spritesheets (Ars Notoria)
+URL: https://opengameart.org/content/bosses-and-monsters-spritesheets-ars-notoria
+Liscence: CC-BY 3.0
 
-Death from
-https://opengameart.org/content/8-wet-squish-slurp-impacts
+
+Death Sound:
+Creator: Independent.nu
+Title: 8 WET SQUISH, SLURP IMPACTS
+URL: https://opengameart.org/content/8-wet-squish-slurp-impacts
+Liscence: CC0

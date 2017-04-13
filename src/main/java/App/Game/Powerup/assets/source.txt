@@ -1,5 +1,12 @@
-crystal from
-http://amsa95.deviantart.com/art/WC-Crystal-590470225
+Crystal:
+Creator: amsa95
+Title: WC:Crystal
+URL: http://amsa95.deviantart.com/art/WC-Crystal-590470225
+Liscence: Free Liscence
 
-Impact sound from 
-https://opengameart.org/content/5-break-crunch-impacts
+
+Impact sound:
+Creator: Independent.nu
+Title: Break crunch impact
+URL: https://opengameart.org/content/5-break-crunch-impacts
+Liscence: Public Domain
