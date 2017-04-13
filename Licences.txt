@@ -44,7 +44,7 @@ Wall tiles:
 Creator: Nanokan
 Title: Fort and City Tiles
 URL: http://nanokan.deviantart.com/art/Fort-and-City-Tiles-463243923
-Licence: Non-commercial and commercial
+Licence: Custom (Non-commercial and commercial)
 
 Hit sound:
 Creator: qubodup
@@ -62,8 +62,7 @@ Crystal:
 Creator: amsa95
 Title: WC:Crystal
 URL: http://amsa95.deviantart.com/art/WC-Crystal-590470225
-Licence: Free Liscence
-
+Licence: Custom (Free to use)
 
 Impact sound:
 Creator: Independent.nu
