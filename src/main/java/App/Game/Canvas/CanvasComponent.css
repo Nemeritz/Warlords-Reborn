@@ -1,3 +1,4 @@
 .canvas-wrapper {
     -fx-background-color: #212121;
+    -fx-background-size: cover;
 }

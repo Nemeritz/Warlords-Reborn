@@ -3,10 +3,16 @@
 <?import java.net.URL?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.image.*?>
 
 <fx:root type="Pane" fx:id="canvasWrapper" prefHeight="733" prefWidth="1024" styleClass="canvas-wrapper"
          xmlns="http://javafx.com/javafx/8.0.112"
       xmlns:fx="http://javafx.com/fxml/1">
+    <ImageView fx:id="background">
+        <image>
+            <Image url="@assets/gamebackground.png" />
+        </image>
+    </ImageView>
     <stylesheets>
         <URL value="@CanvasComponent.css"/>
     </stylesheets>

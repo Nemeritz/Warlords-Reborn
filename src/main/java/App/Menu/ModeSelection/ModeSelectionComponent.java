@@ -312,11 +312,11 @@ public class ModeSelectionComponent extends BorderPane implements EventReceiver{
 	 */
 	@Override
 	public void onKeyEvent (KeyEvent event) {
-		//Go to options menu
+		//Go to main menu
 		if (event.getEventType() == KeyEvent.KEY_PRESSED && (this.menu.getCurrentMenu() == 3)) {
 			this.playButtonSound();
 			if (event.getCode() == KeyCode.B) {
-				this.menu.transitionOptions();
+				this.menu.transitionTitle();
 			}
 			//start game
 			else if ((event.getCode() == KeyCode.N) && (this.menu.getCurrentMenu() == 3)) {
