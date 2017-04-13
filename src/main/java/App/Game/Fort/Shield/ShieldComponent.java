@@ -38,7 +38,7 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
     private void setStyle() {
         if (this.fort.player > 0 && this.fort.player <= 4) {
             this.image = this.shared.getJFX().loadImage(
-                    this.getClass(), "assets/shield-" + Integer.toString(this.fort.player) + ".png"
+                    this.getClass(), "assets/shield-" + Integer.toString(this.fort.player) + "-square.png"
             );
         }
     }
