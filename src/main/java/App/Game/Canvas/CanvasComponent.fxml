@@ -8,7 +8,7 @@
 <fx:root type="Pane" fx:id="canvasWrapper" prefHeight="733" prefWidth="1024" styleClass="canvas-wrapper"
          xmlns="http://javafx.com/javafx/8.0.112"
       xmlns:fx="http://javafx.com/fxml/1">
-    <ImageView fx:id="background">
+    <ImageView fx:id="background" fitHeight="768" fitWidth="1024">
         <image>
             <Image url="@assets/gamebackground.png" />
         </image>

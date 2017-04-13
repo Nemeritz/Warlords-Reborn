@@ -17,7 +17,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaPlayer;
 import warlordstest.IGame;
-import javafx.scene.image.*;
 
 import java.awt.*;
 import java.util.*;
@@ -39,9 +38,6 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
     @FXML
     private StackPane gameStack;
-
-    @FXML
-    private ImageView background;
 
     private StatusBarComponent statusBar;
     private CanvasComponent canvas;
