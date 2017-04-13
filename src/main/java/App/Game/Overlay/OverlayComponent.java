@@ -45,22 +45,28 @@ public class OverlayComponent extends VBox {
      * Show the large text overlay.
      */
     public void showLargeText() {
-        this.largeTextWrapper.getStyleClass().removeIf((s) -> s.equals("hidden"));
+        if (this.largeTextWrapper != null) {
+            this.largeTextWrapper.getStyleClass().removeIf((s) -> s.equals("hidden"));
+        }
     }
 
     /**
       @param text Text to set for the large text overlay.
      */
     public void setLargeText(String text) {
-        this.largeText.setText(text);
+        if (this.largeText != null) {
+            this.largeText.setText(text);
+        }
     }
 
     /**
      * Hide the large text overlay.
      */
     public void hideLargeText() {
-        if (this.largeTextWrapper.getStyleClass().filtered((s) -> s.equals("hidden")).size() == 0) {
-            this.largeTextWrapper.getStyleClass().add("hidden");
+        if (this.largeTextWrapper != null) {
+            if (this.largeTextWrapper.getStyleClass().filtered((s) -> s.equals("hidden")).size() == 0) {
+                this.largeTextWrapper.getStyleClass().add("hidden");
+            }
         }
     }
 
@@ -68,15 +74,19 @@ public class OverlayComponent extends VBox {
      * Show the pause menu overlay.
      */
     public void showPauseMenu() {
-        this.pauseWrapper.getStyleClass().removeIf((s) -> s.equals("hidden"));
+        if (this.pauseWrapper != null) {
+            this.pauseWrapper.getStyleClass().removeIf((s) -> s.equals("hidden"));
+        }
     }
 
     /**
      * Hide the pause menu overlay.
      */
     public void hidePauseMenu() {
-        if (this.pauseWrapper.getStyleClass().filtered((s) -> s.equals("hidden")).size() == 0) {
-            this.pauseWrapper.getStyleClass().add("hidden");
+        if (this.pauseWrapper != null) {
+            if (this.pauseWrapper.getStyleClass().filtered((s) -> s.equals("hidden")).size() == 0) {
+                this.pauseWrapper.getStyleClass().add("hidden");
+            }
         }
     }
 
@@ -84,22 +94,28 @@ public class OverlayComponent extends VBox {
      * Show the game end overlay.
      */
     public void showGameEnd() {
-        this.gameEndWrapper.getStyleClass().removeIf((s) -> s.equals("hidden"));
+        if (this.gameEndWrapper != null) {
+            this.gameEndWrapper.getStyleClass().removeIf((s) -> s.equals("hidden"));
+        }
     }
 
     /**
      * @param message Set the game end message.
      */
     public void setGameEnd(String message) {
-        this.gameEnd.setText(message);
+        if (this.gameEnd != null) {
+            this.gameEnd.setText(message);
+        }
     }
 
     /**
      * Hide the game end panel.
      */
     public void hideGameEnd() {
-        if (this.gameEndWrapper.getStyleClass().filtered((s) -> s.equals("hidden")).size() == 0) {
-            this.gameEndWrapper.getStyleClass().add("hidden");
+        if (this.gameEndWrapper != null) {
+            if (this.gameEndWrapper.getStyleClass().filtered((s) -> s.equals("hidden")).size() == 0) {
+                this.gameEndWrapper.getStyleClass().add("hidden");
+            }
         }
     }
 }

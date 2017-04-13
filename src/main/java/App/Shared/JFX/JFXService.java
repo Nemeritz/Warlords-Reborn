@@ -113,7 +113,7 @@ public class JFXService {
     }
 
     /**
-     * @param fileName name of the file
+     * @param sceneName name of the scene
      * @return the scene currently in use
      */
     public Scene getSceneValue(String sceneName) {
@@ -151,9 +151,12 @@ public class JFXService {
      * @return the new mediaplayer created
      */
     public MediaPlayer loadMedia( Class<?> classType, String fileName) {
-        this.sound = new Media(classType.getResource(fileName).toString());
-        this.mediaPlayer = new MediaPlayer(this.sound);
-        return this.mediaPlayer;
+        if (this.active) {
+            this.sound = new Media(classType.getResource(fileName).toString());
+            this.mediaPlayer = new MediaPlayer(this.sound);
+            return this.mediaPlayer;
+        }
+        return null;
     }
     /**
      * Closes and exits the game

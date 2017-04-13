@@ -56,7 +56,6 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
         this.fort = fort;
         this.setStyle();
         this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/death.mp3");
-        this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.model = new WarlordService();
         this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getStatics().add(this);
@@ -100,9 +99,11 @@ public class WarlordComponent implements IWarlord, Physical, CanvasObject, Dispo
         if (BallComponent.class.isInstance(object)) {
             this.fort.destroyed = true;
             // Play sound on hit
-            this.hitSound.stop();
-            this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
-            this.hitSound.play();
+            if (this.hitSound != null) {
+                this.hitSound.stop();
+                this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+                this.hitSound.play();
+            }
 
             if (this.shared.getSettings().ghosting) {
                 // Set to ghost

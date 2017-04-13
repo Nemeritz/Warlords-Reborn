@@ -30,10 +30,11 @@ public class WarlordsTest extends TestSuite {
 
         GameComponent game = new GameComponent(new SharedModule());
         this.game = game;
+        game.load();
         this.ball = game.getBall();
 
         FortComponent player1Fort = game.addPlayer(1, 1, new Point.Double(0, 0));
-        FortComponent player2Fort = game.addPlayer(2, 1, new Point.Double(736, 480));
+        FortComponent player2Fort = game.addPlayer(2, 1, new Point.Double(736, 445));
 
         this.paddle = player1Fort.getShield();
         this.player1Wall = player1Fort.getWalls().get(0);

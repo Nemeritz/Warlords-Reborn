@@ -49,7 +49,6 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
         this.fort = fort;
         this.model = new WallService(); // creates a new wall service when a wall is created
         this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.mp3");
-        this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.setStyle(wallStyle);
         this.game.getCanvas().getCanvasObjects().add(this);
         this.game.getPhysics().getStatics().add(this);
@@ -87,9 +86,11 @@ public class WallComponent implements IWall, Physical, CanvasObject, Disposable,
         if (BallComponent.class.isInstance(object)) {
             this.model.destroyed = true;
             // Play the hit sound when the wall is hit.
-            this.hitSound.stop();
-            this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
-            this.hitSound.play();
+            if (this.hitSound != null) {
+                this.hitSound.stop();
+                this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+                this.hitSound.play();
+            }
             this.game.getPhysics().getStatics().remove(this);
 
             BallComponent ball = (BallComponent) object;

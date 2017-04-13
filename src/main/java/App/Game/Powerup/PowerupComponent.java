@@ -112,9 +112,11 @@ public class PowerupComponent implements Physical, CanvasObject, Disposable, Loo
     @Override
     public void onCollision(Point.Double hitBoxCenter, Point.Double intersectionCenter, Physical object) {
         if (BallComponent.class.isInstance(object)) {
-            this.hitSound.stop();
-            this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
-            this.hitSound.play();
+            if (this.hitSound != null) {
+                this.hitSound.stop();
+                this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+                this.hitSound.play();
+            }
 
             BallComponent ball = (BallComponent) object;
             ball.addPower(this.getPower());

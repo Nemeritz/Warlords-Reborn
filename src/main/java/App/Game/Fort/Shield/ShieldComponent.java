@@ -55,7 +55,6 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
         this.game = game; // allows access to other services in the game
         this.fort = fort; // Allows access to fort services.
         this.hitSound = this.shared.getJFX().loadMedia(this.getClass(), "assets/impact.mp3");
-        this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
         this.setStyle();
         this.model = new ShieldService(); // accessing velocity, dimensions and locations of shield
         this.game.getCanvas().getCanvasObjects().add(this);
@@ -139,9 +138,11 @@ public class ShieldComponent implements IPaddle, Physical, CanvasObject, EventRe
             if (BallComponent.class.isInstance(object)) {
                 BallComponent ball = (BallComponent) object;
                 // Play hitsound on hit.
-                this.hitSound.stop();
-                this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
-                this.hitSound.play();
+                if (this.hitSound != null) {
+                    this.hitSound.stop();
+                    this.hitSound.setVolume(this.shared.getSettings().soundEffectsVolume);
+                    this.hitSound.play();
+                }
                 ball.setLastDeflectedBy(fort.player);
 
                 // Stun shield when ball hits it.

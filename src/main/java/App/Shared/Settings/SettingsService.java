@@ -11,7 +11,7 @@ public class SettingsService {
 	public boolean scoreWin;
 	public int ballSpeed;
 	public boolean powerups;
-	//0 is player, 1 is AI, 2 is empty
+	//0 is empty, 1 is bot, 2 is bot (hard), 3 is player
 	public int topLeft;
 	public String topLeftName;
 	public int topRight;

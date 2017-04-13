@@ -298,7 +298,7 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
      * Actions to perform to setup the game with the required objects. This reads settings from the shared settings
      * service.
      */
-    private void load() {
+    public void load() {
         this.statusBar.setStatusText("LOAD");
         this.overlay.setLargeText("LOADING GAME");
 
@@ -466,10 +466,12 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
      * Start playing music.
      */
     public void startGameMusic() {
-        this.gameMusic.stop();
-        this.gameMusic.setVolume(this.shared.getSettings().musicVolume);
-        this.gameMusic.setCycleCount(MediaPlayer.INDEFINITE);
-        this.gameMusic.play();
+        if (this.gameMusic != null) {
+            this.gameMusic.stop();
+            this.gameMusic.setVolume(this.shared.getSettings().musicVolume);
+            this.gameMusic.setCycleCount(MediaPlayer.INDEFINITE);
+            this.gameMusic.play();
+        }
     }
 
     public void exitToMenu() {
@@ -508,15 +510,13 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
 
     /**
      * {@inheritDoc}
-     * To the game component, this effectively manually rolls the clock one second forward. Game start status is
+     * To the game component, this effectively manually rolls the clock one second forward. Game start status is NOT
      * preserved.
      */
     @Override
     public void tick() {
-        GameState originalStarted = this.model.gameState;
         this.model.gameState = GameState.GAME;
         this.game.getLoop().tick();
-        this.model.gameState = originalStarted;
     }
 
     /**
@@ -539,7 +539,6 @@ public class GameComponent extends BorderPane implements IGame, EventReceiver, L
     /**
      * @return Gets the ball component from the game. Only used for testing.
      */
-    @Deprecated
     public BallComponent getBall() {
         return this.ball;
     }
