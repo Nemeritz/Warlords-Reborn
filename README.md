@@ -72,7 +72,8 @@ __Left/Right Arrow Keys__ - slide slider or change radio button.
 __Space/Enter__ - Check Boxes, select buttons.
 __Tab__ - Move to next control.
 __N Key__ - Continue/Next.
-__B Key__ - Back.
+__B Key__ - Go to main menu.
+When in doubt. Press B to go to main menu.
 
 ### Game Controls ###
 
