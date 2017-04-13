@@ -1,10 +1,14 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This README would normally document whatever steps are necessary to get your 
+application up and running.
 
 Diagrams are located in the project folder:
 * mvc-diagram.pdf
-* package-diagram.png
+
+Report and presentation is also there:
+* Report.pdf
+* Presentation.pptx
 
 ## Dependencies ##
 
@@ -12,7 +16,9 @@ Diagrams are located in the project folder:
 * JavaFX 8+
 * jUnit (will be downloaded by Gradle)
 
-## Build ##
+## Develop ##
+
+### Build ###
 
 ```bash
 cd /path/to/project
@@ -21,7 +27,7 @@ cd /path/to/project
 
 This command also runs the tests.
 
-## Test ##
+### Test ###
 
 ```bash
 cd /path/to/project
@@ -30,7 +36,7 @@ cd /path/to/project
 
 Test results stored at ```./build/reports/tests/test```
 
-## Run ##
+### Run ###
 
 ```bash
 cd /path/to/project
@@ -39,9 +45,10 @@ cd /path/to/project
 
 Ignore warnings on console about mismatching FXML versions.
 
-## Potential Issues ##
+### Potential Issues ###
 
-If a permission denied error occurs when trying to execute the gradle wrapper, the following command is required.
+If a permission denied error occurs when trying to execute the gradle wrapper, 
+the following command is required.
 
 ```bash
 chmod +x gradlew
@@ -49,24 +56,72 @@ chmod +x gradlew
 
 Special note for uni computers:
 
-If gradle doesn't automatically pick up Java 8 (it did when tested), set the following JAVA_HOME variable.
+If gradle doesn't automatically pick up Java 8 (it did when tested), set the 
+following JAVA_HOME variable.
 
 ```bash
 PATH=$JAVA_HOME/jre/bin:$PATH
 export PATH
 ```
-## Menu Controls ##
+
+## Game ##
+
+### Menu Controls ###
+
 __Left/Right Arrow Keys__ - slide slider or change radio button.
 __Space/Enter__ - Check Boxes, select buttons.
 __Tab__ - Move to next control.
 __N Key__ - Continue/Next.
 __B Key__ - Back.
 
+### Game Controls ###
 
-## Game Controls ##
+__Q__ - Player 1 Left.
+__W__ - Player 1 Right.
+
+__C__ - Player 2 Left.
+__V__ - Player 2 Right.
+
+__U__ - Player 3 Left.
+__I__ - Player 3 Right.
 
 __Left Arrow__ - Move paddle left.
 __Right Arrow__ - Move paddle right.
+
+__ESC__ - Quit (After match start).
+__P__ - Pause
+
+### How to Play ###
+
+Use the shield to block the fireball, move it with your controls. If you 
+successfully block the ball, you will become the active scoring player, and 
+each hit on a scoring object such as a wall or warlord will earn you points, 
+until another player deflects the ball. Be wary, the ball's impact will cause 
+your shield to become temporarily stunned for 0.5 seconds, so aim wisely.
+
+In domination mode, a time limit is established, within which you must 
+eliminate all other players or be the highest scoring player to win. If you 
+have the same score, the game will be a draw.
+
+In deathmatch mode, the time limit is removed and you must destroy all other 
+warlords to win.
+
+Ghosting can be activated to give dead warlords a chance to seek revenge on 
+their killers. Ghost warlords will continue to play as normal, without being 
+able to win. They can still earn points however, and mess up other player's 
+chances of winning.
+
+Powerups can be activated to spawn every 20 seconds. Powerups include:
+
+* [Red] Haste (+speed)
+* [Blue] Double Damage (object penetration)
+* [Yellow] Bounty (+score)
+* [Purple] Invisiblity
+
+These powerups last for a limited amount of time, or upon hitting a non-powerup 
+object, whichever is shortest. The effects are stackable.
+
+### Story ###
 
 ## Contribution guidelines ##
 
