@@ -3,6 +3,7 @@ package App.Shared.JFX;
 import javafx.scene.input.KeyEvent;
 
 /**
+ * Interface for event recievers, currently covers key events.
  * Created by Jerry Fan on 2/04/2017.
  */
 public interface EventReceiver {

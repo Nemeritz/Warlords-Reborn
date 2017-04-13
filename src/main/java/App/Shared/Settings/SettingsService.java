@@ -1,6 +1,7 @@
 package App.Shared.Settings;
 
 /**
+ * Service to transfer game settings from the menu to game.
  * Created by Hanliang Ding on 09/04/2017.
  */
 public class SettingsService {

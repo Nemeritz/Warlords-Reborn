@@ -57,6 +57,7 @@ public class JFXService {
 
 
     /**
+     * Gets the set of event recievers.
      */
     public Set<EventReceiver> getEventReceivers() {
         return this.eventReceivers;
