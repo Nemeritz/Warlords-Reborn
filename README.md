@@ -164,5 +164,3 @@ Typical file naming is ```SomethingService```.
 ## Contacts ##
 
 Jerry Fan - jfan082@aucklanduni.ac.nz
-
-Chris Ding - hdin898@aucklanduni.ac.nz
